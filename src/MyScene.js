@@ -8,6 +8,7 @@ import { Stats } from '../libs/stats.module.js'
 
 // Clases de mi proyecto
 
+import { Room } from './Room.js';
  
 /// La clase fachada del modelo
 /**
@@ -36,7 +37,7 @@ class MyScene extends THREE.Scene {
     this.createCamera ();
     
     // Un suelo 
-    this.createGround ();
+    //this.createGround ();
     
     // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas
     this.axis = new THREE.AxesHelper (5);
@@ -46,8 +47,8 @@ class MyScene extends THREE.Scene {
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
-    // this.model = new MyBox(this.gui, "Controles de la Caja");
-    // this.add (this.model);
+    this.habitacion = new Room(this.gui, "");
+    this.add (this.habitacion);
   }
   
   initStats() {
@@ -73,9 +74,9 @@ class MyScene extends THREE.Scene {
     //   Los planos de recorte cercano y lejano
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     // También se indica dónde se coloca
-    this.camera.position.set (20, 10, 20);
+    this.camera.position.set (0, 2, 0);
     // Y hacia dónde mira
-    var look = new THREE.Vector3 (0,0,0);
+    var look = new THREE.Vector3 (0,0,-10);
     this.camera.lookAt(look);
     this.add (this.camera);
     
@@ -93,7 +94,7 @@ class MyScene extends THREE.Scene {
     // El suelo es un Mesh, necesita una geometría y un material.
     
     // La geometría es una caja con muy poca altura
-    var geometryGround = new THREE.BoxGeometry (50,0.2,50);
+    var geometryGround = new THREE.BoxGeometry (200,0.2,200);
     
     // El material se hará con una textura de madera
     var texture = new THREE.TextureLoader().load('../imgs/wood.jpg');
@@ -153,7 +154,7 @@ class MyScene extends THREE.Scene {
     // Si no se le da punto de mira, apuntará al (0,0,0) en coordenadas del mundo
     // En este caso se declara como   this.atributo   para que sea un atributo accesible desde otros métodos.
     this.spotLight = new THREE.SpotLight( 0xffffff, this.guiControls.lightIntensity );
-    this.spotLight.position.set( 60, 60, 40 );
+    this.spotLight.position.set( 0, 200, 0 );
     this.add (this.spotLight);
   }
   
@@ -216,7 +217,7 @@ class MyScene extends THREE.Scene {
     this.cameraControl.update();
     
     // Se actualiza el resto del modelo
-    // this.model.update();
+    this.habitacion.update();
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
