@@ -9,8 +9,8 @@ import { Stats } from '../libs/stats.module.js'
 // Clases de mi proyecto
 
 import { Room } from './Room.js';
-import { Mesa7 } from './Mesa7/Mesa7.js';
- 
+import { Puerta } from './Puerta/Puerta.js';
+import { Mesa7 } from './Mesa7/Mesa7.js'; 
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.
@@ -44,12 +44,12 @@ class MyScene extends THREE.Scene {
     this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
     
-    this.add(new Mesa7());
+    this.add(new Puerta());
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
-    this.add (this.habitacion);
+    //this.add (this.habitacion);
   }
   
   initStats() {

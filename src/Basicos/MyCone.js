@@ -24,7 +24,7 @@ class MyCone extends THREE.Object3D {
     this.cone.position.y = 4;
     this.cone.position.x = -10;
   }
-
+  
 }
 
 export { MyCone };

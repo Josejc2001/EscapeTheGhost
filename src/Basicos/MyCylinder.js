@@ -1,10 +1,11 @@
 
 import * as THREE from '../../libs/three.module.js'
  
-class MyCylinder extends THREE.Object3D {
+class MyCylinder extends THREE.Mesh {
   constructor(elColor) {
     super();
     
+    this.elColor = elColor;
     
     // Un Mesh se compone de geometría y material
     var cylinderGeom = new THREE.CylinderGeometry(1,1,1,50,50);
@@ -24,7 +25,11 @@ class MyCylinder extends THREE.Object3D {
     // subimos el Mesh de la caja la mitad de su altura
     this.cylinder.position.y = 0.5;
   }
+  clone( recursive ) {
 
+		return new this.constructor(this.elColor).copy( this, recursive );
+
+	}
 }
 
 export { MyCylinder };
