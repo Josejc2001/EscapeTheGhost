@@ -11,6 +11,7 @@ import { Stats } from '../libs/stats.module.js'
 import { Room } from './Room.js';
 import { Puerta } from './Puerta/Puerta.js';
 import { Mesa7 } from './Mesa7/Mesa7.js'; 
+import { Interruptor } from './Interruptor/Interruptor.js'; 
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.

@@ -2,7 +2,6 @@
 import * as THREE from '../../libs/three.module.js'
 
 import {MyCylinder} from '../Basicos/MyCylinder.js';
-import {MyBox} from '../Basicos/MyBox.js';
 import { CSG } from '../../libs/CSG-v2.js'
 
 class Pomo extends THREE.Object3D{
