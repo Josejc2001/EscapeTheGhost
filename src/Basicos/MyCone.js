@@ -1,7 +1,7 @@
 
 import * as THREE from '../../libs/three.module.js'
  
-class MyCone extends THREE.Object3D {
+class MyCone extends THREE.Mesh {
   constructor(elColor) {
     super();
     
@@ -20,13 +20,14 @@ class MyCone extends THREE.Object3D {
     // Ya podemos construir el Mesh
     this.cone = new THREE.Mesh (coneGeom, coneMat);
     // Y añadirlo como hijo del Object3D (el this)
-    this.add (this.cone);
+  
     
     // Las geometrías se crean centradas en el origen.
     // Como queremos que el sistema de referencia esté en la base,
     // subimos el Mesh de la caja la mitad de su altura
     this.cone.position.y = 4;
-    this.cone.position.x = -10;
+
+    return this.cone;
   }
   clone( recursive ) {
 

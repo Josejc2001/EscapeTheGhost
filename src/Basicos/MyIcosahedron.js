@@ -1,7 +1,7 @@
 
 import * as THREE from '../../libs/three.module.js'
  
-class MyIcosahedron extends THREE.Object3D {
+class MyIcosahedron extends THREE.Mesh {
   constructor(elColor) {
     super();
     if(elColor == undefined){
@@ -16,12 +16,14 @@ class MyIcosahedron extends THREE.Object3D {
     // Ya podemos construir el Mesh
     this.icosahedron = new THREE.Mesh (icosahedronGeom, icosahedronMat);
     // Y añadirlo como hijo del Object3D (el this)
-    this.add (this.icosahedron);
+  
     
     // Las geometrías se crean centradas en el origen.
     // Como queremos que el sistema de referencia esté en la base,
     // subimos el Mesh de la caja la mitad de su altura
     this.icosahedron.position.y = 6.0;
+
+    return this.icosahedron;
   }
   clone( recursive ) {
 

@@ -1,7 +1,7 @@
 
 import * as THREE from '../../libs/three.module.js'
  
-class MySphere extends THREE.Object3D {
+class MySphere extends THREE.Mesh {
   constructor(elColor) {
     super();
     if(elColor == undefined){
@@ -17,13 +17,14 @@ class MySphere extends THREE.Object3D {
     // Ya podemos construir el Mesh
     this.sphere = new THREE.Mesh (sphereGeom, sphereMat);
     // Y añadirlo como hijo del Object3D (el this)
-    this.add (this.sphere);
+    
     
     // Las geometrías se crean centradas en el origen.
     // Como queremos que el sistema de referencia esté en la base,
     // subimos el Mesh de la caja la mitad de su altura
     this.sphere.position.y = 4.0;
-    this.sphere.position.z = 10.0;
+    
+    return this.sphere;
   }
   clone( recursive ) {
 

@@ -1,6 +1,6 @@
 import * as THREE from '../../libs/three.module.js'
  
-class MyTorus extends THREE.Object3D {
+class MyTorus extends THREE.Mesh {
   constructor(elColor) {
     super();
     if(elColor == undefined){
@@ -14,14 +14,10 @@ class MyTorus extends THREE.Object3D {
     
     // Ya podemos construir el Mesh
     this.torus = new THREE.Mesh (torusGeom, torusMat);
-    // Y añadirlo como hijo del Object3D (el this)
-    this.add (this.torus);
-    
-    // Las geometrías se crean centradas en el origen.
-    // Como queremos que el sistema de referencia esté en la base,
-    // subimos el Mesh de la caja la mitad de su altura
-    this.torus.rotateX(Math.PI/2);
+    // Y añadirlo como hijo
     this.torus.position.y = 10.0;
+
+    return this.torus;
   }
   clone( recursive ) {
 
