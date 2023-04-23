@@ -57,6 +57,8 @@ class Rejilla extends THREE.Object3D{
         this.tornillos.add(this.tornillo3);
         this.tornillos.add(this.tornillo4);
 
+        
+
         this.add(this.tornillos);
         this.add(this.aspas);
         this.add(this.marcoHueco);
