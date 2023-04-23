@@ -2,9 +2,12 @@
 import * as THREE from '../../libs/three.module.js'
  
 class MyIcosahedron extends THREE.Object3D {
-  constructor() {
+  constructor(elColor) {
     super();
-    
+    if(elColor == undefined){
+      elColor = 0x000000;
+    }
+    this.elColor = elColor;
     // Un Mesh se compone de geometría y material
     var icosahedronGeom = new THREE.IcosahedronGeometry(4,0);
     // Como material se crea uno a partir de un color
@@ -20,7 +23,11 @@ class MyIcosahedron extends THREE.Object3D {
     // subimos el Mesh de la caja la mitad de su altura
     this.icosahedron.position.y = 6.0;
   }
+  clone( recursive ) {
 
+		return new this.constructor(this.elColor).copy( this, recursive );
+
+	}
 }
 
 export { MyIcosahedron };

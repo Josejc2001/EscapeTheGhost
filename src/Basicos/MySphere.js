@@ -2,9 +2,12 @@
 import * as THREE from '../../libs/three.module.js'
  
 class MySphere extends THREE.Object3D {
-  constructor() {
+  constructor(elColor) {
     super();
-   
+    if(elColor == undefined){
+      elColor = 0x000000;
+    }
+    this.elColor = elColor;
     
     // Un Mesh se compone de geometría y material
     var sphereGeom = new THREE.SphereGeometry(2,10,10);
@@ -22,7 +25,11 @@ class MySphere extends THREE.Object3D {
     this.sphere.position.y = 4.0;
     this.sphere.position.z = 10.0;
   }
+  clone( recursive ) {
 
+		return new this.constructor(this.elColor).copy( this, recursive );
+
+	}
 }
 
 export { MySphere };

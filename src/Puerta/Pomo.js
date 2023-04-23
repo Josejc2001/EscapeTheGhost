@@ -26,6 +26,7 @@ class Pomo extends THREE.Object3D{
         this.pomo = new MyCylinder(0xE1B424);
         this.pomo.scale.set(0.1,0.35,0.1);
         this.pomo.translateY(1.8);
+        this.pomo.translateZ(0.2);
         this.pomo.translateX(0.5);
         this.pomo.rotateX(THREE.MathUtils.degToRad(90));
 

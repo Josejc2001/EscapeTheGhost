@@ -10,7 +10,7 @@ class Cajon7 extends THREE.Object3D{
         this.boton = new MyCylinder(0x605C5C);
         this.cajon.scale.set(7,1.5,1);
 
-        this.boton.translateZ(-0.4);
+        this.boton.translateZ(0.1);
         this.boton.translateY(0.5);
         this.boton.rotateX(Math.PI/2);
         this.boton.scale.set(0.4,1,0.4)

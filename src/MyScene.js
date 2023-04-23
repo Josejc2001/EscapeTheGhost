@@ -12,6 +12,7 @@ import { Room } from './Room.js';
 import { Puerta } from './Puerta/Puerta.js';
 import { Mesa7 } from './Mesa7/Mesa7.js'; 
 import { Interruptor } from './Interruptor/Interruptor.js'; 
+import { Rejilla } from './Rejilla/Rejilla.js';
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.
@@ -45,7 +46,9 @@ class MyScene extends THREE.Scene {
     this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
     
-    this.add(new Puerta());
+    this.rejilla = new Rejilla();
+
+    this.add(this.rejilla);
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
@@ -122,7 +125,7 @@ class MyScene extends THREE.Scene {
     // En este caso la intensidad de la luz y si se muestran o no los ejes
     this.guiControls = {
       // En el contexto de una función   this   alude a la función
-      lightIntensity : 0.5,
+      lightIntensity : 1,
       axisOnOff : true
     }
 
@@ -130,7 +133,7 @@ class MyScene extends THREE.Scene {
     var folder = gui.addFolder ('Luz y Ejes');
     
     // Se le añade un control para la intensidad de la luz
-    folder.add (this.guiControls, 'lightIntensity', 0, 1, 0.1)
+    folder.add (this.guiControls, 'lightIntensity', 0, 10, 1)
       .name('Intensidad de la Luz : ')
       .onChange ( (value) => this.setLightIntensity (value) );
     

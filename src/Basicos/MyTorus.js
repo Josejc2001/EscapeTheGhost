@@ -1,9 +1,12 @@
 import * as THREE from '../../libs/three.module.js'
  
 class MyTorus extends THREE.Object3D {
-  constructor() {
+  constructor(elColor) {
     super();
-    
+    if(elColor == undefined){
+      elColor = 0x000000;
+    }
+    this.elColor = elColor;
     // Un Mesh se compone de geometría y material
     var torusGeom = new THREE.TorusGeometry(5,1,10,10);
     // Como material se crea uno a partir de un color
@@ -20,7 +23,11 @@ class MyTorus extends THREE.Object3D {
     this.torus.rotateX(Math.PI/2);
     this.torus.position.y = 10.0;
   }
+  clone( recursive ) {
 
+		return new this.constructor(this.elColor).copy( this, recursive );
+
+	}
 }
 
 export { MyTorus };
