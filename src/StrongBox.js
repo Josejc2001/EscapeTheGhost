@@ -2,12 +2,8 @@ import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
  
 class StrongBox extends THREE.Object3D {
-  constructor(gui,titleGui) {
+  constructor() {
     super();
-    
-    // Se crea la parte de la interfaz que corresponde a la caja
-    // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    this.createGUI(gui,titleGui);
     
     // Un Mesh se compone de geometría y material
 
@@ -24,11 +20,6 @@ class StrongBox extends THREE.Object3D {
     this.cajaFuerte.add(puerta);
 
     this.add(this.cajaFuerte);
-    
-  }
-  
-  createGUI (gui,titleGui) {
-    // Controles para el tamaño, la orientación y la posición de la caja
     
   }
 

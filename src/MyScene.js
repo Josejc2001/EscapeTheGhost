@@ -14,6 +14,7 @@ import { Mesa7 } from './Mesa7/Mesa7.js';
 import { Interruptor } from './Interruptor/Interruptor.js'; 
 import { Rejilla } from './Rejilla/Rejilla.js';
 import { Engranaje } from './Engranaje/Engranaje.js';
+import { StrongBox } from './StrongBox.js'
 
 /// La clase fachada del modelo
 /**
@@ -49,21 +50,45 @@ class MyScene extends THREE.Scene {
     this.add (this.axis);
     
     this.rejilla = new Rejilla();
+    this.add(this.rejilla);
+    this.rejilla.scale.set(20,7.5,1);
+    this.rejilla.position.y = 90;
+    this.rejilla.position.z = -97;
 
     this.gear = new Engranaje();
-    this.add(this.gear);
+    //this.add(this.gear);
 
+    this.cajaFuerte = new StrongBox();
+    //this.add(this.cajaFuerte);
+
+    this.puerta = new Puerta();
+    this.add(this.puerta);
+    this.puerta.rotateY(Math.PI);
+    this.puerta.scale.set(3,3,1);
+    this.puerta.position.x = 70;
+    this.puerta.position.y = 28.5;
+    this.puerta.position.z = 97;
+
+
+    this.mesa7 = new Mesa7();
+    this.add(this.mesa7);
+    this.mesa7.rotateY(Math.PI);
+    this.mesa7.scale.set(2,2,2);
+    this.mesa7.position.z = 87;
+    this.mesa7.position.x = 20;
+
+    this.interruptor = new Interruptor();
+    this.add(this.interruptor);
+    this.interruptor.rotateY(Math.PI);
+    this.interruptor.position.z = 97.5;
+    this.interruptor.position.y = 30;
+    this.interruptor.position.x = 50;
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
-=======
-    //this.add (this.habitacion);
-  }
-
-  createGear(radius, toothHeight, numTeeth, color) {
-   
+    this.add (this.habitacion);
   }
   
   initStats() {
@@ -233,7 +258,7 @@ class MyScene extends THREE.Scene {
     
     // Se actualiza el resto del modelo
     this.habitacion.update();
-    this.cajaFuerte.update();
+    //this.cajaFuerte.update();
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
