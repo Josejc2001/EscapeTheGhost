@@ -9,6 +9,7 @@ import { Stats } from '../libs/stats.module.js'
 // Clases de mi proyecto
 
 import { Room } from './Room.js';
+import { StrongBox } from './StrongBox.js';
  
 /// La clase fachada del modelo
 /**
@@ -49,6 +50,9 @@ class MyScene extends THREE.Scene {
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
     this.add (this.habitacion);
+
+    this.cajaFuerte = new StrongBox(this.gui, "");
+    this.add(this.cajaFuerte)
   }
   
   initStats() {
@@ -218,6 +222,7 @@ class MyScene extends THREE.Scene {
     
     // Se actualiza el resto del modelo
     this.habitacion.update();
+    this.cajaFuerte.update();
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
