@@ -15,6 +15,7 @@ import { Interruptor } from './Interruptor/Interruptor.js';
 import { Rejilla } from './Rejilla/Rejilla.js';
 import { Engranaje } from './Engranaje/Engranaje.js';
 import { StrongBox } from './StrongBox.js'
+import { Mesa9 } from './Mesa9.js';
 
 /// La clase fachada del modelo
 /**
@@ -59,7 +60,17 @@ class MyScene extends THREE.Scene {
     //this.add(this.gear);
 
     this.cajaFuerte = new StrongBox();
-    //this.add(this.cajaFuerte);
+    this.add(this.cajaFuerte);
+    this.cajaFuerte.rotateY(-Math.PI/4);
+    this.cajaFuerte.position.x = 75;
+    this.cajaFuerte.position.z = -52;
+    this.cajaFuerte.position.y = 33;
+
+    this.mesa9 = new Mesa9();
+    this.add(this.mesa9);
+    this.mesa9.rotateY(-Math.PI/4);
+    this.mesa9.position.x = 70;
+    this.mesa9.position.z = -47;
 
     this.puerta = new Puerta();
     this.add(this.puerta);
@@ -68,7 +79,6 @@ class MyScene extends THREE.Scene {
     this.puerta.position.x = 70;
     this.puerta.position.y = 28.5;
     this.puerta.position.z = 97;
-
 
     this.mesa7 = new Mesa7();
     this.add(this.mesa7);

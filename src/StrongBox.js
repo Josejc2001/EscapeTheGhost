@@ -26,7 +26,7 @@ class StrongBox extends THREE.Object3D {
   crearCajaFuerte(){
     var cajaFueraGeom = new THREE.BoxGeometry(20,20,20);
 
-    var cajaFueraMat = new THREE.MeshNormalMaterial();
+    var cajaFueraMat = new THREE.MeshPhongMaterial({color: 0x434b4d});
 
     var cajaFueraMesh = new THREE.Mesh(cajaFueraGeom, cajaFueraMat);
 
@@ -50,7 +50,7 @@ class StrongBox extends THREE.Object3D {
   crearPuerta(){
     var puertaGeom = new THREE.BoxGeometry(18, 18, 1);
 
-    var puertaMat = new THREE.MeshNormalMaterial();
+    var puertaMat = new THREE.MeshPhongMaterial({color: 0x434b4d});
 
     var puertaMesh = new THREE.Mesh(puertaGeom, puertaMat);
 
@@ -95,15 +95,13 @@ class StrongBox extends THREE.Object3D {
   crearBisagra(){
     var bisagraArribaGeom = new THREE.CylinderGeometry(0.5,0.5,2,15,15);
     bisagraArribaGeom.translate(0,1.2,0);
-    var bisagraMat = new THREE.MeshNormalMaterial();
+    var bisagraMat = new THREE.MeshPhongMaterial({color: 0x434b4d});
 
     var bisagraAbajoGeom = new THREE.CylinderGeometry(0.5,0.5,2,15,15);
     bisagraAbajoGeom.translate(0,-1.2,0);
-    var bisagraMat = new THREE.MeshNormalMaterial();
 
     var bisagraMedioGeom = new THREE.CylinderGeometry(0.4,0.4,2,15,15);
     bisagraMedioGeom.translate(0,0,0);
-    var bisagraMat = new THREE.MeshNormalMaterial();
 
     var bisagraArriba = new THREE.Mesh(bisagraArribaGeom, bisagraMat);
 
@@ -127,7 +125,7 @@ class StrongBox extends THREE.Object3D {
 
   crearVolante(){
     var volanteGeom = new THREE.TorusGeometry(3,0.5,15,15);
-    var puertaMat = new THREE.MeshNormalMaterial();
+    var puertaMat = new THREE.MeshPhongMaterial({color: 0x434b4d});
     //volanteGeom.translate(-2,-2,1.5);
     var volanteMesh = new THREE.Mesh(volanteGeom, puertaMat);
 
@@ -174,7 +172,7 @@ class StrongBox extends THREE.Object3D {
   crearTeclado(){
     var cajaGrandeGeom = new THREE.BoxGeometry(6,6,0.5);
     //cajaGrandeGeom.translate(0,0,3);
-    var puertaMat = new THREE.MeshNormalMaterial();
+    var puertaMat = new THREE.MeshPhongMaterial({color: 0x434b4d });
 
     var cajaMesh = new THREE.Mesh(cajaGrandeGeom, puertaMat);
 
