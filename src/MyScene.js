@@ -16,6 +16,8 @@ import { Rejilla } from './Rejilla/Rejilla.js';
 import { Engranaje } from './Engranaje/Engranaje.js';
 import { StrongBox } from './StrongBox.js'
 import { Mesa9 } from './Mesa9.js';
+import { Stool } from './Stool.js';
+import { CatchStick } from './CatchStick.js';
 
 /// La clase fachada del modelo
 /**
@@ -93,6 +95,17 @@ class MyScene extends THREE.Scene {
     this.interruptor.position.z = 97.5;
     this.interruptor.position.y = 30;
     this.interruptor.position.x = 50;
+
+    this.taburete = new Stool();
+    this.add(this.taburete);
+    this.taburete.position.z = -80;
+    this.taburete.position.x = -80;
+
+    this.paloRejilla = new CatchStick();
+    this.add(this.paloRejilla);
+    this.paloRejilla.position.x = 45;
+    this.paloRejilla.position.z = -95.5;
+    this.paloRejilla.position.y = 29.5;
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
