@@ -2,17 +2,26 @@
 
 import * as THREE from '../../libs/three.module.js'
 
+import { TypeCaja1 } from './TypeCaja1.js'
 import { CSG } from '../../libs/CSG-v2.js'
 
 class Engranaje extends THREE.Object3D{
-    constructor(){
+    constructor(typeCaja = null,radius = 1.5){
         super();
-        let radius = 1.5;
+        
         let toothHeight = 1;
         let numTeeth= 12; 
         let color = 0x00ff00;
+        let toothGeometry = null;
+        if(typeCaja == TypeCaja1.CILINDRICA){
+          toothGeometry = THREE.CylinderGeometry(toothHeight / 2, toothHeight / 2, radius * 0.3, 32);
+        }else if(typeCaja == TypeCaja1.REDONDA){
+          toothGeometry =  new THREE.SphereGeometry(toothHeight / 2, 16, 16);
+        }else{
+          toothGeometry = new THREE.BoxGeometry(toothHeight, radius * 0.3, toothHeight);
+        }
 
-        const toothGeometry = new THREE.BoxGeometry(toothHeight, radius * 0.3, toothHeight);
+        
         const toothMaterial = new THREE.MeshBasicMaterial({ color });
         
         for (let i = 0; i < numTeeth; i++) {
