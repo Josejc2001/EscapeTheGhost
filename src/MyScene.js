@@ -18,6 +18,8 @@ import { StrongBox } from './StrongBox.js'
 import { Mesa9 } from './Mesa9.js';
 import { Stool } from './Stool.js';
 import { CatchStick } from './CatchStick.js';
+import { Simon } from './Simon.js';
+import { Combinatorio } from './Combinatorio.js';
 
 /// La clase fachada del modelo
 /**
@@ -106,6 +108,16 @@ class MyScene extends THREE.Scene {
     this.paloRejilla.position.x = 45;
     this.paloRejilla.position.z = -95.5;
     this.paloRejilla.position.y = 29.5;
+
+    this.simon = new Simon();
+    this.add(this.simon);
+    this.simon.scale.set(0.25,0.25,0.25);
+    this.simon.position.z = 90;
+    this.simon.position.y = 1;
+    this.simon.position.x = -60;
+
+    this.combinatorio = new Combinatorio();
+    this.add(this.combinatorio);
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
