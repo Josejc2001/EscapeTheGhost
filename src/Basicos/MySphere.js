@@ -2,17 +2,15 @@
 import * as THREE from '../../libs/three.module.js'
  
 class MySphere extends THREE.Mesh {
-  constructor(elColor) {
+  constructor(elColor= 0x000000) {
     super();
-    if(elColor == undefined){
-      elColor = 0x000000;
-    }
+    
     this.elColor = elColor;
     
     // Un Mesh se compone de geometría y material
     var sphereGeom = new THREE.SphereGeometry(2,10,10);
     // Como material se crea uno a partir de un color
-    var sphereMat = new THREE.MeshPhongMaterial({color: 0xCF0000});
+    var sphereMat = new THREE.MeshPhongMaterial({color: elColor});
     
     // Ya podemos construir el Mesh
     this.sphere = new THREE.Mesh (sphereGeom, sphereMat);

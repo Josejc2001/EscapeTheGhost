@@ -6,12 +6,11 @@ import { TypeCaja1 } from './TypeCaja1.js'
 import { CSG } from '../../libs/CSG-v2.js'
 
 class Engranaje extends THREE.Object3D{
-    constructor(typeCaja = null,radius = 1.5){
+    constructor(typeCaja = null,radius = 1.5,numTeeth=12){
         super();
         
         let toothHeight = 1;
-        let numTeeth= 12; 
-        let color = 0x00ff00;
+        let color = 0x4E5452;
         let toothGeometry = null;
         if(typeCaja == TypeCaja1.CILINDRICA){
           toothGeometry = THREE.CylinderGeometry(toothHeight / 2, toothHeight / 2, radius * 0.3, 32);

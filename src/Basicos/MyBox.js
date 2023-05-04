@@ -3,13 +3,9 @@ import * as THREE from '../../libs/three.module.js'
 class MyBox extends THREE.Mesh {
 
   elColor;
-  constructor(elColor) {
+  constructor(elColor= 0x000000, textura = null) {
     super();
 
-    if(elColor == undefined){
-      elColor = 0x000000;
-    }
-    
     this.elColor = elColor;
     
     // Un Mesh se compone de geometría y material
