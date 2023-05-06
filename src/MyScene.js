@@ -20,13 +20,11 @@ import { Stool } from './Stool.js';
 import { CatchStick } from './CatchStick.js';
 import { Simon } from './Simon.js';
 import { Combinatorio } from './Combinatorio.js';
-<<<<<<< HEAD
 import { Mesa7 } from './Mesa7/Mesa7.js';
 import { Caja1 } from './Caja1/Caja1.js';
 import { TV } from './TV.js';
-=======
 import { Cama } from './Cama.js';
->>>>>>> bd608f072a04a9bf57564d3ecb53de251325ab52
+import { CajoneraOBJ } from './CajoneraOBJ.js';
 
 /// La clase fachada del modelo
 /**
@@ -151,6 +149,14 @@ class MyScene extends THREE.Scene {
     this.cama.translateZ(80);
     this.cama.rotateY(Math.PI/2);
     this.cama.rotateX(-Math.PI/2);
+
+    this.cajoneraob = new CajoneraOBJ();
+    this.cajoneraob.scale.set(20,20,20);
+    this.cajoneraob.translateY(13.5);
+    this.cajoneraob.translateX(90);
+    this.cajoneraob.translateZ(20);
+    this.cajoneraob.rotateY(-Math.PI/2);
+    this.add(this.cajoneraob);
     
     this.cama.scale.set(0.3,0.3,0.3);
     this.add(this.cama);
