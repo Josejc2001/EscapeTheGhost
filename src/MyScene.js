@@ -20,13 +20,11 @@ import { Stool } from './Stool.js';
 import { CatchStick } from './CatchStick.js';
 import { Simon } from './Simon.js';
 import { Combinatorio } from './Combinatorio.js';
-<<<<<<< HEAD
 import { Mesa7 } from './Mesa7/Mesa7.js';
 import { Caja1 } from './Caja1/Caja1.js';
 import { TV } from './TV.js';
-=======
 import { Cama } from './Cama.js';
->>>>>>> bd608f072a04a9bf57564d3ecb53de251325ab52
+import { RemoteControl } from './RemoteControl.js';
 
 /// La clase fachada del modelo
 /**
@@ -144,6 +142,14 @@ class MyScene extends THREE.Scene {
     this.tv.position.z = 80;
     this.tv.position.x = 5;
     this.tv.position.y = 19;
+
+    this.remoteControl = new RemoteControl();
+    this.add(this.remoteControl);
+    this.remoteControl.rotateX(-Math.PI/2);
+    this.remoteControl.rotateZ(Math.PI);
+    this.remoteControl.position.z = 85;
+    this.remoteControl.position.x = 30;
+    this.remoteControl.position.y = 20;
 
     this.cama = new Cama();
     this.cama.translateY(15);
