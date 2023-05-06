@@ -20,9 +20,13 @@ import { Stool } from './Stool.js';
 import { CatchStick } from './CatchStick.js';
 import { Simon } from './Simon.js';
 import { Combinatorio } from './Combinatorio.js';
+<<<<<<< HEAD
 import { Mesa7 } from './Mesa7/Mesa7.js';
 import { Caja1 } from './Caja1/Caja1.js';
 import { TV } from './TV.js';
+=======
+import { Cama } from './Cama.js';
+>>>>>>> bd608f072a04a9bf57564d3ecb53de251325ab52
 
 /// La clase fachada del modelo
 /**
@@ -140,6 +144,16 @@ class MyScene extends THREE.Scene {
     this.tv.position.z = 80;
     this.tv.position.x = 5;
     this.tv.position.y = 19;
+
+    this.cama = new Cama();
+    this.cama.translateY(15);
+    this.cama.translateX(-68);
+    this.cama.translateZ(80);
+    this.cama.rotateY(Math.PI/2);
+    this.cama.rotateX(-Math.PI/2);
+    
+    this.cama.scale.set(0.3,0.3,0.3);
+    this.add(this.cama);
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
