@@ -20,6 +20,9 @@ import { Stool } from './Stool.js';
 import { CatchStick } from './CatchStick.js';
 import { Simon } from './Simon.js';
 import { Combinatorio } from './Combinatorio.js';
+import { Mesa7 } from './Mesa7/Mesa7.js';
+import { Caja1 } from './Caja1/Caja1.js';
+import { TV } from './TV.js';
 
 /// La clase fachada del modelo
 /**
@@ -82,12 +85,12 @@ class MyScene extends THREE.Scene {
     this.puerta.position.y = 28.5;
     this.puerta.position.z = 97;
 
-    this.mesa7 = new Mesa11();
-    this.add(this.mesa7);
-    this.mesa7.rotateY(Math.PI);
-    this.mesa7.scale.set(2,2,2);
-    this.mesa7.position.z = 87;
-    this.mesa7.position.x = 20;
+    this.mesa11 = new Mesa11();
+    this.add(this.mesa11);
+    this.mesa11.rotateY(Math.PI);
+    this.mesa11.scale.set(3,3,3);
+    this.mesa11.position.z = 82;
+    this.mesa11.position.x = 35;
 
     this.interruptor = new Interruptor();
     this.add(this.interruptor);
@@ -115,7 +118,28 @@ class MyScene extends THREE.Scene {
     this.simon.position.x = -60;
 
     this.combinatorio = new Combinatorio();
-    this.add(this.combinatorio);
+    //this.add(this.combinatorio);
+
+    this.mesa7 = new Mesa7();
+    this.add(this.mesa7);
+    this.mesa7.scale.set(5,5,5);
+    this.mesa7.rotateY(Math.PI/2);
+    this.mesa7.position.x = -85;
+
+    this.caja1 = new Caja1();
+    this.add(this.caja1);
+    this.caja1.scale.set(2,2,2);
+    this.caja1.rotateY(Math.PI/2);
+    this.caja1.position.x = -85;
+    this.caja1.position.y = 30;
+
+    this.tv = new TV();
+    this.add(this.tv);
+    this.tv.rotateY(Math.PI);
+    this.tv.scale.set(20,20,20);
+    this.tv.position.z = 80;
+    this.tv.position.x = 5;
+    this.tv.position.y = 19;
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
