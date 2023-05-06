@@ -50,7 +50,7 @@ class MyScene extends THREE.Scene {
     this.add (this.axis);
     
 
-    this.caja1 = new Mesa7();
+    this.caja1 = new Caja1();
     this.add(this.caja1);
 
 

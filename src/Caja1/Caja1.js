@@ -13,8 +13,8 @@ class Caja1 extends THREE.Object3D{
     constructor(){
         super();
         
-        let textura = new THREE.TextureLoader().load();
-        this.cubo = new MyBox(0x804000);
+        let textura = new THREE.TextureLoader().load('../../imgs/caja1.jpg');
+        this.cubo = new MyBox(0x804000,textura);
 
         let restarCubo = new MyBox(0x804000);
         restarCubo.scale.set(3,4,3);
@@ -30,7 +30,7 @@ class Caja1 extends THREE.Object3D{
       
 
         
-        this.engranaje = new Engranaje();
+        this.engranaje = new Engranaje(TypeCaja1.REDONDA);
         this.engranaje.scale.set(1,1,0.5);
         this.engranaje.translateY(2.5);
         this.engranaje.translateX(2);
@@ -45,9 +45,9 @@ class Caja1 extends THREE.Object3D{
        
 
         this.tornillo = new Tornillo();
-        this.tornillo.scale.set(1.5,0.3,1.5);
+        this.tornillo.scale.set(1.5,0.2,1.5);
         this.tornillo.translateY(2.5);
-        this.tornillo.translateX(2);
+        this.tornillo.translateX(1.8);
         this.tornillo.rotateZ(-(Math.PI/2));
 
         this.completoTE = new THREE.Object3D();
@@ -72,7 +72,7 @@ class Caja1 extends THREE.Object3D{
         this.add(this.completoTE);
 
         this.translateY(-0.5);
-        
+        this.rotateY(Math.PI);
     }
 
     engranajeInterno(){

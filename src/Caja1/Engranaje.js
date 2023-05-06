@@ -20,8 +20,8 @@ class Engranaje extends THREE.Object3D{
           toothGeometry = new THREE.BoxGeometry(toothHeight, radius * 0.3, toothHeight);
         }
 
-        
-        const toothMaterial = new THREE.MeshBasicMaterial({ color });
+        let textura2 = new THREE.TextureLoader().load('../../imgs/engranaje.jpg');
+        const toothMaterial = new THREE.MeshBasicMaterial({ map:textura2 });
         
         for (let i = 0; i < numTeeth; i++) {
           const tooth = new THREE.Mesh(toothGeometry, toothMaterial);
