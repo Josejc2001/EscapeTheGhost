@@ -31,7 +31,7 @@ class Room extends THREE.Object3D {
     this.add(pared3);
     this.add(pared4);
     this.add(suelo);
-    this.add(techo);
+    //this.add(techo);
   }
 
   crearPared(){

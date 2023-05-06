@@ -13,9 +13,15 @@ import { Puerta } from './Puerta/Puerta.js';
 import { Mesa7 } from './Mesa7/Mesa7.js'; 
 import { Interruptor } from './Interruptor/Interruptor.js'; 
 import { Rejilla } from './Rejilla/Rejilla.js';
-import { Engranaje } from './Caja1/Engranaje.js';
-import { Caja1 } from './Caja1/Caja1.js';
-import { Mesa11 } from './Mesa11/Mesa11.js';
+
+import { Engranaje } from './Engranaje/Engranaje.js';
+import { StrongBox } from './StrongBox.js'
+import { Mesa9 } from './Mesa9.js';
+import { Stool } from './Stool.js';
+import { CatchStick } from './CatchStick.js';
+import { Simon } from './Simon.js';
+import { Combinatorio } from './Combinatorio.js';
+
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.
@@ -49,20 +55,76 @@ class MyScene extends THREE.Scene {
     this.axis = new THREE.AxesHelper (5);
     this.add (this.axis);
     
+    this.rejilla = new Rejilla();
+    this.add(this.rejilla);
+    this.rejilla.scale.set(20,7.5,1);
+    this.rejilla.position.y = 90;
+    this.rejilla.position.z = -97;
 
-    this.caja1 = new Caja1();
-    this.add(this.caja1);
+    this.gear = new Engranaje();
+    //this.add(this.gear);
 
+    this.cajaFuerte = new StrongBox();
+    this.add(this.cajaFuerte);
+    this.cajaFuerte.rotateY(-Math.PI/4);
+    this.cajaFuerte.position.x = 75;
+    this.cajaFuerte.position.z = -52;
+    this.cajaFuerte.position.y = 33;
+
+    this.mesa9 = new Mesa9();
+    this.add(this.mesa9);
+    this.mesa9.rotateY(-Math.PI/4);
+    this.mesa9.position.x = 70;
+    this.mesa9.position.z = -47;
+
+    this.puerta = new Puerta();
+    this.add(this.puerta);
+    this.puerta.rotateY(Math.PI);
+    this.puerta.scale.set(3,3,1);
+    this.puerta.position.x = 70;
+    this.puerta.position.y = 28.5;
+    this.puerta.position.z = 97;
+
+    this.mesa7 = new Mesa7();
+    this.add(this.mesa7);
+    this.mesa7.rotateY(Math.PI);
+    this.mesa7.scale.set(2,2,2);
+    this.mesa7.position.z = 87;
+    this.mesa7.position.x = 20;
+
+    this.interruptor = new Interruptor();
+    this.add(this.interruptor);
+    this.interruptor.rotateY(Math.PI);
+    this.interruptor.position.z = 97.5;
+    this.interruptor.position.y = 30;
+    this.interruptor.position.x = 50;
+
+    this.taburete = new Stool();
+    this.add(this.taburete);
+    this.taburete.position.z = -80;
+    this.taburete.position.x = -80;
+
+    this.paloRejilla = new CatchStick();
+    this.add(this.paloRejilla);
+    this.paloRejilla.position.x = 45;
+    this.paloRejilla.position.z = -95.5;
+    this.paloRejilla.position.y = 29.5;
+
+    this.simon = new Simon();
+    this.add(this.simon);
+    this.simon.scale.set(0.25,0.25,0.25);
+    this.simon.position.z = 90;
+    this.simon.position.y = 1;
+    this.simon.position.x = -60;
+
+    this.combinatorio = new Combinatorio();
+    this.add(this.combinatorio);
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
-    //this.add (this.habitacion);
-  }
-
-  createGear(radius, toothHeight, numTeeth, color) {
-   
+    this.add (this.habitacion);
   }
   
   initStats() {
@@ -232,6 +294,7 @@ class MyScene extends THREE.Scene {
     
     // Se actualiza el resto del modelo
     this.habitacion.update();
+    //this.cajaFuerte.update();
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
