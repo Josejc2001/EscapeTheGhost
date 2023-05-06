@@ -10,11 +10,10 @@ import { Stats } from '../libs/stats.module.js'
 
 import { Room } from './Room.js';
 import { Puerta } from './Puerta/Puerta.js';
-import { Mesa7 } from './Mesa7/Mesa7.js'; 
+import { Mesa11 } from './Mesa11/Mesa11.js'; 
 import { Interruptor } from './Interruptor/Interruptor.js'; 
 import { Rejilla } from './Rejilla/Rejilla.js';
 
-import { Engranaje } from './Engranaje/Engranaje.js';
 import { StrongBox } from './StrongBox.js'
 import { Mesa9 } from './Mesa9.js';
 import { Stool } from './Stool.js';
@@ -61,8 +60,6 @@ class MyScene extends THREE.Scene {
     this.rejilla.position.y = 90;
     this.rejilla.position.z = -97;
 
-    this.gear = new Engranaje();
-    //this.add(this.gear);
 
     this.cajaFuerte = new StrongBox();
     this.add(this.cajaFuerte);
@@ -85,7 +82,7 @@ class MyScene extends THREE.Scene {
     this.puerta.position.y = 28.5;
     this.puerta.position.z = 97;
 
-    this.mesa7 = new Mesa7();
+    this.mesa7 = new Mesa11();
     this.add(this.mesa7);
     this.mesa7.rotateY(Math.PI);
     this.mesa7.scale.set(2,2,2);

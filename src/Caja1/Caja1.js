@@ -6,7 +6,7 @@ import { CSG } from '../../libs/CSG-v2.js'
 import { MyBox } from '../Basicos/MyBox.js';
 import { Engranaje } from './Engranaje.js';
 import { TypeCaja1 } from './TypeCaja1.js';
-import { Puerta1 } from './puerta1.js';
+import { Puerta1 } from './Puerta1.js';
 import { Tornillo } from './Tornillo.js';
 
 class Caja1 extends THREE.Object3D{
