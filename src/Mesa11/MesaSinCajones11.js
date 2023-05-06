@@ -2,7 +2,7 @@
 import * as THREE from '../../libs/three.module.js'
 import { CSG } from '../../libs/CSG-v2.js'
 
-class MesaSinCajones7 extends THREE.Object3D{
+class MesaSinCajones11 extends THREE.Object3D{
     constructor(){
         super();
 
@@ -57,4 +57,4 @@ class MesaSinCajones7 extends THREE.Object3D{
     
 }
 
-export { MesaSinCajones7 }
+export { MesaSinCajones11 }

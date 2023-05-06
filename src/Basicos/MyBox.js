@@ -12,6 +12,9 @@ class MyBox extends THREE.Mesh {
     this.boxGeom = new THREE.BoxBufferGeometry (1,1,1);
     // Como material se crea uno a partir de un color
     this.boxMat = new THREE.MeshPhongMaterial({color: this.elColor});
+    if(textura != null){
+      this.boxMat = new THREE.MeshPhongMaterial ({map: textura});
+    }
     
     // Ya podemos construir el Mesh
     this.box = new THREE.Mesh (this.boxGeom, this.boxMat);

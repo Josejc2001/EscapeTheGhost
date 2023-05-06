@@ -15,6 +15,7 @@ import { Interruptor } from './Interruptor/Interruptor.js';
 import { Rejilla } from './Rejilla/Rejilla.js';
 import { Engranaje } from './Caja1/Engranaje.js';
 import { Caja1 } from './Caja1/Caja1.js';
+import { Mesa11 } from './Mesa11/Mesa11.js';
 /// La clase fachada del modelo
 /**
  * Usaremos una clase derivada de la clase Scene de Three.js para llevar el control de la escena y de todo lo que ocurre en ella.
@@ -49,7 +50,7 @@ class MyScene extends THREE.Scene {
     this.add (this.axis);
     
 
-    this.caja1 = new Caja1();
+    this.caja1 = new Mesa7();
     this.add(this.caja1);
 
 
