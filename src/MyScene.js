@@ -24,7 +24,11 @@ import { Mesa7 } from './Mesa7/Mesa7.js';
 import { Caja1 } from './Caja1/Caja1.js';
 import { TV } from './TV.js';
 import { Cama } from './Cama.js';
+<<<<<<< HEAD
 import { RemoteControl } from './RemoteControl.js';
+=======
+import { CajoneraOBJ } from './CajoneraOBJ.js';
+>>>>>>> 3b19d2183bfc8c6a9bbffb95f9106ab8684ad027
 
 /// La clase fachada del modelo
 /**
@@ -157,6 +161,14 @@ class MyScene extends THREE.Scene {
     this.cama.translateZ(80);
     this.cama.rotateY(Math.PI/2);
     this.cama.rotateX(-Math.PI/2);
+
+    this.cajoneraob = new CajoneraOBJ();
+    this.cajoneraob.scale.set(20,20,20);
+    this.cajoneraob.translateY(13.5);
+    this.cajoneraob.translateX(90);
+    this.cajoneraob.translateZ(20);
+    this.cajoneraob.rotateY(-Math.PI/2);
+    this.add(this.cajoneraob);
     
     this.cama.scale.set(0.3,0.3,0.3);
     this.add(this.cama);
