@@ -13,6 +13,7 @@ import { Puerta } from './Puerta/Puerta.js';
 import { Mesa7 } from './Mesa7/Mesa7.js'; 
 import { Interruptor } from './Interruptor/Interruptor.js'; 
 import { Rejilla } from './Rejilla/Rejilla.js';
+
 import { Engranaje } from './Engranaje/Engranaje.js';
 import { StrongBox } from './StrongBox.js'
 import { Mesa9 } from './Mesa9.js';
