@@ -122,7 +122,11 @@ class MyScene extends THREE.Scene {
     this.simon.position.x = -60;
 
     this.combinatorio = new Combinatorio();
-    //this.add(this.combinatorio);
+    this.add(this.combinatorio);
+    this.combinatorio.translateY(27);
+    this.combinatorio.translateX(90);
+    this.combinatorio.translateZ(20);
+    this.combinatorio.rotateY(-Math.PI/2);
 
     this.mesa7 = new Mesa7();
     this.add(this.mesa7);
