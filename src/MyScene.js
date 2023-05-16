@@ -234,7 +234,9 @@ class MyScene extends THREE.Scene {
     this.add (this.camera);
     
     // Para el control de cámara usamos una clase que ya tiene implementado los movimientos de órbita
+    
     this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
+   
   }
   
   createGround () {
@@ -361,7 +363,7 @@ class MyScene extends THREE.Scene {
     // Se actualizan los elementos de la escena para cada frame
     
     // Se actualiza la posición de la cámara según su controlador
-    this.cameraControl.update();
+    //this.cameraControl.update();
     
     // Se actualiza el resto del modelo
     this.habitacion.update();
@@ -375,17 +377,43 @@ class MyScene extends THREE.Scene {
     // Si no existiera esta línea,  update()  se ejecutaría solo la primera vez.
     requestAnimationFrame(() => this.update())
   }
+
+  onKeyDown(event,cameraControl){
+    
+    console.log(event.code);
+    let velocidad = 10;
+    switch (event.code) {
+      case 'KeyW': // Tecla W presionada
+        cameraControl.moveForward(velocidad); // Mueve la cámara hacia adelante
+        break;
+      case 'KeyA': // Tecla A presionada
+        cameraControl.moveRight(-velocidad); // Mueve la cámara hacia la izquierda
+        break;
+      case 'KeyS': // Tecla S presionada
+        cameraControl.moveForward(-velocidad); // Mueve la cámara hacia atrás
+        break;
+      case 'KeyD': // Tecla D presionada
+        cameraControl.moveRight(velocidad); // Mueve la cámara hacia la derecha
+        break;
+    }
+  }
+
 }
+
+
+
+
 
 /// La función   main
 $(function () {
   
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
   var scene = new MyScene("#WebGL-output");
-
+  
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
-  
+  window.addEventListener("mousemove",scene.cameraControl.onMouseMove);
+  window.addEventListener('keydown',(event)=>scene.onKeyDown(event,scene.cameraControl));
   // Que no se nos olvide, la primera visualización.
   scene.update();
 });

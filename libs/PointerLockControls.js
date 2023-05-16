@@ -2,7 +2,7 @@ import {
 	Euler,
 	EventDispatcher,
 	Vector3
-} from 'three';
+} from './three.module.js';
 
 const _euler = new Euler( 0, 0, 0, 'YXZ' );
 const _vector = new Vector3();
@@ -20,7 +20,7 @@ class PointerLockControls extends EventDispatcher {
 		super();
 
 		this.domElement = domElement;
-		this.isLocked = false;
+		this.isLocked = true;
 
 		// Set to constrain the pitch of the camera
 		// Range is 0 to Math.PI radians
@@ -32,9 +32,9 @@ class PointerLockControls extends EventDispatcher {
 		const scope = this;
 
 		function onMouseMove( event ) {
-
+			
 			if ( scope.isLocked === false ) return;
-
+			
 			const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
 			const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
