@@ -52,7 +52,6 @@ class PointerLockControls extends EventDispatcher {
 		}
 
 		function onPointerlockChange() {
-			console.log("HERE");
 			if ( scope.domElement.ownerDocument.pointerLockElement === scope.domElement ) {
 
 				scope.dispatchEvent( _lockEvent );

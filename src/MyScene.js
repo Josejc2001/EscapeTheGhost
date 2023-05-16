@@ -201,7 +201,7 @@ class MyScene extends THREE.Scene {
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
-    //this.add (this.habitacion);
+    this.add (this.habitacion);
   }
   
   initStats() {
@@ -379,20 +379,11 @@ class MyScene extends THREE.Scene {
   }
 
   onKeyDown(event,cameraControl){
-    console.log(event.code);
     let velocidad = 10;
+    
     switch (event.code) {
-      case 'KeyW': // Tecla W presionada
-        cameraControl.moveForward(velocidad); // Mueve la cámara hacia adelante
-        break;
-      case 'KeyA': // Tecla A presionada
-        cameraControl.moveRight(-velocidad); // Mueve la cámara hacia la izquierda
-        break;
-      case 'KeyS': // Tecla S presionada
-        cameraControl.moveForward(-velocidad); // Mueve la cámara hacia atrás
-        break;
-      case 'KeyD': // Tecla D presionada
-        cameraControl.moveRight(velocidad); // Mueve la cámara hacia la derecha
+      case 'KeyW':
+        this.avanzar(cameraControl,velocidad);
         break;
       case 'ControlLeft':
         if(cameraControl.isLocked){
@@ -402,6 +393,43 @@ class MyScene extends THREE.Scene {
         }
         break;
     }
+
+
+  }
+
+  avanzar(cameraControl,velocidad){
+    let donde_estoy = new THREE.Vector3();
+    let a_donde_miro = new THREE.Vector3();
+
+    donde_estoy.copy(this.getCamera().position);
+    cameraControl.getDirection(a_donde_miro);
+    a_donde_miro.y = 0;
+    a_donde_miro.normalize();
+    if(!this.colision(donde_estoy,a_donde_miro))
+      cameraControl.moveForward(velocidad);
+  }
+
+  colision(donde_estoy,a_donde_miro){
+    let raycaster = new THREE.Raycaster();
+    raycaster.set(donde_estoy,a_donde_miro);
+   
+    let impactados = raycaster.intersectObjects([this.habitacion]);
+    console.log(impactados);
+    if(impactados.length > 0){
+
+      /*
+      impactados = impactados.sort((a, b) => a.distance - b.distance);
+
+      console.log(impactados);*/
+      let distanciaMasCercano = impactados[0].distance;
+      if(distanciaMasCercano <= 20){
+        return true;
+      }
+    }
+
+    
+
+    return false;
   }
 
 }
