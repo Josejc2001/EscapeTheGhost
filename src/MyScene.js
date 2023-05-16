@@ -27,6 +27,8 @@ import { Cama } from './Cama.js';
 import { RemoteControl } from './RemoteControl.js';
 import { CajoneraOBJ } from './CajoneraOBJ.js';
 import { Soga } from './Soga.js';
+import { Chair } from './Chair.js';
+import { Carpet } from './Carpet.js';
 
 /// La clase fachada del modelo
 /**
@@ -163,6 +165,8 @@ class MyScene extends THREE.Scene {
     this.cama.translateZ(80);
     this.cama.rotateY(Math.PI/2);
     this.cama.rotateX(-Math.PI/2);
+    this.cama.scale.set(0.3,0.3,0.3);
+    this.add(this.cama);
 
     this.cajoneraob = new CajoneraOBJ();
     this.cajoneraob.scale.set(20,20,20);
@@ -172,20 +176,29 @@ class MyScene extends THREE.Scene {
     this.cajoneraob.rotateY(-Math.PI/2);
     this.add(this.cajoneraob);
 
-    this.soga = new Soga();
-    this.soga.scale.set(4,6,4);
-    this.soga.translateY(15);
-    this.soga.rotateZ(Math.PI/2);
-    this.add(this.soga);
-    
-    this.cama.scale.set(0.3,0.3,0.3);
-    this.add(this.cama);
+    // this.soga = new Soga();
+    // this.soga.scale.set(4,6,4);
+    // this.soga.translateY(15);
+    // this.soga.rotateZ(Math.PI/2);
+    // this.add(this.soga);
+
+    this.silla = new Chair();
+    this.add(this.silla);
+    this.silla.scale.set(0.05,0.05,0.05);
+    this.silla.rotateY(-Math.PI/2);
+    this.silla.position.x = -60;
+    this.silla.position.z = 7.5;
+
+    // this.alfombra = new Carpet();
+    // this.add(this.alfombra);
+    // this.alfombra.rotateX(-Math.PI/2);
+    // this.alfombra.scale.set(1,1,1);
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
-    this.add (this.habitacion);
+    //this.add (this.habitacion);
   }
   
   initStats() {
