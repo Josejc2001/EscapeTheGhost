@@ -6,6 +6,9 @@ import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import { Stats } from '../libs/stats.module.js'
 
+// Se hace el import correspondiente
+import { PointerLockControls } from '../libs/PointerLockControls.js'
+
 // Clases de mi proyecto
 
 import { Room } from './Room.js';
@@ -222,22 +225,16 @@ class MyScene extends THREE.Scene {
     //   El ángulo del campo de visión en grados sexagesimales
     //   La razón de aspecto ancho/alto
     //   Los planos de recorte cercano y lejano
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 5, 2000);
     // También se indica dónde se coloca
-    this.camera.position.set (0, 2, 0);
+    this.camera.position.set (0, 75, 0);
     // Y hacia dónde mira
-    var look = new THREE.Vector3 (0,0,-10);
+    var look = new THREE.Vector3 (0,75,-1);
     this.camera.lookAt(look);
     this.add (this.camera);
     
     // Para el control de cámara usamos una clase que ya tiene implementado los movimientos de órbita
-    this.cameraControl = new TrackballControls (this.camera, this.renderer.domElement);
-    // Se configuran las velocidades de los movimientos
-    this.cameraControl.rotateSpeed = 5;
-    this.cameraControl.zoomSpeed = -2;
-    this.cameraControl.panSpeed = 0.5;
-    // Debe orbitar con respecto al punto de mira de la cámara
-    this.cameraControl.target = look;
+    this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
   }
   
   createGround () {
