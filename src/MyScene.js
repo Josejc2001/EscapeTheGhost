@@ -379,7 +379,6 @@ class MyScene extends THREE.Scene {
   }
 
   onKeyDown(event,cameraControl){
-    
     console.log(event.code);
     let velocidad = 10;
     switch (event.code) {
@@ -394,6 +393,13 @@ class MyScene extends THREE.Scene {
         break;
       case 'KeyD': // Tecla D presionada
         cameraControl.moveRight(velocidad); // Mueve la cámara hacia la derecha
+        break;
+      case 'ControlLeft':
+        if(cameraControl.isLocked){
+          cameraControl.unlock();
+        }else{
+          cameraControl.lock();
+        }
         break;
     }
   }
@@ -412,6 +418,7 @@ $(function () {
   
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
+  window.addEventListener("pointerlockchange",scene.cameraControl.onPointerlockChange);
   window.addEventListener("mousemove",scene.cameraControl.onMouseMove);
   window.addEventListener('keydown',(event)=>scene.onKeyDown(event,scene.cameraControl));
   // Que no se nos olvide, la primera visualización.

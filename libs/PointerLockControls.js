@@ -20,7 +20,7 @@ class PointerLockControls extends EventDispatcher {
 		super();
 
 		this.domElement = domElement;
-		this.isLocked = true;
+		this.isLocked = false;
 
 		// Set to constrain the pitch of the camera
 		// Range is 0 to Math.PI radians
@@ -52,7 +52,7 @@ class PointerLockControls extends EventDispatcher {
 		}
 
 		function onPointerlockChange() {
-
+			console.log("HERE");
 			if ( scope.domElement.ownerDocument.pointerLockElement === scope.domElement ) {
 
 				scope.dispatchEvent( _lockEvent );
