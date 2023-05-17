@@ -37,14 +37,134 @@ export class Cajonera7 extends THREE.Object3D{
 
         this.add(this.caja);
         
+        this.incremento1 = 0;
+        this.incremento2 = 0;
+
+        this.animando1 = false;
+        this.animando2 = false;
+
+        this.finalizo1 = false;
+        this.finalizo2 = false;
+        this.reloj1 = new THREE.Clock();
+        this.reloj2 = new THREE.Clock();
+
+        this.cajon1Abierto = false;
+        this.cajon2Abierto = false;
     }
 
     animarCajones(name){
-        if(name == '2'){
-            this.cajon2.translateZ(0.5);
-        }else{
-            this.cajon1.translateZ(0.5);
+        if(name != '2' && name != '1') return;
+
+
+        if(name == '2' && !this.animando2){
+            this.animando2 = true;
+            this.finalizo2 = false;
+        }else if(!this.animando1){
+            this.animando1 = true;
+            this.finalizo1 = false;
         }
         
+    }
+
+    abrirCajon1(){
+       
+        if(this.animando1 && !this.finalizo1){
+            var segundosTranscurridos = this.reloj1.getDelta();
+            
+            this.incremento1 += 0.1 * segundosTranscurridos;
+            
+            if(this.incremento1 > 0.1 ){
+                this.finalizo1 = true;
+                this.animando1= false;
+                this.incremento1 = 0;
+                this.reloj1 = new THREE.Clock();
+                this.cajon1Abierto = true;
+                return;
+            }
+
+            this.cajon1.translateZ(this.incremento1);
+            
+        }
+    }
+
+    cerrarCajon1(){
+        if(this.animando1 && !this.finalizo1){
+            var segundosTranscurridos = this.reloj1.getDelta();
+            
+            this.incremento1 -= 0.1 * segundosTranscurridos;
+            
+            if(this.incremento1 <= -0.1){
+                this.finalizo1 = true;
+                this.animando1 = false;
+                this.incremento1 = 0;
+                this.reloj1 = new THREE.Clock();
+                this.cajon1Abierto = false;
+                return;
+            }
+
+            this.cajon1.translateZ(this.incremento1);
+        }
+
+        
+    }
+
+    cerrarCajon2(){
+        if(this.animando2 && !this.finalizo2){
+            var segundosTranscurridos = this.reloj2.getDelta();
+            
+            this.incremento2 -= 0.1 * segundosTranscurridos;
+            
+            if(this.incremento2 <= -0.1){
+                this.finalizo2 = true;
+                this.animando2 = false;
+                this.incremento2 = 0;
+                this.reloj2 = new THREE.Clock();
+                this.cajon2Abierto = false;
+                return;
+            }
+
+            this.cajon2.translateZ(this.incremento2);
+        }
+
+        
+    }
+
+    abrirCajon2(){
+        
+        if(this.animando2 && !this.finalizo2){
+            var segundosTranscurridos = this.reloj2.getDelta();
+            this.incremento2 += 0.1 * segundosTranscurridos;
+            
+            if(this.incremento2 > 0.1 ){
+                this.finalizo2 = true;
+                this.animando2= false;
+                this.incremento2 = 0;
+                this.reloj2 = new THREE.Clock();
+                this.cajon2Abierto = true;
+                return;
+            }
+
+            this.cajon2.translateZ(this.incremento2);
+            
+        }
+    }
+
+    update(){
+        if(!this.animando1 && !this.animando2) return;
+        if(this.finalizo1 && this.finalizo2) return;
+        
+        if(!this.cajon1Abierto){
+            this.abrirCajon1();
+        }else{
+            this.cerrarCajon1();
+        }
+    
+        if(!this.cajon2Abierto){
+            this.abrirCajon2();
+        }else{
+            this.cerrarCajon2();
+        }
+
+
     }
 }

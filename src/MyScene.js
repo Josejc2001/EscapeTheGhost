@@ -257,7 +257,7 @@ class MyScene extends THREE.Scene {
       this.camaraBefore = this.camera.clone();
 
       let vectorAux = this.cajaFuerte.position;
-      let x = vectorAux.x-10;
+      let x = vectorAux.x-13;
       let y = vectorAux.y+25;
       let z = vectorAux.z;
       let vectorLook = new THREE.Vector3(x,y,z);
@@ -400,7 +400,7 @@ class MyScene extends THREE.Scene {
     // Se actualiza el resto del modelo
     this.habitacion.update();
     this.cajaFuerte.update();
-    
+    this.mesa7.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 
