@@ -75,10 +75,10 @@ class MyScene extends THREE.Scene {
 
     this.cajaFuerte = new StrongBox();
     this.add(this.cajaFuerte);
-    this.cajaFuerte.rotateY(-Math.PI/4);
-    this.cajaFuerte.position.x = 75;
-    this.cajaFuerte.position.z = -52;
-    this.cajaFuerte.position.y = 33;
+    //this.cajaFuerte.rotateY(-Math.PI/4);
+    // this.cajaFuerte.position.x = 75;
+    // this.cajaFuerte.position.z = -52;
+    // this.cajaFuerte.position.y = 33;
 
     this.mesa9 = new Mesa9();
     this.add(this.mesa9);
@@ -367,7 +367,7 @@ class MyScene extends THREE.Scene {
     
     // Se actualiza el resto del modelo
     this.habitacion.update();
-    //this.cajaFuerte.update();
+    this.cajaFuerte.update();
     
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
@@ -393,8 +393,30 @@ class MyScene extends THREE.Scene {
         }
         break;
     }
+  }
 
+  abrirCajaFuerte(){
+    console.log("Abriendo caja fuerte...");
+    this.cajaFuerte.animate();
+  }
 
+  onMouseDown(event){
+    let mouse = new THREE.Vector2();
+    let raycaster = new THREE.Raycaster();
+
+    mouse.x = (event.clientX / window.innerWidth )*2-1;
+    mouse.y = 1 - 2 * (event.clientY / window.innerHeight);
+
+    raycaster.setFromCamera(mouse, this.camera);
+
+    var pickedObjects = raycaster.intersectObjects([this.cajaFuerte], true);
+    if(pickedObjects.length > 0){
+      var selectedObject = pickedObjects[0].object;
+      if(selectedObject.userData){
+        this.abrirCajaFuerte();
+      }
+      console.log(selectedObject);
+    }
   }
 
   avanzar(cameraControl,velocidad){
@@ -449,6 +471,7 @@ $(function () {
   window.addEventListener("pointerlockchange",scene.cameraControl.onPointerlockChange);
   window.addEventListener("mousemove",scene.cameraControl.onMouseMove);
   window.addEventListener('keydown',(event)=>scene.onKeyDown(event,scene.cameraControl));
+  window.addEventListener('mousedown',(event)=>scene.onMouseDown(event));
   // Que no se nos olvide, la primera visualización.
   scene.update();
 });

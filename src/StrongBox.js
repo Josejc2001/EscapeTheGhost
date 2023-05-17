@@ -7,19 +7,26 @@ class StrongBox extends THREE.Object3D {
     
     // Un Mesh se compone de geometría y material
 
-    var estructuraCajaFuerte = this.crearCajaFuerte();
+    this.estructuraCajaFuerte = this.crearCajaFuerte();
 
-    var puerta = this.crearPuerta();
+    this.puerta = this.crearPuerta();
 
     // this.add(estructuraCajaFuerte);
 
     // this.add(puerta);
 
     this.cajaFuerte = new THREE.Object3D();
-    this.cajaFuerte.add(estructuraCajaFuerte);
-    this.cajaFuerte.add(puerta);
+    this.cajaFuerte.add(this.estructuraCajaFuerte);
+    this.cajaFuerte.add(this.puerta);
+    this.cajaFuerte.userData = this;
+
+    this.animar = false;
+
+    this.reloj = new THREE.Clock();
 
     this.add(this.cajaFuerte);
+
+    
     
   }
 
@@ -231,6 +238,10 @@ class StrongBox extends THREE.Object3D {
 
     return tecladoCompleto;
   }
+
+  animate(){
+    this.animar = true;
+  }
   
   update () {
     // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
@@ -239,6 +250,10 @@ class StrongBox extends THREE.Object3D {
     // Después, la rotación en Y
     // Luego, la rotación en X
     // Y por último la traslación
+    if(this.animar){
+      var segundosTranscurridos = this.reloj.getDelta();
+      this.puerta.rotation.y += this.velocidadPuerta * segundosTranscurridos;
+    }
   }
 }
 
