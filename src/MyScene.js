@@ -80,10 +80,10 @@ class MyScene extends THREE.Scene {
 
     this.cajaFuerte = new StrongBox();
     this.add(this.cajaFuerte);
-    //this.cajaFuerte.rotateY(-Math.PI/4);
-    // this.cajaFuerte.position.x = 75;
-    // this.cajaFuerte.position.z = -52;
-    // this.cajaFuerte.position.y = 33;
+    this.cajaFuerte.rotateY(-Math.PI/4);
+    this.cajaFuerte.position.x = 75;
+    this.cajaFuerte.position.z = -52;
+    this.cajaFuerte.position.y = 33;
 
     this.mesa9 = new Mesa9();
     this.add(this.mesa9);
@@ -447,6 +447,7 @@ class MyScene extends THREE.Scene {
       var selectedObject = pickedObjects[0].object;
       if(selectedObject.userData){
         this.abrirCajaFuerte();
+        this.bloquearCamaraCajaFuerte();
       }
       console.log(selectedObject);
     }
