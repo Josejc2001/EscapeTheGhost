@@ -80,10 +80,10 @@ class MyScene extends THREE.Scene {
 
     this.cajaFuerte = new StrongBox();
     this.add(this.cajaFuerte);
-    //this.cajaFuerte.rotateY(-Math.PI/4);
-    // this.cajaFuerte.position.x = 75;
-    // this.cajaFuerte.position.z = -52;
-    // this.cajaFuerte.position.y = 33;
+    this.cajaFuerte.rotateY(-Math.PI/4);
+    this.cajaFuerte.position.x = 75;
+    this.cajaFuerte.position.z = -52;
+    this.cajaFuerte.position.y = 33;
 
     this.mesa9 = new Mesa9();
     this.add(this.mesa9);
@@ -249,20 +249,24 @@ class MyScene extends THREE.Scene {
   bloquearCamaraCajaFuerte(){
     
     if(this.controlBloqueado){
+      this.controlBloqueado = false;
       this.camera = this.camaraBefore.clone();
+      this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
     }else{
+      this.controlBloqueado = true;
       this.camaraBefore = this.camera.clone();
+
       let vectorAux = this.cajaFuerte.position;
       let x = vectorAux.x-10;
       let y = vectorAux.y+25;
       let z = vectorAux.z;
       let vectorLook = new THREE.Vector3(x,y,z);
-      console.log(this.camera);
+      
     
       this.camera.lookAt(vectorLook);
       this.camera.position.set(35,40,-15)
     }
-    this.controlBloqueado = !this.controlBloqueado;
+   
 
   }
   
@@ -434,6 +438,10 @@ class MyScene extends THREE.Scene {
   }
 
   onMouseDown(event){
+    this.isClickingObject(event,[this.cajaFuerte]);
+  }
+
+  isClickingObject(event,object){
     let mouse = new THREE.Vector2();
     let raycaster = new THREE.Raycaster();
 
@@ -442,15 +450,17 @@ class MyScene extends THREE.Scene {
 
     raycaster.setFromCamera(mouse, this.camera);
 
-    var pickedObjects = raycaster.intersectObjects([this.cajaFuerte], true);
+    var pickedObjects = raycaster.intersectObjects(object, true);
     if(pickedObjects.length > 0){
       var selectedObject = pickedObjects[0].object;
       if(selectedObject.userData){
         this.abrirCajaFuerte();
+        this.bloquearCamaraCajaFuerte();
       }
       console.log(selectedObject);
     }
   }
+
 
   avanzar(cameraControl,velocidad){
     let donde_estoy = new THREE.Vector3();
