@@ -163,7 +163,6 @@ class MyScene extends THREE.Scene {
     this.remoteControl.position.y = 20;
 
     this.cama = new Cama();
-    this.cama.translateY(15);
     this.cama.translateX(-68);
     this.cama.translateZ(80);
     this.cama.rotateY(Math.PI/2);
