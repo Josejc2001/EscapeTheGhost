@@ -12,10 +12,10 @@ export class Cajonera7 extends THREE.Object3D{
         this.caja.translateY(2);
         this.caja.scale.set(3,5,6);
 
-        this.cajon1 = new Cajon7();
+        this.cajon1 = new Cajon7(1);
 
-        this.cajon2 = this.cajon1.clone();
-        this.cajon2.translateY(2.39);
+        this.cajon2 = new Cajon7(2);
+        this.cajon2.translateY(2.5);
 
         this.removeCaja = this.caja.clone();
         this.removeCaja.scale.set(2.5,4.5,6);
@@ -36,6 +36,15 @@ export class Cajonera7 extends THREE.Object3D{
         this.add(this.cajones);
 
         this.add(this.caja);
+        
+    }
+
+    animarCajones(name){
+        if(name == '2'){
+            this.cajon2.translateZ(0.5);
+        }else{
+            this.cajon1.translateZ(0.5);
+        }
         
     }
 }

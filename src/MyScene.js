@@ -438,10 +438,24 @@ class MyScene extends THREE.Scene {
   }
 
   onMouseDown(event){
-    this.isClickingObject(event,[this.cajaFuerte]);
+    let selectedObject = this.isClickingObject(event,[this.cajaFuerte])
+    if(selectedObject != null) {
+      this.abrirCajaFuerte();
+      this.bloquearCamaraCajaFuerte();
+      return;
+    }
+    selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2]);
+    if(selectedObject != null) {
+      this.mesa7.animarCajonesMesa7(selectedObject.name);
+      return;
+    }
   }
 
+  
+
+  
   isClickingObject(event,object){
+    if(object == undefined) return null;
     let mouse = new THREE.Vector2();
     let raycaster = new THREE.Raycaster();
 
@@ -453,12 +467,9 @@ class MyScene extends THREE.Scene {
     var pickedObjects = raycaster.intersectObjects(object, true);
     if(pickedObjects.length > 0){
       var selectedObject = pickedObjects[0].object;
-      if(selectedObject.userData){
-        this.abrirCajaFuerte();
-        this.bloquearCamaraCajaFuerte();
-      }
-      console.log(selectedObject);
+      return selectedObject.parent;
     }
+    return null;
   }
 
 

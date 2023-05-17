@@ -6,8 +6,10 @@ import { MyBox } from '../Basicos/MyBox.js';
 export class Cajon7 extends THREE.Object3D{
 
 
-    constructor(){
+    constructor(tipo_cajon){
         super();
+
+        this.name += tipo_cajon;
 
         this.cajon = new MyBox(0xFDE372);
         this.cajon.translateY(2);
@@ -45,7 +47,7 @@ export class Cajon7 extends THREE.Object3D{
         this.add(this.azas);
         this.add(this.cajon);
 
-        this.scale.set(1,0.95,0.95);
+        this.scale.set(1,0.90,0.95);
         this.translateY(-1.2);
     }   
 }
