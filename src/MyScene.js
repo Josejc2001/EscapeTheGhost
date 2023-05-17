@@ -39,12 +39,17 @@ import { Carpet } from './Carpet.js';
  */
 
 class MyScene extends THREE.Scene {
+
+
   constructor (myCanvas) {
     super();
     
     // Lo primero, crear el visualizador, pasándole el lienzo sobre el que realizar los renderizados.
     this.renderer = this.createRenderer(myCanvas);
-    
+
+    this.camaraBefore = null;
+    this.controlBloqueado = false;
+
     // Se añade a la gui los controles para manipular los elementos de esta clase
     this.gui = this.createGUI ();
     
@@ -163,7 +168,6 @@ class MyScene extends THREE.Scene {
     this.remoteControl.position.y = 20;
 
     this.cama = new Cama();
-    this.cama.translateY(15);
     this.cama.translateX(-68);
     this.cama.translateZ(80);
     this.cama.rotateY(Math.PI/2);
@@ -202,6 +206,8 @@ class MyScene extends THREE.Scene {
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
     this.add (this.habitacion);
+
+    
   }
   
   initStats() {
@@ -237,9 +243,31 @@ class MyScene extends THREE.Scene {
     
     this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
    
+    
+  }
+
+  bloquearCamaraCajaFuerte(){
+    
+    if(this.controlBloqueado){
+      this.camera = this.camaraBefore.clone();
+    }else{
+      this.camaraBefore = this.camera.clone();
+      let vectorAux = this.cajaFuerte.position;
+      let x = vectorAux.x-10;
+      let y = vectorAux.y+25;
+      let z = vectorAux.z;
+      let vectorLook = new THREE.Vector3(x,y,z);
+      console.log(this.camera);
+    
+      this.camera.lookAt(vectorLook);
+      this.camera.position.set(35,40,-15)
+    }
+    this.controlBloqueado = !this.controlBloqueado;
+
   }
   
   createGround () {
+    
     // El suelo es un Mesh, necesita una geometría y un material.
     
     // La geometría es una caja con muy poca altura
@@ -386,6 +414,11 @@ class MyScene extends THREE.Scene {
         this.avanzar(cameraControl,velocidad);
         break;
       case 'ControlLeft':
+        
+        //console.log(this.camera.position);
+        if(this.controlBloqueado) break;
+        
+        
         if(cameraControl.isLocked){
           cameraControl.unlock();
         }else{
@@ -436,7 +469,7 @@ class MyScene extends THREE.Scene {
     raycaster.set(donde_estoy,a_donde_miro);
    
     let impactados = raycaster.intersectObjects([this.habitacion]);
-    console.log(impactados);
+    
     if(impactados.length > 0){
 
       /*
