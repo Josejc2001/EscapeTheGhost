@@ -10,6 +10,8 @@ class StrongBox extends THREE.Object3D {
     this.estructuraCajaFuerte = this.crearCajaFuerte();
 
     this.puerta = this.crearPuerta();
+    this.puerta.position.z = 9.8;
+    this.puerta.position.x = -9;
 
     // this.add(estructuraCajaFuerte);
 
@@ -21,13 +23,15 @@ class StrongBox extends THREE.Object3D {
     this.cajaFuerte.userData = this;
 
     this.animar = false;
+    this.puertaAbierta = false;
 
     this.reloj = new THREE.Clock();
 
-    this.add(this.cajaFuerte);
+    this.rotacion = 0;
 
-    
-    
+    this.velocidadPuerta = 0.5;
+
+    this.add(this.cajaFuerte);    
   }
 
   crearCajaFuerte(){
@@ -56,6 +60,7 @@ class StrongBox extends THREE.Object3D {
 
   crearPuerta(){
     var puertaGeom = new THREE.BoxGeometry(18, 18, 1);
+    puertaGeom.translate(9,0,0);
 
     var puertaMat = new THREE.MeshPhongMaterial({color: 0x434b4d});
 
@@ -65,25 +70,23 @@ class StrongBox extends THREE.Object3D {
     var bisagra2 = this.crearBisagra();
 
     bisagra1.position.y = 5;
-    bisagra1.position.x = -9;
     bisagra1.position.z = 0.5;
 
     //this.add(bisagra1);
 
     bisagra2.position.y = -5;
-    bisagra2.position.x = -9;
     bisagra2.position.z = 0.5;
 
     //this.add(bisagra2);
 
     var volante = this.crearVolante();
     volante.position.y = -2;
-    volante.position.x = -2;
+    volante.position.x = 7;
     volante.position.z = 1.5;
 
     var teclado = this.crearTeclado();
     teclado.position.z = 0.75;
-    teclado.position.x = 4;
+    teclado.position.x = 13;
     teclado.position.y = 4;
 
     //this.add(teclado);
@@ -94,7 +97,7 @@ class StrongBox extends THREE.Object3D {
     csgPuerta.union([puertaMesh, bisagra1, bisagra2, volante,teclado]);
     var puertaCompleta = csgPuerta.toMesh();
 
-    puertaCompleta.position.z = 9.8;
+    //puertaCompleta.position.z = 9.8;
 
     return puertaCompleta;
   }
@@ -240,7 +243,8 @@ class StrongBox extends THREE.Object3D {
   }
 
   animate(){
-    this.animar = true;
+    if(!this.puertaAbierta)
+      this.animar = true;
   }
   
   update () {
@@ -252,8 +256,13 @@ class StrongBox extends THREE.Object3D {
     // Y por último la traslación
     if(this.animar){
       var segundosTranscurridos = this.reloj.getDelta();
-      this.puerta.rotation.y += this.velocidadPuerta * segundosTranscurridos;
+      this.rotacion -= this.velocidadPuerta * segundosTranscurridos;
+      if(this.rotacion < -Math.PI/2){
+        this.puertaAbierta = true;
+        this.animar = false;
+      }
     }
+    this.puerta.rotation.y = this.rotacion;
   }
 }
 
