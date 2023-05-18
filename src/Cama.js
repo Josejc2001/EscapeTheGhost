@@ -11,10 +11,10 @@ export class Cama extends THREE.Object3D{
         var materialLoader = new MTLLoader();
         var objectLoader = new OBJLoader();
 
-        materialLoader.load('../../assets/cama/material.mtl',
+        materialLoader.load('../../models/cama/material.mtl',
             (materials) => {
                 objectLoader.setMaterials(materials);
-                objectLoader.load('../../assets/cama/objeto.obj',
+                objectLoader.load('../../models/cama/objeto.obj',
                     (object) => {
                         this.modelo = object;
                         this.add(this.modelo);

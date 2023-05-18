@@ -32,6 +32,7 @@ import { CajoneraOBJ } from './CajoneraOBJ.js';
 import { Soga } from './Soga.js';
 import { Chair } from './Chair.js';
 import { Carpet } from './Carpet.js';
+import { EstructuraSoga } from './EstructuraSoga.js'
 
 /// La clase fachada del modelo
 /**
@@ -116,7 +117,7 @@ class MyScene extends THREE.Scene {
     this.taburete = new Stool();
     this.add(this.taburete);
     this.taburete.position.z = -80;
-    this.taburete.position.x = -80;
+    this.taburete.position.x = -60;
 
     this.paloRejilla = new CatchStick();
     this.add(this.paloRejilla);
@@ -183,11 +184,18 @@ class MyScene extends THREE.Scene {
     this.cajoneraob.rotateY(-Math.PI/2);
     this.add(this.cajoneraob);
 
-    // this.soga = new Soga();
-    // this.soga.scale.set(4,6,4);
-    // this.soga.translateY(15);
-    // this.soga.rotateZ(Math.PI/2);
-    // this.add(this.soga);
+    this.soga = new Soga();
+    this.soga.scale.set(4,6,4);
+    this.soga.translateY(50);
+    this.soga.translateX(-60);
+    this.soga.translateZ(-81);
+    this.soga.rotateZ(Math.PI/2);
+    this.add(this.soga);
+
+    this.estructuraSoga = new EstructuraSoga();
+    this.estructuraSoga.position.z = -80;
+    this.estructuraSoga.position.x = -80;
+    this.add(this.estructuraSoga);
 
     this.silla = new Chair();
     this.add(this.silla);

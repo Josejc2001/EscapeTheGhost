@@ -8,7 +8,7 @@ export class Soga extends THREE.Object3D{
         super();
         var objectLoader = new OBJLoader();
 
-        objectLoader.load('../../assets/soga/objeto.obj',
+        objectLoader.load('../../models/soga/objeto.obj',
         (object) => {
             this.modelo = object;
             this.add(this.modelo);

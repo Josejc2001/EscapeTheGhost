@@ -8,7 +8,7 @@ export class CajoneraOBJ extends THREE.Object3D{
         super();
         var objectLoader = new OBJLoader();
 
-        objectLoader.load('../../assets/cajonera/objeto.obj',
+        objectLoader.load('../../models/cajonera/objeto.obj',
         (object) => {
             this.modelo = object;
             this.add(this.modelo);
