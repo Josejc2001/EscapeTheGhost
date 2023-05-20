@@ -423,7 +423,16 @@ class MyScene extends THREE.Scene {
     
     switch (event.code) {
       case 'KeyW':
-        this.avanzar(cameraControl,velocidad);
+        this.avanzar(cameraControl,velocidad,true,1);
+        break;
+      case 'KeyS':
+        this.avanzar(cameraControl,velocidad,true,-1);
+        break;
+      case 'KeyD':
+        this.avanzar(cameraControl,velocidad,false,1);
+        break;
+      case 'KeyA':
+        this.avanzar(cameraControl,velocidad,false,-1);
         break;
       case 'ControlLeft':
         
@@ -480,17 +489,41 @@ class MyScene extends THREE.Scene {
     return null;
   }
 
+  
+  
 
-  avanzar(cameraControl,velocidad){
+
+  avanzar(cameraControl, velocidad,foward,value) {
     let donde_estoy = new THREE.Vector3();
-    let a_donde_miro = new THREE.Vector3();
-
+  
     donde_estoy.copy(this.getCamera().position);
-    cameraControl.getDirection(a_donde_miro);
+    let direction = new THREE.Vector3();
+    if (foward) {
+      direction.z = -1 * value; // Hacia adelante o hacia atrás
+    } else {
+      direction.x = value; // Hacia la izquierda o hacia la derecha
+    }
+
+    let a_donde_miro = this.getDirection(direction);
     a_donde_miro.y = 0;
     a_donde_miro.normalize();
-    if(!this.colision(donde_estoy,a_donde_miro))
-      cameraControl.moveForward(velocidad);
+
+    if (this.colision(donde_estoy, a_donde_miro)) {
+      return;
+    }
+      
+  
+    // No hay colisión en ninguna dirección, avanzar
+    if(foward){
+      cameraControl.moveForward(velocidad*value);
+    }else{
+      cameraControl.moveRight(velocidad*value);
+    }
+    
+  }
+  getDirection(direction){
+    let v = new THREE.Vector3();
+    return v.copy( direction ).applyQuaternion(this.camera.quaternion);
   }
 
   colision(donde_estoy,a_donde_miro){
