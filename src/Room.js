@@ -31,14 +31,15 @@ class Room extends THREE.Object3D {
     this.add(pared3);
     this.add(pared4);
     this.add(suelo);
-    //this.add(techo);
+    this.add(techo);
   }
 
   crearPared(){
+    let textura = new THREE.TextureLoader().load('../imgs/pared.jpg');
     var paredGeom = new THREE.BoxGeometry (200,100,5);
     paredGeom.translate(0,50,0);
     // Como material se crea uno a partir de un color
-    var paredMat = new THREE.MeshPhongMaterial({color: 0xCF0000});
+    var paredMat = new THREE.MeshPhongMaterial({map: textura});
 
     var paredMesh = new THREE.Mesh(paredGeom, paredMat);
 

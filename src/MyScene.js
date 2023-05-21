@@ -6,21 +6,34 @@ import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import { Stats } from '../libs/stats.module.js'
 
+import * as TWEEN from '../libs/tween.esm.js'
+// Se hace el import correspondiente
+import { PointerLockControls } from '../libs/PointerLockControls.js'
+
 // Clases de mi proyecto
 
 import { Room } from './Room.js';
 import { Puerta } from './Puerta/Puerta.js';
-import { Mesa7 } from './Mesa7/Mesa7.js'; 
+import { Mesa11 } from './Mesa11/Mesa11.js'; 
 import { Interruptor } from './Interruptor/Interruptor.js'; 
 import { Rejilla } from './Rejilla/Rejilla.js';
 
-import { Engranaje } from './Engranaje/Engranaje.js';
 import { StrongBox } from './StrongBox.js'
 import { Mesa9 } from './Mesa9.js';
 import { Stool } from './Stool.js';
 import { CatchStick } from './CatchStick.js';
 import { Simon } from './Simon.js';
 import { Combinatorio } from './Combinatorio.js';
+import { Mesa7 } from './Mesa7/Mesa7.js';
+import { Caja1 } from './Caja1/Caja1.js';
+import { TV } from './TV.js';
+import { Cama } from './Cama.js';
+import { RemoteControl } from './RemoteControl.js';
+import { CajoneraOBJ } from './CajoneraOBJ.js';
+import { Soga } from './Soga.js';
+import { Chair } from './Chair.js';
+import { Carpet } from './Carpet.js';
+import { EstructuraSoga } from './EstructuraSoga.js'
 
 /// La clase fachada del modelo
 /**
@@ -28,12 +41,18 @@ import { Combinatorio } from './Combinatorio.js';
  */
 
 class MyScene extends THREE.Scene {
+
+
   constructor (myCanvas) {
     super();
     
+    this.popUpTimeout = null;
     // Lo primero, crear el visualizador, pasándole el lienzo sobre el que realizar los renderizados.
     this.renderer = this.createRenderer(myCanvas);
-    
+
+    this.camaraBefore = null;
+    this.controlBloqueado = false;
+
     // Se añade a la gui los controles para manipular los elementos de esta clase
     this.gui = this.createGUI ();
     
@@ -61,8 +80,6 @@ class MyScene extends THREE.Scene {
     this.rejilla.position.y = 90;
     this.rejilla.position.z = -97;
 
-    this.gear = new Engranaje();
-    //this.add(this.gear);
 
     this.cajaFuerte = new StrongBox();
     this.add(this.cajaFuerte);
@@ -80,29 +97,29 @@ class MyScene extends THREE.Scene {
     this.puerta = new Puerta();
     this.add(this.puerta);
     this.puerta.rotateY(Math.PI);
-    this.puerta.scale.set(3,3,1);
+    this.puerta.scale.set(4,5,4);
     this.puerta.position.x = 70;
-    this.puerta.position.y = 28.5;
+    this.puerta.position.y = 46;
     this.puerta.position.z = 97;
 
-    this.mesa7 = new Mesa7();
-    this.add(this.mesa7);
-    this.mesa7.rotateY(Math.PI);
-    this.mesa7.scale.set(2,2,2);
-    this.mesa7.position.z = 87;
-    this.mesa7.position.x = 20;
+    this.mesa11 = new Mesa11();
+    this.add(this.mesa11);
+    this.mesa11.rotateY(Math.PI);
+    this.mesa11.scale.set(3,3,3);
+    this.mesa11.position.z = 82;
+    this.mesa11.position.x = 35;
 
     this.interruptor = new Interruptor();
     this.add(this.interruptor);
     this.interruptor.rotateY(Math.PI);
     this.interruptor.position.z = 97.5;
-    this.interruptor.position.y = 30;
-    this.interruptor.position.x = 50;
+    this.interruptor.position.y = 60;
+    this.interruptor.position.x = 40;
 
     this.taburete = new Stool();
     this.add(this.taburete);
     this.taburete.position.z = -80;
-    this.taburete.position.x = -80;
+    this.taburete.position.x = -60;
 
     this.paloRejilla = new CatchStick();
     this.add(this.paloRejilla);
@@ -119,12 +136,87 @@ class MyScene extends THREE.Scene {
 
     this.combinatorio = new Combinatorio();
     this.add(this.combinatorio);
+    this.combinatorio.translateY(27);
+    this.combinatorio.translateX(90);
+    this.combinatorio.translateZ(20);
+    this.combinatorio.rotateY(-Math.PI/2);
+
+    this.mesa7 = new Mesa7();
+    this.add(this.mesa7);
+    this.mesa7.scale.set(5,5,5);
+    this.mesa7.rotateY(Math.PI/2);
+    this.mesa7.position.x = -85;
+
+    this.caja1 = new Caja1();
+    this.add(this.caja1);
+    this.caja1.scale.set(2,2,2);
+    this.caja1.rotateY(Math.PI/2);
+    this.caja1.position.x = -85;
+    this.caja1.position.y = 30;
+
+    this.tv = new TV();
+    this.add(this.tv);
+    this.tv.rotateY(Math.PI);
+    this.tv.scale.set(20,20,20);
+    this.tv.position.z = 80;
+    this.tv.position.x = 5;
+    this.tv.position.y = 19;
+
+    this.remoteControl = new RemoteControl();
+    this.add(this.remoteControl);
+    this.remoteControl.rotateX(-Math.PI/2);
+    this.remoteControl.rotateZ(Math.PI);
+    this.remoteControl.position.z = 85;
+    this.remoteControl.position.x = 30;
+    this.remoteControl.position.y = 20;
+
+    this.cama = new Cama();
+    this.cama.translateX(-68);
+    this.cama.translateZ(80);
+    this.cama.rotateY(Math.PI/2);
+    this.cama.rotateX(-Math.PI/2);
+    this.cama.scale.set(0.3,0.3,0.3);
+    this.add(this.cama);
+
+    this.cajoneraob = new CajoneraOBJ();
+    this.cajoneraob.scale.set(20,20,20);
+    this.cajoneraob.translateY(13.5);
+    this.cajoneraob.translateX(90);
+    this.cajoneraob.translateZ(20);
+    this.cajoneraob.rotateY(-Math.PI/2);
+    this.add(this.cajoneraob);
+
+    this.soga = new Soga();
+    this.soga.scale.set(4,6,4);
+    this.soga.translateY(50);
+    this.soga.translateX(-60);
+    this.soga.translateZ(-81);
+    this.soga.rotateZ(Math.PI/2);
+    this.add(this.soga);
+
+    this.estructuraSoga = new EstructuraSoga();
+    this.estructuraSoga.position.z = -80;
+    this.estructuraSoga.position.x = -80;
+    this.add(this.estructuraSoga);
+
+    this.silla = new Chair();
+    this.add(this.silla);
+    this.silla.scale.set(0.05,0.05,0.05);
+    this.silla.rotateY(-Math.PI/2);
+    this.silla.position.x = -60;
+    this.silla.position.z = 7.5;
+
+    // this.alfombra = new Carpet();
+    // this.add(this.alfombra);
+    // this.alfombra.rotateX(-Math.PI/2);
+    // this.alfombra.scale.set(1,1,1);
 
     // Por último creamos el modelo.
     // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
     // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
     this.add (this.habitacion);
+
   }
   
   initStats() {
@@ -148,25 +240,47 @@ class MyScene extends THREE.Scene {
     //   El ángulo del campo de visión en grados sexagesimales
     //   La razón de aspecto ancho/alto
     //   Los planos de recorte cercano y lejano
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 5, 2000);
     // También se indica dónde se coloca
-    this.camera.position.set (0, 2, 0);
+    this.camera.position.set (0, 75, 0);
     // Y hacia dónde mira
-    var look = new THREE.Vector3 (0,0,-10);
+    var look = new THREE.Vector3 (0,75,-1);
     this.camera.lookAt(look);
     this.add (this.camera);
     
     // Para el control de cámara usamos una clase que ya tiene implementado los movimientos de órbita
-    this.cameraControl = new TrackballControls (this.camera, this.renderer.domElement);
-    // Se configuran las velocidades de los movimientos
-    this.cameraControl.rotateSpeed = 5;
-    this.cameraControl.zoomSpeed = -2;
-    this.cameraControl.panSpeed = 0.5;
-    // Debe orbitar con respecto al punto de mira de la cámara
-    this.cameraControl.target = look;
+    
+    this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
+   
+    
+  }
+
+  bloquearCamaraCajaFuerte(){
+    
+    if(this.controlBloqueado){
+      this.controlBloqueado = false;
+      this.camera = this.camaraBefore.clone();
+      this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
+    }else{
+      this.controlBloqueado = true;
+      this.camaraBefore = this.camera.clone();
+
+      let vectorAux = this.cajaFuerte.position;
+      let x = vectorAux.x-13;
+      let y = vectorAux.y+25;
+      let z = vectorAux.z;
+      let vectorLook = new THREE.Vector3(x,y,z);
+      
+    
+      this.camera.lookAt(vectorLook);
+      this.camera.position.set(35,40,-15)
+    }
+   
+
   }
   
   createGround () {
+    
     // El suelo es un Mesh, necesita una geometría y un material.
     
     // La geometría es una caja con muy poca altura
@@ -255,7 +369,8 @@ class MyScene extends THREE.Scene {
     renderer.setSize(window.innerWidth, window.innerHeight);
     
     // La visualización se muestra en el lienzo recibido
-    $(myCanvas).append(renderer.domElement);
+    this.canvas = renderer.domElement;
+    $(myCanvas).append(this.canvas);
     
     return renderer;  
   }
@@ -281,6 +396,27 @@ class MyScene extends THREE.Scene {
     
     // Y también el tamaño del renderizador
     this.renderer.setSize (window.innerWidth, window.innerHeight);
+
+
+  }
+
+  sh_popUp(show,mensaje){
+    let text =`visible`
+    if(!show)text = `hidden`;
+    let popupDIV = document.getElementById('popup');
+    popupDIV.style.visibility = text;
+
+    let popuptext = document.getElementById('popup-text');
+    popuptext.innerHTML = mensaje;
+  }
+
+  popUp(mensaje,seconds=5){
+    if(this.popUpTimeout  != null){
+      clearTimeout(this.popUpTimeout);
+    }
+
+    this.sh_popUp(true,mensaje);
+    this.popUpTimeout = setTimeout(this.sh_popUp, seconds*1000,false,"");
   }
 
   update () {
@@ -290,12 +426,12 @@ class MyScene extends THREE.Scene {
     // Se actualizan los elementos de la escena para cada frame
     
     // Se actualiza la posición de la cámara según su controlador
-    this.cameraControl.update();
+    //this.cameraControl.update();
     
     // Se actualiza el resto del modelo
     this.habitacion.update();
-    //this.cajaFuerte.update();
-    
+    this.cajaFuerte.update();
+    TWEEN.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 
@@ -304,17 +440,184 @@ class MyScene extends THREE.Scene {
     // Si no existiera esta línea,  update()  se ejecutaría solo la primera vez.
     requestAnimationFrame(() => this.update())
   }
+
+  onKeyDown(event,cameraControl){
+    let velocidad = 10;
+    
+    switch (event.code) {
+      case 'KeyW':
+        this.avanzar(cameraControl,velocidad,true,1);
+        break;
+      case 'KeyS':
+        this.avanzar(cameraControl,velocidad,true,-1);
+        break;
+      case 'KeyD':
+        this.avanzar(cameraControl,velocidad,false,1);
+        break;
+      case 'KeyA':
+        this.avanzar(cameraControl,velocidad,false,-1);
+        break;
+      case 'ControlLeft':
+        
+        //console.log(this.camera.position);
+        if(this.controlBloqueado) break;
+        
+        
+        if(cameraControl.isLocked){
+          cameraControl.unlock();
+        }else{
+          cameraControl.lock();
+        }
+        break;
+    }
+  }
+
+  abrirCajaFuerte(){
+    console.log("Abriendo caja fuerte...");
+    this.cajaFuerte.animate();
+  }
+
+  onMouseDown(event){
+    let selectedObject = this.isClickingObject(event,[this.cajaFuerte])
+    if(selectedObject != null) {
+      this.abrirCajaFuerte();
+      this.bloquearCamaraCajaFuerte();
+      return;
+    }
+    selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2]);
+    if(selectedObject != null) {
+      this.mesa7.animarCajones(selectedObject.name);
+      return;
+    }
+
+    selectedObject = this.isClickingObject(event,[this.caja1]);
+    if(selectedObject != null){
+      this.popUp("Parece que le falta una pieza...");
+      return;
+    }
+    selectedObject = this.isClickingObject(event,
+      [
+      this.mesa11.cajon1,
+      this.mesa11.cajon2,
+      this.mesa11.cajon3,
+      this.mesa11.cajon4,
+      this.mesa11.cajon5,
+      this.mesa11.cajon6
+    ]);
+    if(selectedObject != null) {
+      this.mesa11.animarCajones(selectedObject.name);
+      return;
+    }
+
+    selectedObject = this.isClickingObject(event,[this.cajoneraob]);
+    if(selectedObject != null){
+      this.popUp("Ahora no es tiempo de cambiarse de ropa");
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.rejilla]);
+    if(selectedObject != null){
+      this.rejilla.animarRejilla();
+      return;
+    }
+  }
+
+  
+
+  
+  isClickingObject(event,object){
+    if(object == undefined) return null;
+    let mouse = new THREE.Vector2();
+    let raycaster = new THREE.Raycaster();
+
+    mouse.x = (event.clientX / window.innerWidth )*2-1;
+    mouse.y = 1 - 2 * (event.clientY / window.innerHeight);
+
+    raycaster.setFromCamera(mouse, this.camera);
+
+    var pickedObjects = raycaster.intersectObjects(object, true);
+    if(pickedObjects.length > 0){
+      var selectedObject = pickedObjects[0].object;
+      return selectedObject.parent;
+    }
+    return null;
+  }
+
+  
+  
+
+
+  avanzar(cameraControl, velocidad,foward,value) {
+    let donde_estoy = new THREE.Vector3();
+  
+    donde_estoy.copy(this.getCamera().position);
+    let direction = new THREE.Vector3();
+    if (foward) {
+      direction.z = -1 * value; // Hacia adelante o hacia atrás
+    } else {
+      direction.x = value; // Hacia la izquierda o hacia la derecha
+    }
+
+    let a_donde_miro = this.getDirection(direction);
+    a_donde_miro.y = 0;
+    a_donde_miro.normalize();
+
+    if (this.colision(donde_estoy, a_donde_miro)) {
+      return;
+    }
+      
+  
+    // No hay colisión en ninguna dirección, avanzar
+    if(foward){
+      cameraControl.moveForward(velocidad*value);
+    }else{
+      cameraControl.moveRight(velocidad*value);
+    }
+    
+  }
+  getDirection(direction){
+    let v = new THREE.Vector3();
+    return v.copy( direction ).applyQuaternion(this.camera.quaternion);
+  }
+
+  colision(donde_estoy,a_donde_miro){
+    let raycaster = new THREE.Raycaster();
+    raycaster.set(donde_estoy,a_donde_miro);
+   
+    let impactados = raycaster.intersectObjects([this.habitacion]);
+    
+    if(impactados.length > 0){
+
+      let distanciaMasCercano = impactados[0].distance;
+      if(distanciaMasCercano <= 20){
+        return true;
+      }
+    }
+
+    
+
+    return false;
+  }
+
 }
+
+
+
+
 
 /// La función   main
 $(function () {
   
   // Se instancia la escena pasándole el  div  que se ha creado en el html para visualizar
   var scene = new MyScene("#WebGL-output");
-
+  
   // Se añaden los listener de la aplicación. En este caso, el que va a comprobar cuándo se modifica el tamaño de la ventana de la aplicación.
   window.addEventListener ("resize", () => scene.onWindowResize());
-  
+  window.addEventListener("pointerlockchange",scene.cameraControl.onPointerlockChange);
+  window.addEventListener("mousemove",scene.cameraControl.onMouseMove);
+  window.addEventListener('keydown',(event)=>scene.onKeyDown(event,scene.cameraControl));
+  window.addEventListener('mousedown',(event)=>scene.onMouseDown(event));
   // Que no se nos olvide, la primera visualización.
   scene.update();
 });
+

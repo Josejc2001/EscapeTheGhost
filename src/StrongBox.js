@@ -7,20 +7,31 @@ class StrongBox extends THREE.Object3D {
     
     // Un Mesh se compone de geometría y material
 
-    var estructuraCajaFuerte = this.crearCajaFuerte();
+    this.estructuraCajaFuerte = this.crearCajaFuerte();
 
-    var puerta = this.crearPuerta();
+    this.puerta = this.crearPuerta();
+    this.puerta.position.z = 9.8;
+    this.puerta.position.x = -9;
 
     // this.add(estructuraCajaFuerte);
 
     // this.add(puerta);
 
     this.cajaFuerte = new THREE.Object3D();
-    this.cajaFuerte.add(estructuraCajaFuerte);
-    this.cajaFuerte.add(puerta);
+    this.cajaFuerte.add(this.estructuraCajaFuerte);
+    this.cajaFuerte.add(this.puerta);
+    this.cajaFuerte.userData = this;
 
-    this.add(this.cajaFuerte);
-    
+    this.animar = false;
+    this.puertaAbierta = false;
+
+    this.reloj = new THREE.Clock();
+
+    this.rotacion = 0;
+
+    this.velocidadPuerta = 0.5;
+
+    this.add(this.cajaFuerte);    
   }
 
   crearCajaFuerte(){
@@ -49,6 +60,7 @@ class StrongBox extends THREE.Object3D {
 
   crearPuerta(){
     var puertaGeom = new THREE.BoxGeometry(18, 18, 1);
+    puertaGeom.translate(9,0,0);
 
     var puertaMat = new THREE.MeshPhongMaterial({color: 0x434b4d});
 
@@ -58,25 +70,23 @@ class StrongBox extends THREE.Object3D {
     var bisagra2 = this.crearBisagra();
 
     bisagra1.position.y = 5;
-    bisagra1.position.x = -9;
     bisagra1.position.z = 0.5;
 
     //this.add(bisagra1);
 
     bisagra2.position.y = -5;
-    bisagra2.position.x = -9;
     bisagra2.position.z = 0.5;
 
     //this.add(bisagra2);
 
     var volante = this.crearVolante();
     volante.position.y = -2;
-    volante.position.x = -2;
+    volante.position.x = 7;
     volante.position.z = 1.5;
 
     var teclado = this.crearTeclado();
     teclado.position.z = 0.75;
-    teclado.position.x = 4;
+    teclado.position.x = 13;
     teclado.position.y = 4;
 
     //this.add(teclado);
@@ -87,7 +97,7 @@ class StrongBox extends THREE.Object3D {
     csgPuerta.union([puertaMesh, bisagra1, bisagra2, volante,teclado]);
     var puertaCompleta = csgPuerta.toMesh();
 
-    puertaCompleta.position.z = 9.8;
+    //puertaCompleta.position.z = 9.8;
 
     return puertaCompleta;
   }
@@ -231,6 +241,11 @@ class StrongBox extends THREE.Object3D {
 
     return tecladoCompleto;
   }
+
+  animate(){
+    if(!this.puertaAbierta)
+      this.animar = true;
+  }
   
   update () {
     // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
@@ -239,6 +254,15 @@ class StrongBox extends THREE.Object3D {
     // Después, la rotación en Y
     // Luego, la rotación en X
     // Y por último la traslación
+    if(this.animar){
+      var segundosTranscurridos = this.reloj.getDelta();
+      this.rotacion -= this.velocidadPuerta * segundosTranscurridos;
+      if(this.rotacion < -Math.PI/2){
+        this.puertaAbierta = true;
+        this.animar = false;
+      }
+    }
+    this.puerta.rotation.y = this.rotacion;
   }
 }
 

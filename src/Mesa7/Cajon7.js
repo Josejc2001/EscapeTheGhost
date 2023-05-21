@@ -2,12 +2,15 @@
 import { CSG } from '../../libs/CSG-v2.js';
 import * as THREE from '../../libs/three.module.js'
 import { MyBox } from '../Basicos/MyBox.js';
+import { CajonAnimacion } from '../CajonAnimacion.js';
 
 export class Cajon7 extends THREE.Object3D{
 
 
-    constructor(){
+    constructor(tipo_cajon){
         super();
+
+        this.name += tipo_cajon;
 
         this.cajon = new MyBox(0xFDE372);
         this.cajon.translateY(2);
@@ -41,11 +44,21 @@ export class Cajon7 extends THREE.Object3D{
         this.azas.scale.set(1.1,1,1);
         this.azas.translateZ(3.2);
         this.azas.translateY(2);
+        this.azas.name += tipo_cajon;
 
         this.add(this.azas);
         this.add(this.cajon);
 
-        this.scale.set(1,0.95,0.95);
+        this.scale.set(1,0.90,0.95);
         this.translateY(-1.2);
+
+        this.cajonAnimacion = new CajonAnimacion(this);
+        
     }   
+
+    animar(){
+       this.cajonAnimacion.animar();
+    }
+
+
 }

@@ -96,7 +96,7 @@ class CatchStick extends THREE.Object3D {
     var path = new THREE.CatmullRomCurve3(perfilAsas);
     var options = { steps : 50 , curveSegments : 4 , extrudePath : path };
 
-    var geometry = new THREE. ExtrudeGeometry ( shape , options ) ;
+    var geometry = new THREE.ExtrudeGeometry ( shape , options ) ;
     var material = new THREE.MeshPhongMaterial({color: 0x0a0a0a});
     var asa = new THREE.Mesh(geometry, material);
     asa.rotateX(-Math.PI/2);

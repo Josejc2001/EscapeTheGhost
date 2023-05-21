@@ -1,6 +1,7 @@
 
 import * as THREE from '../../libs/three.module.js'
 import { CSG } from '../../libs/CSG-v2.js'
+import { MyBox } from '../Basicos/MyBox.js';
 
 class MesaSinCajones11 extends THREE.Object3D{
     constructor(){
@@ -46,6 +47,34 @@ class MesaSinCajones11 extends THREE.Object3D{
         csg1.union([this.asiento,this.eliminar]);
        
 
+        this.mesaSinCajon = csg1.toMesh();
+        this.mesaSinCajon.scale.set(1,1.2,1);
+        
+        
+        
+        let cajon1 = new MyBox(0x4C4040);
+        cajon1.scale.set(7,1.5,6);
+        cajon1.translateZ(-1.5);   
+        cajon1.translateX(5); 
+        cajon1.translateY(0.5);
+
+        let cajon3 = cajon1.clone();
+        cajon1.translateY(4);
+        let cajon2 = cajon1.clone();
+        cajon2.translateY(-2);
+
+        let cajon4 = cajon1.clone();
+        cajon4.translateX(8);
+
+        let cajon5 = cajon2.clone();
+        cajon5.translateX(8);
+
+        let cajon6 = cajon3.clone();
+        cajon6.translateX(8);
+
+
+        csg1 = new CSG();
+        csg1.subtract([this.mesaSinCajon,cajon1,cajon2,cajon3,cajon4,cajon5,cajon6]);
         this.mesaSinCajon = csg1.toMesh();
 
         this.add(this.mesaSinCajon);
