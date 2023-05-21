@@ -97,9 +97,9 @@ class MyScene extends THREE.Scene {
     this.puerta = new Puerta();
     this.add(this.puerta);
     this.puerta.rotateY(Math.PI);
-    this.puerta.scale.set(3,3,1);
+    this.puerta.scale.set(4,5,4);
     this.puerta.position.x = 70;
-    this.puerta.position.y = 28.5;
+    this.puerta.position.y = 46;
     this.puerta.position.z = 97;
 
     this.mesa11 = new Mesa11();
@@ -113,8 +113,8 @@ class MyScene extends THREE.Scene {
     this.add(this.interruptor);
     this.interruptor.rotateY(Math.PI);
     this.interruptor.position.z = 97.5;
-    this.interruptor.position.y = 30;
-    this.interruptor.position.x = 50;
+    this.interruptor.position.y = 60;
+    this.interruptor.position.x = 40;
 
     this.taburete = new Stool();
     this.add(this.taburete);
