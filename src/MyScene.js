@@ -6,6 +6,7 @@ import { GUI } from '../libs/dat.gui.module.js'
 import { TrackballControls } from '../libs/TrackballControls.js'
 import { Stats } from '../libs/stats.module.js'
 
+import * as TWEEN from '../libs/tween.esm.js'
 // Se hace el import correspondiente
 import { PointerLockControls } from '../libs/PointerLockControls.js'
 
@@ -431,7 +432,7 @@ class MyScene extends THREE.Scene {
     // Se actualiza el resto del modelo
     this.habitacion.update();
     this.cajaFuerte.update();
-    this.mesa7.update();
+    TWEEN.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 
@@ -486,13 +487,27 @@ class MyScene extends THREE.Scene {
     }
     selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2]);
     if(selectedObject != null) {
-      this.mesa7.animarCajonesMesa7(selectedObject.name);
+      this.mesa7.animarCajones(selectedObject.name);
       return;
     }
 
     selectedObject = this.isClickingObject(event,[this.caja1]);
     if(selectedObject != null){
-      this.popUp("Parece que le falta una pieza...",5);
+      this.popUp("Parece que le falta una pieza...");
+      return;
+    }
+    selectedObject = this.isClickingObject(event,
+      [
+      this.mesa11.cajon1,
+      this.mesa11.cajon2,
+      this.mesa11.cajon3,
+      this.mesa11.cajon4,
+      this.mesa11.cajon5,
+      this.mesa11.cajon6
+    ]);
+    if(selectedObject != null) {
+      this.mesa11.animarCajones(selectedObject.name);
+      return;
     }
   }
 

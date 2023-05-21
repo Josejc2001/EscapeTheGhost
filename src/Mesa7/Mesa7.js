@@ -71,12 +71,9 @@ export class Mesa7 extends THREE.Object3D{
 
     }
 
-    animarCajonesMesa7(name){
+    animarCajones(name){
         this.cajonera.animarCajones(name);
     }
 
-    update(){
-        this.cajonera.update();
-    }
 
 }

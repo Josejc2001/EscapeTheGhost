@@ -2,6 +2,7 @@
 import { CSG } from '../../libs/CSG-v2.js';
 import * as THREE from '../../libs/three.module.js'
 import { MyBox } from '../Basicos/MyBox.js';
+import { CajonAnimacion } from '../CajonAnimacion.js';
 
 export class Cajon7 extends THREE.Object3D{
 
@@ -50,5 +51,14 @@ export class Cajon7 extends THREE.Object3D{
 
         this.scale.set(1,0.90,0.95);
         this.translateY(-1.2);
+
+        this.cajonAnimacion = new CajonAnimacion(this);
+        
     }   
+
+    animar(){
+       this.cajonAnimacion.animar();
+    }
+
+
 }
