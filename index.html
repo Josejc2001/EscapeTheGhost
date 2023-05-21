@@ -13,16 +13,42 @@
             margin: 0;
             overflow: hidden; 
         }
+    .box {
+      position: absolute;
+      z-index: 100;
+      border: 2px solid black;
+      background: #FCF0CC;
+      font-family: Arial;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #popup{
+        visibility: hidden;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
     </style>
 </head>
 <body>
+    <div id="popup" class="box">
+        <class> 
+            <h1 id="popup-text"></h1>
+        </class>
+    </div>
+    <!-- Div which will show statistical information -->
+    <div id="Stats-output">
+    </div>
 
-<!-- Div which will show statistical information -->
-<div id="Stats-output">
-</div>
+    <!-- Div which will hold the Output -->
+    <div id="WebGL-output">
+    </div>
 
-<!-- Div which will hold the Output -->
-<div id="WebGL-output">
-</div>
+
+
 </body>
 </html>

@@ -43,6 +43,7 @@ export class Cajon7 extends THREE.Object3D{
         this.azas.scale.set(1.1,1,1);
         this.azas.translateZ(3.2);
         this.azas.translateY(2);
+        this.azas.name += tipo_cajon;
 
         this.add(this.azas);
         this.add(this.cajon);

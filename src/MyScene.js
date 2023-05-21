@@ -45,6 +45,7 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
     
+    this.popUpTimeout = null;
     // Lo primero, crear el visualizador, pasándole el lienzo sobre el que realizar los renderizados.
     this.renderer = this.createRenderer(myCanvas);
 
@@ -368,7 +369,8 @@ class MyScene extends THREE.Scene {
     renderer.setSize(window.innerWidth, window.innerHeight);
     
     // La visualización se muestra en el lienzo recibido
-    $(myCanvas).append(renderer.domElement);
+    this.canvas = renderer.domElement;
+    $(myCanvas).append(this.canvas);
     
     return renderer;  
   }
@@ -394,6 +396,27 @@ class MyScene extends THREE.Scene {
     
     // Y también el tamaño del renderizador
     this.renderer.setSize (window.innerWidth, window.innerHeight);
+
+
+  }
+
+  sh_popUp(show,mensaje){
+    let text =`visible`
+    if(!show)text = `hidden`;
+    let popupDIV = document.getElementById('popup');
+    popupDIV.style.visibility = text;
+
+    let popuptext = document.getElementById('popup-text');
+    popuptext.innerHTML = mensaje;
+  }
+
+  popUp(mensaje,seconds=5){
+    if(this.popUpTimeout  != null){
+      clearTimeout(this.popUpTimeout);
+    }
+
+    this.sh_popUp(true,mensaje);
+    this.popUpTimeout = setTimeout(this.sh_popUp, seconds*1000,false,"");
   }
 
   update () {
@@ -465,6 +488,11 @@ class MyScene extends THREE.Scene {
     if(selectedObject != null) {
       this.mesa7.animarCajonesMesa7(selectedObject.name);
       return;
+    }
+
+    selectedObject = this.isClickingObject(event,[this.caja1]);
+    if(selectedObject != null){
+      this.popUp("Parece que le falta una pieza...",5);
     }
   }
 
@@ -566,3 +594,4 @@ $(function () {
   // Que no se nos olvide, la primera visualización.
   scene.update();
 });
+
