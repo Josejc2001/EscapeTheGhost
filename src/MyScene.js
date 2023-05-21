@@ -217,7 +217,6 @@ class MyScene extends THREE.Scene {
     this.habitacion = new Room(this.gui, "");
     this.add (this.habitacion);
 
-    
   }
   
   initStats() {
@@ -507,6 +506,18 @@ class MyScene extends THREE.Scene {
     ]);
     if(selectedObject != null) {
       this.mesa11.animarCajones(selectedObject.name);
+      return;
+    }
+
+    selectedObject = this.isClickingObject(event,[this.cajoneraob]);
+    if(selectedObject != null){
+      this.popUp("Ahora no es tiempo de cambiarse de ropa");
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.rejilla]);
+    if(selectedObject != null){
+      this.rejilla.animarRejilla();
       return;
     }
   }

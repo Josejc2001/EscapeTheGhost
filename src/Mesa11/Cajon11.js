@@ -8,7 +8,7 @@ import { CajonAnimacion } from '../CajonAnimacion.js';
 class Cajon11 extends THREE.Object3D{
     constructor(tipo_cajon){
         super();
-        this.name += "Cajon11-"+tipo_cajon;
+        this.name = "Cajon11-"+tipo_cajon;
         this.cajon = new MyBox(0x4C4040);
         this.boton = new MyCylinder(0x605C5C);
         this.cajon.scale.set(7,1.5,6);

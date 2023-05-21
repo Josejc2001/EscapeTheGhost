@@ -27,12 +27,12 @@ class Rejilla extends THREE.Object3D{
        
         let j = 0;
         for(let i = 0 ; i <= 8 ; i++){
-            this.aspa1 = new Aspa();
-            this.aspa1.scale.set(0.9,0.5,0.5);
-            this.aspa1.translateY(j+0.9);
-            this.aspa1.rotateX(THREE.MathUtils.degToRad(30));
+            let aspa1 = new Aspa();
+            aspa1.scale.set(0.9,0.5,0.5);
+            aspa1.translateY(j+0.9);
+            aspa1.rotateX(THREE.MathUtils.degToRad(90));
             j -= 0.1;
-            this.aspas.add(this.aspa1)
+            this.aspas.add(aspa1)
         }
 
         
@@ -58,11 +58,50 @@ class Rejilla extends THREE.Object3D{
         this.tornillos.add(this.tornillo4);
 
         
+        this.animando = false;
+        this.cajonAbierto = false;
 
         this.add(this.tornillos);
         this.add(this.aspas);
         this.add(this.marcoHueco);
 
+    }
+
+    animarRejilla(){
+        
+    }
+
+
+    _abrir(){
+       
+        for(let i = 0 ; i < this.aspas.children.length ; i++){
+            let aspa1 = this.aspas.children[i];
+            aspa1.rotateX(THREE.MathUtils.degToRad(90));
+        }
+
+        let origen = this.cajon.position;
+        // Crear una nueva animación Tween para abrir el cajón 1
+        new TWEEN.Tween(origen)
+        .to({ z: 3.5 }, 1000) // Incrementar la posición z para abrir el cajón
+        .easing(TWEEN.Easing.Quadratic.InOut) // Linear
+        .onComplete(() => {
+            this.animando = false;
+            this.cajonAbierto = true;
+        })
+        .start();
+    }
+
+    _cerrar(){
+       
+        // Crear una nueva animación Tween para cerrar el cajón 1
+        new TWEEN.Tween(this.cajon.position)
+        .to({ z: 0 }, 1000) // Decrementar la posición z para cerrar el cajón
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+            this.animando = false;
+            this.cajonAbierto = false;
+        })
+        .start();
     }
 }
 
