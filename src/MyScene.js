@@ -534,10 +534,6 @@ class MyScene extends THREE.Scene {
     
     if(impactados.length > 0){
 
-      /*
-      impactados = impactados.sort((a, b) => a.distance - b.distance);
-
-      console.log(impactados);*/
       let distanciaMasCercano = impactados[0].distance;
       if(distanciaMasCercano <= 20){
         return true;
