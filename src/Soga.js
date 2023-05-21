@@ -13,7 +13,15 @@ export class Soga extends THREE.Object3D{
             this.modelo = object;
             this.add(this.modelo);
         },null,null);
+
+      
     }
 
-
+    posicionarHabitacion(){
+        this.scale.set(4,6,4);
+        this.translateY(50);
+        this.translateX(-60);
+        this.translateZ(-81);
+        this.rotateZ(Math.PI/2);
+    }
 }

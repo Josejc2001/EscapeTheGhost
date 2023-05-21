@@ -1,6 +1,9 @@
 
 import { CSG } from '../../libs/CSG-v2.js';
 import * as THREE from '../../libs/three.module.js'
+import { Engranaje } from '../Caja1/Engranaje.js';
+import { TypeCaja1 } from '../Caja1/TypeCaja1.js';
+import { Tornillo } from '../Rejilla/Tornillo.js';
 import { Cajon11 } from './Cajon11.js';
 import { MesaSinCajones11 } from './MesaSinCajones11.js';
 
@@ -14,7 +17,16 @@ class Mesa11 extends THREE.Object3D{
         
 
         this.add(this.finalCajones);
-        this.add(this.mesa);        
+        this.add(this.mesa);   
+        
+        
+    }
+
+    posicionarHabitacion(){
+        this.rotateY(Math.PI);
+        this.scale.set(3,3,3);
+        this.position.z = 82;
+        this.position.x = 35;
     }
 
     _crearCajones(){
@@ -53,6 +65,9 @@ class Mesa11 extends THREE.Object3D{
         this.finalCajones.translateY(0.5);
         this.finalCajones.translateZ(0.9);
         this.finalCajones.translateX(5);
+
+
+        
     }
 
 

@@ -9,6 +9,8 @@ class Simon extends THREE.Object3D {
     var materialRojo = new THREE.MeshPhongMaterial({color: 0xff0000});
     var materialAzul = new THREE.MeshPhongMaterial({color: 0x0000ff});
 
+    this.name = "simon";
+
     this.amarillo = this.crearColor(materialAmarillo);
     this.amarillo.position.y = -1;
     this.amarillo.position.z = 22;
@@ -49,6 +51,24 @@ class Simon extends THREE.Object3D {
     this.simon.add(this.base);
 
     this.add(this.simon);
+
+    this.jugar = false;
+   
+  }
+
+  posicionarHabitacion(){
+    this.scale.set(0.25,0.25,0.25);
+    this.position.z = 90;
+    this.position.y = 1;
+    this.position.x = -60;
+  }
+
+  puedoJugar(){
+    return this.jugar;
+  }
+
+  activar(){
+    this.jugar = true;
   }
 
 

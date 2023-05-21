@@ -27,6 +27,14 @@ class Mesa9 extends THREE.Object3D {
     this.mesa9.add(tablero1);
     this.mesa9.add(tablero2);
     this.add(this.mesa9);
+
+    
+  }
+
+  posicionarHabitacion(){
+    this.rotateY(-Math.PI/4);
+    this.position.x = 70;
+    this.position.z = -47;
   }
 
   crearPatas(){

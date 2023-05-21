@@ -19,6 +19,12 @@ class Stool extends THREE.Object3D {
     this.add(this.taburete);
   }
 
+  posicionarHabitacion(){
+    
+    this.position.z = -80;
+    this.position.x = -60;
+  }
+
   crearPatas(){
     var pata1Geom = new THREE.CylinderGeometry(1,1,10,15,15);
     pata1Geom.translate(0,5,0);

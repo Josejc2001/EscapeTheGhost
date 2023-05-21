@@ -3,6 +3,10 @@
 
 import * as THREE from '../../libs/three.module.js'
 import { MyBox } from '../Basicos/MyBox.js';
+import { Engranaje } from '../Caja1/Engranaje.js';
+import { TypeCaja1 } from '../Caja1/TypeCaja1.js';
+import { CajonAnimacion } from '../CajonAnimacion.js';
+import { Tornillo } from '../Rejilla/Tornillo.js';
 import { Cajonera7 } from './Cajonera7.js';
 export class Mesa7 extends THREE.Object3D{
 
@@ -67,13 +71,48 @@ export class Mesa7 extends THREE.Object3D{
 
         this.add(this.cajonera);
 
-        this.scale.set(1,0.7,1);
 
+        this.engranaje = new Engranaje(TypeCaja1.REDONDA);
+        this.engranaje.scale.set(1,1,0.5);
+        this.engranaje.translateY(2.5);
+        this.engranaje.translateX(2);
+        this.engranaje.rotateX(Math.PI/2);
+
+        this.tornillo = new Tornillo();
+        this.tornillo.scale.set(20,20,1);
+        this.tornillo.translateY(2.5);
+        this.tornillo.translateX(2);
+        this.tornillo.rotateX(-(Math.PI/2));
+
+        this.completoTE = new THREE.Object3D();
+        this.completoTE.add(this.tornillo);
+        this.completoTE.add(this.engranaje);
+
+        this.completoTE.scale.set(0.5,0.5,0.5);
+        this.completoTE.translateX(1.7);
+        this.completoTE = this.completoTE.clone();
+        this.completoTE.name ="engranaje-cajon";
+        this.add(this.completoTE);
+        this.engranajeCapturado = false;
+        this.animarEngranaje = new CajonAnimacion(this.completoTE,2);
+    }
+
+    posicionarHabitacion(){
+        this.scale.set(1,0.7,1);
+        this.scale.set(5,5,5);
+        this.rotateY(Math.PI/2);
+        this.position.x = -85;
     }
 
     animarCajones(name){
-        this.cajonera.animarCajones(name);
+        this.cajonera.animarCajones(name,this.animarEngranaje);
+        
     }
 
-
+    isCapturado(){
+        return this.engranajeCapturado;
+    }
+    capturado(){
+        this.engranajeCapturado = true;
+    }
 }

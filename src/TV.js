@@ -19,8 +19,19 @@ class TV extends THREE.Object3D{
                         this.add(this.modelo);
                     },null,null);
         });
+
+        
+       
     }
 
+
+    posicionarHabitacion(){
+        this.rotateY(Math.PI);
+        this.scale.set(20,20,20);
+        this.position.z = 80;
+        this.position.x = 5;
+        this.position.y = 19;
+    }
     update(){
     }
 }

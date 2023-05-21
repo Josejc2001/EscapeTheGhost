@@ -31,7 +31,16 @@ class StrongBox extends THREE.Object3D {
 
     this.velocidadPuerta = 0.5;
 
-    this.add(this.cajaFuerte);    
+    this.add(this.cajaFuerte); 
+    
+    
+  }
+
+  posicionarHabitacion(){
+    this.rotateY(-Math.PI/4);
+    this.position.x = 75;
+    this.position.z = -52;
+    this.position.y = 33;
   }
 
   crearCajaFuerte(){

@@ -10,7 +10,7 @@ export class Cama extends THREE.Object3D{
         super();
         var materialLoader = new MTLLoader();
         var objectLoader = new OBJLoader();
-
+        this.name = "cama";
         materialLoader.load('../../models/cama/material.mtl',
             (materials) => {
                 objectLoader.setMaterials(materials);
@@ -45,7 +45,17 @@ export class Cama extends THREE.Object3D{
 
         this.add(this.patas);
         this.translateY(25);
+
+        
     }
 
 
+    posicionarHabitacion(){
+        
+        this.translateX(-68);
+        this.translateZ(80);
+        this.rotateY(Math.PI/2);
+        this.rotateX(-Math.PI/2);
+        this.scale.set(0.3,0.3,0.3);
+    }
 }

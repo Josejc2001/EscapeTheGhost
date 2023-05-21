@@ -17,8 +17,17 @@ class RemoteControl extends THREE.Object3D{
                         this.add(this.modelo);
                     },null,null);
         });
+
+        
     }
 
+    posicionarHabitacion(){
+        this.rotateX(-Math.PI/2);
+        this.rotateZ(Math.PI);
+        this.position.z = 85;
+        this.position.x = 30;
+        this.position.y = 20;
+    }
     update(){
     }
 }

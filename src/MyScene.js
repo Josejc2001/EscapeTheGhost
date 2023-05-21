@@ -75,145 +75,95 @@ class MyScene extends THREE.Scene {
     this.add (this.axis);
     
     this.rejilla = new Rejilla();
+    this.rejilla.posicionarHabitacion();
     this.add(this.rejilla);
-    this.rejilla.scale.set(20,7.5,1);
-    this.rejilla.position.y = 90;
-    this.rejilla.position.z = -97;
 
 
     this.cajaFuerte = new StrongBox();
+    this.cajaFuerte.posicionarHabitacion();
     this.add(this.cajaFuerte);
-    this.cajaFuerte.rotateY(-Math.PI/4);
-    this.cajaFuerte.position.x = 75;
-    this.cajaFuerte.position.z = -52;
-    this.cajaFuerte.position.y = 33;
+    
 
     this.mesa9 = new Mesa9();
+    this.mesa9.posicionarHabitacion();
     this.add(this.mesa9);
-    this.mesa9.rotateY(-Math.PI/4);
-    this.mesa9.position.x = 70;
-    this.mesa9.position.z = -47;
+    
 
     this.puerta = new Puerta();
+    this.puerta.posicionarHabitacion();
     this.add(this.puerta);
-    this.puerta.rotateY(Math.PI);
-    this.puerta.scale.set(4,5,4);
-    this.puerta.position.x = 70;
-    this.puerta.position.y = 46;
-    this.puerta.position.z = 97;
+    
 
     this.mesa11 = new Mesa11();
+    this.mesa11.posicionarHabitacion();
     this.add(this.mesa11);
-    this.mesa11.rotateY(Math.PI);
-    this.mesa11.scale.set(3,3,3);
-    this.mesa11.position.z = 82;
-    this.mesa11.position.x = 35;
+    
 
     this.interruptor = new Interruptor();
+    this.interruptor.posicionarHabitacion();
     this.add(this.interruptor);
-    this.interruptor.rotateY(Math.PI);
-    this.interruptor.position.z = 97.5;
-    this.interruptor.position.y = 60;
-    this.interruptor.position.x = 40;
+    
 
     this.taburete = new Stool();
+    this.taburete.posicionarHabitacion();
     this.add(this.taburete);
-    this.taburete.position.z = -80;
-    this.taburete.position.x = -60;
+    
 
     this.paloRejilla = new CatchStick();
+    this.paloRejilla.posicionarHabitacion();
     this.add(this.paloRejilla);
-    this.paloRejilla.position.x = 45;
-    this.paloRejilla.position.z = -95.5;
-    this.paloRejilla.position.y = 29.5;
+    
 
     this.simon = new Simon();
+    this.simon.posicionarHabitacion();
     this.add(this.simon);
-    this.simon.scale.set(0.25,0.25,0.25);
-    this.simon.position.z = 90;
-    this.simon.position.y = 1;
-    this.simon.position.x = -60;
+    
 
     this.combinatorio = new Combinatorio();
+    this.combinatorio.posicionarHabitacion();
     this.add(this.combinatorio);
-    this.combinatorio.translateY(27);
-    this.combinatorio.translateX(90);
-    this.combinatorio.translateZ(20);
-    this.combinatorio.rotateY(-Math.PI/2);
+    
 
     this.mesa7 = new Mesa7();
+    this.mesa7.posicionarHabitacion();
     this.add(this.mesa7);
-    this.mesa7.scale.set(5,5,5);
-    this.mesa7.rotateY(Math.PI/2);
-    this.mesa7.position.x = -85;
-
+    
     this.caja1 = new Caja1();
+    this.caja1.posicionarHabitacion();
     this.add(this.caja1);
-    this.caja1.scale.set(2,2,2);
-    this.caja1.rotateY(Math.PI/2);
-    this.caja1.position.x = -85;
-    this.caja1.position.y = 30;
+    
 
     this.tv = new TV();
+    this.tv.posicionarHabitacion();
     this.add(this.tv);
-    this.tv.rotateY(Math.PI);
-    this.tv.scale.set(20,20,20);
-    this.tv.position.z = 80;
-    this.tv.position.x = 5;
-    this.tv.position.y = 19;
+    
 
     this.remoteControl = new RemoteControl();
+    this.remoteControl.posicionarHabitacion();
     this.add(this.remoteControl);
-    this.remoteControl.rotateX(-Math.PI/2);
-    this.remoteControl.rotateZ(Math.PI);
-    this.remoteControl.position.z = 85;
-    this.remoteControl.position.x = 30;
-    this.remoteControl.position.y = 20;
+    
 
     this.cama = new Cama();
-    this.cama.translateX(-68);
-    this.cama.translateZ(80);
-    this.cama.rotateY(Math.PI/2);
-    this.cama.rotateX(-Math.PI/2);
-    this.cama.scale.set(0.3,0.3,0.3);
+    this.cama.posicionarHabitacion();
     this.add(this.cama);
 
     this.cajoneraob = new CajoneraOBJ();
-    this.cajoneraob.scale.set(20,20,20);
-    this.cajoneraob.translateY(13.5);
-    this.cajoneraob.translateX(90);
-    this.cajoneraob.translateZ(20);
-    this.cajoneraob.rotateY(-Math.PI/2);
+    this.cajoneraob.posicionarHabitacion();
     this.add(this.cajoneraob);
 
     this.soga = new Soga();
-    this.soga.scale.set(4,6,4);
-    this.soga.translateY(50);
-    this.soga.translateX(-60);
-    this.soga.translateZ(-81);
-    this.soga.rotateZ(Math.PI/2);
+    this.soga.posicionarHabitacion();
     this.add(this.soga);
 
     this.estructuraSoga = new EstructuraSoga();
-    this.estructuraSoga.position.z = -80;
-    this.estructuraSoga.position.x = -80;
+    this.estructuraSoga.posicionarHabitacion();
     this.add(this.estructuraSoga);
 
     this.silla = new Chair();
+    this.silla.posicionarHabitacion();
     this.add(this.silla);
-    this.silla.scale.set(0.05,0.05,0.05);
-    this.silla.rotateY(-Math.PI/2);
-    this.silla.position.x = -60;
-    this.silla.position.z = 7.5;
+    
 
-    // this.alfombra = new Carpet();
-    // this.add(this.alfombra);
-    // this.alfombra.rotateX(-Math.PI/2);
-    // this.alfombra.scale.set(1,1,1);
-
-    // Por último creamos el modelo.
-    // El modelo puede incluir su parte de la interfaz gráfica de usuario. Le pasamos la referencia a 
-    // la gui y el texto bajo el que se agruparán los controles de la interfaz que añada el modelo.
     this.habitacion = new Room(this.gui, "");
     this.add (this.habitacion);
 
@@ -244,7 +194,7 @@ class MyScene extends THREE.Scene {
     // También se indica dónde se coloca
     this.camera.position.set (0, 75, 0);
     // Y hacia dónde mira
-    var look = new THREE.Vector3 (0,75,-1);
+    var look = new THREE.Vector3 (0,75,1);
     this.camera.lookAt(look);
     this.add (this.camera);
     
@@ -255,25 +205,47 @@ class MyScene extends THREE.Scene {
     
   }
 
-  bloquearCamaraCajaFuerte(){
+  bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null){
     
-    if(this.controlBloqueado){
+    if (this.controlBloqueado) {
       this.controlBloqueado = false;
       this.camera = this.camaraBefore.clone();
-      this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
-    }else{
+      this.cameraControl = new PointerLockControls(this.camera, this.renderer.domElement);
+    } else {
       this.controlBloqueado = true;
       this.camaraBefore = this.camera.clone();
+  
+      // Obtener la posición mundial del objeto objetivo
+      let vectorAux = new THREE.Vector3();
+      objeto.getWorldPosition(vectorAux);
+  
+      let direccionCamara = new THREE.Vector3();
+      objeto.getWorldDirection(direccionCamara);
+  
+      // Calcular la posición deseada de la cámara
+      let posicionCamara = vectorAux.clone().addScaledVector(direccionCamara, x);
+  
+      // Establecer la posición y la dirección de vista de la cámara
+      this.camera.position.copy(posicionCamara);
+      this.cameraControl.getObject().position.copy(posicionCamara);
+      this.cameraControl.getDirection(new THREE.Vector3(0, 0, -1));
 
-      let vectorAux = this.cajaFuerte.position;
-      let x = vectorAux.x-13;
-      let y = vectorAux.y+25;
-      let z = vectorAux.z;
-      let vectorLook = new THREE.Vector3(x,y,z);
+        
+        
+  
+      this.camera.lookAt(vectorAux);
+      this.cameraControl.getObject().lookAt(vectorAux);
+      // Girar la cámara en el eje X
+      if(rotacionX !=null){
+        this.camera.rotation.x = rotacionX;
+        this.cameraControl.getObject().rotation.x = rotacionX;
+      }
+      if(y != null){
+        this.camera.position.y += y;
+        this.cameraControl.getObject().position.y += y;
+      }
+
       
-    
-      this.camera.lookAt(vectorLook);
-      this.camera.position.set(35,40,-15)
     }
    
 
@@ -478,21 +450,45 @@ class MyScene extends THREE.Scene {
   }
 
   onMouseDown(event){
+
+    
+
     let selectedObject = this.isClickingObject(event,[this.cajaFuerte])
     if(selectedObject != null) {
       this.abrirCajaFuerte();
-      this.bloquearCamaraCajaFuerte();
+      this.bloquearCamaraObjeto(this.cajaFuerte,50);
       return;
     }
-    selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2]);
+
+    
+    
+
+    selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2,this.mesa7.completoTE]);
     if(selectedObject != null) {
-      this.mesa7.animarCajones(selectedObject.name);
+      if(selectedObject.name == '1' || selectedObject.name == '2'){
+        this.mesa7.animarCajones(selectedObject.name);
+      }else if(!this.mesa7.isCapturado()){
+        selectedObject= this.isClickingObject(event,[this.mesa7.completoTE]);
+        if(selectedObject != null){
+          this.mesa7.completoTE.children.pop();
+          this.mesa7.completoTE.children.pop();
+          this.mesa7.capturado();
+          this.popUp("Engranaje conseguido");
+        }
+      }
+
       return;
     }
 
     selectedObject = this.isClickingObject(event,[this.caja1]);
     if(selectedObject != null){
-      this.popUp("Parece que le falta una pieza...");
+      if(this.mesa7.isCapturado()){
+        if(!this.caja1.activarEngranaje()){
+          this.popUp("Encuentra la palanca para poder activarlo");
+        }
+      }else{
+        this.popUp("Parece que le falta una pieza...");
+      }
       return;
     }
     selectedObject = this.isClickingObject(event,
@@ -520,6 +516,32 @@ class MyScene extends THREE.Scene {
       this.rejilla.animarRejilla();
       return;
     }
+    
+    selectedObject= this.isClickingObject(event,[this.simon,this.cama]);
+    if(selectedObject != null){
+      if(selectedObject.parent.name == "simon"){
+
+        if(this.simon.puedoJugar()){
+          this.popUp("Pulsa en los colores que se iran alumbrando");
+          this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);
+        }else{
+          this.popUp("Has cogido el simon, ponlo en algun sitio para jugar.");
+          this.simon.userData.hidden = true;
+          this.simon.visible = false;
+        }
+        
+      }else if(!this.simon.visible){
+        this.simon.translateY(23);
+        this.simon.translateZ(-15);
+        this.simon.userData.hidden = false;
+        this.simon.visible = true;
+
+        this.simon.activar();
+      }
+     
+      return;
+    }
+
   }
 
   

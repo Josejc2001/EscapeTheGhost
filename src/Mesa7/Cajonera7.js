@@ -39,9 +39,10 @@ export class Cajonera7 extends THREE.Object3D{
         
     }
 
-    animarCajones(name) {
+    animarCajones(name,animarEngranaje) {
         if (name === '1') {
             this.cajon1.animar();
+            animarEngranaje.animar();
         } else if (name === '2') {
             this.cajon2.animar();
         }

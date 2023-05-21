@@ -16,8 +16,14 @@ class Chair extends THREE.Object3D{
                         this.add(this.modelo);
                     },null,null);
         });
+        
     }
-
+    posicionarHabitacion(){
+        this.scale.set(0.05,0.05,0.05);
+        this.rotateY(-Math.PI/2);
+        this.position.x = -60;
+        this.position.z = 7.5;
+    }
     update(){
     }
 }

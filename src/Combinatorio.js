@@ -59,6 +59,14 @@ class Combinatorio extends THREE.Object3D {
     this.combinatorio.add(this.color5);
 
     this.add(this.combinatorio);
+   
+  }
+
+  posicionarHabitacion(){
+    this.translateY(27);
+    this.translateX(90);
+    this.translateZ(20);
+    this.rotateY(-Math.PI/2);
   }
 
   crearBase(){
