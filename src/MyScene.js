@@ -88,6 +88,8 @@ class MyScene extends THREE.Scene {
     this.cajaFuerte.position.z = -52;
     this.cajaFuerte.position.y = 33;
 
+    this.adivinadaPassword = false;
+
     this.mesa9 = new Mesa9();
     this.add(this.mesa9);
     this.mesa9.rotateY(-Math.PI/4);
@@ -473,17 +475,67 @@ class MyScene extends THREE.Scene {
   }
 
   abrirCajaFuerte(){
-    console.log("Abriendo caja fuerte...");
-    this.cajaFuerte.animate();
+    if(this.adivinadaContraseña){
+      console.log("Abriendo caja fuerte...");
+      this.cajaFuerte.animate();
+    }
   }
 
+  introducirCodigoCaja(){
+    if(!this.adivinadaPassword){
+      var numericKeypad = document.getElementById("numeric-keypad");
+      numericKeypad.style.display = "block";
+      var enteredNumbers = [];
+      var correctPassword = "123";
+  
+      var cancelButton = numericKeypad.querySelector(".cancel-button");
+      cancelButton.addEventListener("click", function() {
+        numericKeypad.style.display = "none"; 
+        enteredNumbers = [];
+        console.log("teclado cerrado");
+      });
+  
+      var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
+      for (var i = 0; i < numericButtons.length; i++) {
+          numericButtons[i].addEventListener("click", function() {
+            var number = this.textContent;
+            console.log(number);
+            enteredNumbers.push(number);
+            console.log(enteredNumbers);
+            if (enteredNumbers.length === correctPassword.length) {
+              var enteredPassword = enteredNumbers.join("");
+              if (enteredPassword === correctPassword) {
+                console.log("Contraseña correcta");
+              } else {
+                console.log("Contraseña incorrecta");
+              }
+              enteredNumbers = [];
+              numericKeypad.style.display = "none"; 
+            }
+          });
+      }
+      console.log(this.adivinadaPassword);
+    } else{
+      this.popUp("Ya puedes abrir la caja fuerte");
+    }
+
+  }
   onMouseDown(event){
-    let selectedObject = this.isClickingObject(event,[this.cajaFuerte])
+    let selectedObject = this.isClickingObject(event,[this.cajaFuerte.teclado]);
+    console.log(this.adivinadaPassword);
+    if(selectedObject != null && !this.adivinadaPassword) {
+        this.introducirCodigoCaja();
+        this.bloquearCamaraCajaFuerte();
+      return;
+    }
+
+    selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
     if(selectedObject != null) {
       this.abrirCajaFuerte();
       this.bloquearCamaraCajaFuerte();
       return;
     }
+
     selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2]);
     if(selectedObject != null) {
       this.mesa7.animarCajones(selectedObject.name);
