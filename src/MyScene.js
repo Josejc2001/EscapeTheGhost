@@ -34,6 +34,8 @@ import { Soga } from './Soga.js';
 import { Chair } from './Chair.js';
 import { Carpet } from './Carpet.js';
 import { EstructuraSoga } from './EstructuraSoga.js'
+import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
+import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
 
 /// La clase fachada del modelo
 /**
@@ -84,6 +86,8 @@ class MyScene extends THREE.Scene {
     this.add(this.cajaFuerte);
     
 
+    this.adivinadaPassword = false;
+
     this.mesa9 = new Mesa9();
     this.mesa9.posicionarHabitacion();
     this.add(this.mesa9);
@@ -123,6 +127,24 @@ class MyScene extends THREE.Scene {
     this.combinatorio.posicionarHabitacion();
     this.add(this.combinatorio);
     
+
+    this.botonCombinatorio1 = new BotonCombinatorio1();
+    this.add(this.botonCombinatorio1);
+    this.botonCombinatorio1.scale.set(0.5,0.5,0.5);
+    this.botonCombinatorio1.translateY(28);
+    this.botonCombinatorio1.translateX(90);
+    this.botonCombinatorio1.translateZ(35);
+
+    this.botonCombinatorio2 = new BotonCombinatorio2();
+    this.add(this.botonCombinatorio2);
+    this.botonCombinatorio2.scale.set(0.5,0.5,0.5);
+    this.botonCombinatorio2.translateY(28);
+    this.botonCombinatorio2.translateX(90);
+    this.botonCombinatorio2.translateZ(5);
+
+    this.indiceColor = 0;
+    this.coloresLuz = [16711680, 65280, 15855887, 1044974, 15798254]; //rojo, verde, amarillo, azul, rosa
+    this.secuenciaAdivinada = false;
 
     this.mesa7 = new Mesa7();
     this.mesa7.posicionarHabitacion();
@@ -318,6 +340,17 @@ class MyScene extends THREE.Scene {
     this.spotLight = new THREE.SpotLight( 0xffffff, this.guiControls.lightIntensity );
     this.spotLight.position.set( 0, 200, 0 );
     this.add (this.spotLight);
+
+
+    this.spotLightJuego = new THREE.SpotLight(0xff0000, 1);
+    this.spotLightJuego.position.set(-90, 50, 20);
+
+    var target = new THREE.Object3D();
+    target.position.set = (90,0,20);
+
+    this.spotLightJuego.target = target;
+    this.add(this.spotLightJuego);
+    this.spotLightJuego.visible = false;
   }
   
   setLightIntensity (valor) {
@@ -445,25 +478,136 @@ class MyScene extends THREE.Scene {
   }
 
   abrirCajaFuerte(){
-    console.log("Abriendo caja fuerte...");
-    this.cajaFuerte.animate();
+    if(this.adivinadaContraseña){
+      console.log("Abriendo caja fuerte...");
+      this.cajaFuerte.animate();
+    }
   }
 
+  introducirCodigoCaja(){
+    if(!this.adivinadaPassword){
+      var numericKeypad = document.getElementById("numeric-keypad");
+      numericKeypad.style.display = "block";
+      var enteredNumbers = [];
+      var correctPassword = "123";
+  
+      var cancelButton = numericKeypad.querySelector(".cancel-button");
+      cancelButton.addEventListener("click", function() {
+        numericKeypad.style.display = "none"; 
+        enteredNumbers = [];
+        console.log("teclado cerrado");
+      });
+  
+      var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
+      for (var i = 0; i < numericButtons.length; i++) {
+          numericButtons[i].addEventListener("click", function() {
+            var number = this.textContent;
+            console.log(number);
+            enteredNumbers.push(number);
+            console.log(enteredNumbers);
+            if (enteredNumbers.length === correctPassword.length) {
+              var enteredPassword = enteredNumbers.join("");
+              if (enteredPassword === correctPassword) {
+                this.adivinadaPassword = true;
+                console.log("Contraseña correcta " + this.adivinadaPassword);
+                enteredNumbers = [];
+                numericKeypad.style.display = "none"; 
+              } else {
+                console.log("Contraseña incorrecta");
+                enteredNumbers = [];
+              }
+              
+            }
+          });
+      }
+      console.log("Fuera " + this.adivinadaPassword);
+    } else{
+      this.popUp("Ya puedes abrir la caja fuerte");
+    }
+  }
+
+  iniciarJuegoLuces(){
+    console.log("Juego de las luces");
+    this.spotLightJuego.visible = true;
+    this.animarLuces();
+  }
+
+  animarLuces(){
+    this.spotLightJuego.color.setHex(this.coloresLuz[this.indiceColor]);
+    this.indiceColor = (this.indiceColor + 1) % this.coloresLuz.length;
+  }
+
+  comprobarSecuenciaColores(){
+    console.log("Comprobando secuencia luces");
+
+    var coloresCambiados = [];
+    coloresCambiados.push(this.combinatorio.color1.material.name);
+    coloresCambiados.push(this.combinatorio.color2.material.name);
+    coloresCambiados.push(this.combinatorio.color3.material.name);
+    coloresCambiados.push(this.combinatorio.color4.material.name);
+    coloresCambiados.push(this.combinatorio.color5.material.name);
+
+    var encontrado = coloresCambiados.toString() === this.coloresLuz.toString();
+
+    return encontrado;
+  }
+
+
   onMouseDown(event){
-
     
+    let selectedObject = this.isClickingObject(event,[this.cajaFuerte.teclado]);
+    console.log("On mouse down " + this.adivinadaPassword);
+    if(selectedObject != null && !this.adivinadaPassword) {
+        this.introducirCodigoCaja();
+        this.bloquearCamaraCajaFuerte();
+      return;
+    }
 
-    let selectedObject = this.isClickingObject(event,[this.cajaFuerte])
+    selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
+    
     if(selectedObject != null) {
       this.abrirCajaFuerte();
       this.bloquearCamaraObjeto(this.cajaFuerte,50);
       return;
     }
 
-    
-    
+    selectedObject = this.isClickingObject(event,[this.botonCombinatorio1.pulsador]);
+    if(selectedObject != null) {
+      if(this.secuenciaAdivinada){
+        this.popUp("Ya has conseguido este minijuego");
+      } else{
+        this.iniciarJuegoLuces();
+      }
+      return;
+    }
 
-    selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2,this.mesa7.completoTE]);
+    selectedObject = this.isClickingObject(event,[this.botonCombinatorio2.pulsador]);
+    if(selectedObject != null && !this.secuenciaAdivinada) {
+      this.secuenciaAdivinada = this.comprobarSecuenciaColores();
+      if(this.secuenciaAdivinada){
+        this.popUp("Has adivinado la secuencia de colores");
+        this.spotLightJuego.visible = false;
+      }
+      return;
+    }
+
+    selectedObject = this.isClickingObject2(event,
+      [
+      this.combinatorio.boton1,
+      this.combinatorio.boton2,
+      this.combinatorio.boton3,
+      this.combinatorio.boton4,
+      this.combinatorio.boton5
+    ]);
+    if(selectedObject != null) {
+      console.log("Pulsando miniboton");
+      console.log("Objeto pulsado: " + selectedObject.name);
+      this.combinatorio.cambiarColor(selectedObject.name);
+      return;
+    }
+    
+     selectedObject = this.isClickingObject(event,[this.mesa7.cajonera.cajon1,this.mesa7.cajonera.cajon2,this.mesa7.completoTE]);
+
     if(selectedObject != null) {
       if(selectedObject.name == '1' || selectedObject.name == '2'){
         this.mesa7.animarCajones(selectedObject.name);
@@ -545,8 +689,6 @@ class MyScene extends THREE.Scene {
   }
 
   
-
-  
   isClickingObject(event,object){
     if(object == undefined) return null;
     let mouse = new THREE.Vector2();
@@ -565,6 +707,23 @@ class MyScene extends THREE.Scene {
     return null;
   }
 
+  isClickingObject2(event,object){
+    if(object == undefined) return null;
+    let mouse = new THREE.Vector2();
+    let raycaster = new THREE.Raycaster();
+
+    mouse.x = (event.clientX / window.innerWidth )*2-1;
+    mouse.y = 1 - 2 * (event.clientY / window.innerHeight);
+
+    raycaster.setFromCamera(mouse, this.camera);
+
+    var pickedObjects = raycaster.intersectObjects(object, true);
+    if(pickedObjects.length > 0){
+      var selectedObject = pickedObjects[0].object;
+      return selectedObject;
+    }
+    return null;
+  }
   
   
 
