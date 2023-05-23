@@ -1,5 +1,9 @@
 
 import * as THREE from '../libs/three.module.js'
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
  
 class Combinatorio extends THREE.Object3D {
   constructor() {
@@ -46,6 +50,8 @@ class Combinatorio extends THREE.Object3D {
     // this.add(this.color5);
 
     this.combinatorio = new THREE.Object3D();
+    this.combinatorio.name = "Combinatorio";
+    
     this.combinatorio.add(this.base);
     this.combinatorio.add(this.boton1);
     this.combinatorio.add(this.boton2);
@@ -57,6 +63,13 @@ class Combinatorio extends THREE.Object3D {
     this.combinatorio.add(this.color3);
     this.combinatorio.add(this.color4);
     this.combinatorio.add(this.color5);
+    this.boton1.name = "Boton1";
+    this.boton2.name = "Boton2";
+    this.boton3.name = "Boton3";
+    this.boton4.name = "Boton4";
+    this.boton5.name = "Boton5";
+    
+    this.colores = [0xff0000, 0x00ff00, 0xF1F10F, 0x0FF1EE, 0xF10FEE];
 
     this.add(this.combinatorio);
    
@@ -96,7 +109,26 @@ class Combinatorio extends THREE.Object3D {
     
   }
 
-  
+  change(obj){
+    var colorRandom = this.colores[getRandomInt(5)]
+    obj.material = new THREE.MeshPhongMaterial({ color: colorRandom});
+    obj.material.name = colorRandom;
+  }
+
+  cambiarColor(name){
+    if (name === 'Boton1') {
+      this.change(this.color1);
+    } else if (name === 'Boton2') {
+        this.change(this.color2);
+    }else if (name === 'Boton3') {
+        this.change(this.color3);
+    }else if (name === 'Boton4') {
+        this.change(this.color4);
+    }else if (name === 'Boton5') {
+        this.change(this.color5);
+    }
+  }
+
   update () {
     // Con independencia de cómo se escriban las 3 siguientes líneas, el orden en el que se aplican las transformaciones es:
     // Primero, el escalado
