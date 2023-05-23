@@ -60,6 +60,16 @@ class Puerta extends THREE.Object3D{
         
         this.add(this.pomo);
         this.add(this.puertaFinal);
+
+     
+    }
+
+    posicionarHabitacion(){
+        this.rotateY(Math.PI);
+        this.scale.set(4,5,4);
+        this.position.x = 70;
+        this.position.y = 46;
+        this.position.z = 97;
     }
 }
 

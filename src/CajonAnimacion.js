@@ -4,11 +4,12 @@ import * as TWEEN from '../libs/tween.esm.js'
 
 export class CajonAnimacion{
 
-    constructor(cajon){
+    constructor(cajon,incremento=null){
 
         this.cajon = cajon;
         this.animando = false;
         this.cajonAbierto = false;
+        incremento == null ?  this.incremento = 3.5 : this.incremento = incremento;
     }
 
 
@@ -26,7 +27,7 @@ export class CajonAnimacion{
         let origen = this.cajon.position;
         // Crear una nueva animación Tween para abrir el cajón 1
         new TWEEN.Tween(origen)
-        .to({ z: 3.5 }, 1000) // Incrementar la posición z para abrir el cajón
+        .to({ z: this.incremento }, 1000) // Incrementar la posición z para abrir el cajón
         .easing(TWEEN.Easing.Quadratic.InOut) // Linear
         .onComplete(() => {
             this.animando = false;

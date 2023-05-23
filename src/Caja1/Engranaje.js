@@ -13,7 +13,7 @@ class Engranaje extends THREE.Object3D{
         let color = 0x4E5452;
         let toothGeometry = null;
         if(typeCaja == TypeCaja1.CILINDRICA){
-          toothGeometry = THREE.CylinderGeometry(toothHeight / 2, toothHeight / 2, radius * 0.3, 32);
+          toothGeometry = new THREE.CylinderGeometry(toothHeight / 2, toothHeight / 2, radius * 0.3, 32);
         }else if(typeCaja == TypeCaja1.REDONDA){
           toothGeometry =  new THREE.SphereGeometry(toothHeight / 2, 16, 16);
         }else{

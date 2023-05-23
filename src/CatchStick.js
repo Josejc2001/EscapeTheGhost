@@ -28,7 +28,14 @@ class CatchStick extends THREE.Object3D {
     this.paloCompleto.add(this.boca2);
 
     this.add(this.paloCompleto);
+    
+  }
+
+  posicionarHabitacion(){
     this.paloCompleto.rotateX(Math.PI/2);
+    this.position.x = 45;
+    this.position.z = -95.5;
+    this.position.y = 29.5;
   }
 
   crearPalo(){

@@ -46,6 +46,14 @@ class Interruptor extends THREE.Object3D{
         this.boton = this.hueco.clone();
         this.add(this.boton);
         this.add(this.marcoHueco);
+
+       
+    }
+    posicionarHabitacion(){
+        this.rotateY(Math.PI);
+        this.position.z = 97.5;
+        this.position.y = 60;
+        this.position.x = 40;
     }
 }
 

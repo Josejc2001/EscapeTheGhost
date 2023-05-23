@@ -65,6 +65,15 @@ class Rejilla extends THREE.Object3D{
         this.add(this.aspas);
         this.add(this.marcoHueco);
 
+        
+       
+
+    }
+
+    posicionarHabitacion(){
+        this.scale.set(20,7.5,1);
+        this.position.y = 90;
+        this.position.z = -97;
     }
 
     animarRejilla(){

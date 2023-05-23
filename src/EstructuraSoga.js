@@ -9,6 +9,12 @@ class EstructuraSoga extends THREE.Object3D {
 
     this.estructura = this.crearEstructuraSoga();
     this.add(this.estructura);
+    
+  }
+
+  posicionarHabitacion(){
+    this.position.z = -80;
+    this.position.x = -80;
   }
 
   crearEstructuraSoga(){

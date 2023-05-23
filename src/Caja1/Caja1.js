@@ -54,10 +54,8 @@ class Caja1 extends THREE.Object3D{
         this.completoTE.add(this.tornillo);
         this.completoTE.add(this.engranaje);
 
-        //Pieza Izquierda (La que se necesitara)
-        //this.completoTEIz = this.completoTE.clone();
-        //this.completoTEIz.rotateY(Math.PI);
-      
+        
+        this.completoTEIz = null;
 
 
 
@@ -73,9 +71,23 @@ class Caja1 extends THREE.Object3D{
 
         this.translateY(-0.5);
         this.rotateY(Math.PI);
+
+        
+    }
+    posicionarHabitacion(){
+        this.scale.set(2,2,2);
+        this.rotateY(Math.PI/2);
+        this.position.x = -85;
+        this.position.y = 30;
     }
 
-    engranajeInterno(){
+    activarEngranaje(){
+        if(this.completoTEIz != null) return false;
+        //Pieza Izquierda (La que se necesitara)
+        this.completoTEIz = this.completoTE.clone();
+        this.completoTEIz.rotateY(Math.PI);
+        this.add(this.completoTEIz);
+        return true;
     }
 }
 
