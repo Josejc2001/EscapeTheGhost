@@ -407,7 +407,7 @@ class MyScene extends THREE.Scene {
 
   onKeyDown(event,cameraControl){
     let velocidad = 10;
-    
+    if(this.controlBloqueado) return;
     switch (event.code) {
       case 'KeyW':
         this.avanzar(cameraControl,velocidad,true,1);
@@ -422,10 +422,6 @@ class MyScene extends THREE.Scene {
         this.avanzar(cameraControl,velocidad,false,-1);
         break;
       case 'ControlLeft':
-        
-        //console.log(this.camera.position);
-        if(this.controlBloqueado) break;
-        
         
         if(cameraControl.isLocked){
           cameraControl.unlock();
@@ -643,13 +639,57 @@ class MyScene extends THREE.Scene {
       return;
     }
     
-    selectedObject= this.isClickingObject(event,[this.simon,this.cama]);
-    if(selectedObject != null){
+    
+    selectedObject= this.isClickingObject(event,[this.cama,this.simon]);
+    let gano = this.simon.gano();
+        
+    if(selectedObject != null && !gano){
       if(selectedObject.parent.name == "simon"){
-
         if(this.simon.puedoJugar()){
-          this.popUp("Pulsa en los colores que se iran alumbrando");
-          this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);
+          let empieza = this.simon.FirstTime();
+          if(empieza)this.popUp("Pulsa en los colores que se iran alumbrando");
+          if(empieza && !this.simon.perdioUsuario()){
+            this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);
+          }else{
+            if(this.simon.jugando()){
+              selectedObject= this.isClickingObject(event,[this.simon.rojo]);
+              if(selectedObject != null){
+                if(!this.simon.addClicked('rojo')){
+                  this.popUp("Ups color incorrecto, empieza otra vez");
+                  return;
+                }
+                
+              }
+              selectedObject= this.isClickingObject(event,[this.simon.amarillo]);
+              if(selectedObject != null){
+                if(!this.simon.addClicked('amarillo')){
+                  this.popUp("Ups color incorrecto, empieza otra vez");
+                  return;
+                }
+                
+              }
+              selectedObject= this.isClickingObject(event,[this.simon.verde]);
+              if(selectedObject != null){
+                
+                if(!this.simon.addClicked('verde')){
+                  this.popUp("Ups color incorrecto, empieza otra vez");
+                  return;
+                }
+                
+              }
+              selectedObject= this.isClickingObject(event,[this.simon.azul]);
+              if(selectedObject != null){
+                if(!this.simon.addClicked('azul')){
+                  this.popUp("Ups color incorrecto, empieza otra vez");
+                  return;
+                }
+              }
+              if(this.simon.gano()){this.popUp("Has ganado"); this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);return;}
+              if(this.simon.mostrarSecuenciaHastaNivelActual(this))this.popUp("Siguiente Nivel",2);
+            }else{
+              if( this.simon.mostrarSecuenciaHastaNivelActual(this))this.popUp("¡EMPIEZA!",2);
+            }
+          }
         }else{
           this.popUp("Has cogido el simon, ponlo en algun sitio para jugar.");
           this.simon.userData.hidden = true;
