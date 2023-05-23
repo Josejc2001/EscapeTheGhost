@@ -1,12 +1,8 @@
 import * as THREE from '../libs/three.module.js'
  
 class Room extends THREE.Object3D {
-  constructor(gui,titleGui) {
+  constructor() {
     super();
-    
-    // Se crea la parte de la interfaz que corresponde a la caja
-    // Se crea primero porque otros métodos usan las variables que se definen para la interfaz
-    this.createGUI(gui,titleGui);
     
     // Un Mesh se compone de geometría y material
     var pared1 = this.crearPared();
@@ -48,12 +44,12 @@ class Room extends THREE.Object3D {
 
   crearTecho(){
     // La geometría es una caja con muy poca altura
+    var textura = new THREE.TextureLoader().load('../imgs/gotele2.jpg');
     var geometryTecho = new THREE.BoxGeometry (200,0.2,200);
-    
-    var materialTecho = new THREE.MeshPhongMaterial({color: 0xCF0000});
+    var techoMat = new THREE.MeshPhongMaterial({map: textura});
     
     // Ya se puede construir el Mesh
-    var techo = new THREE.Mesh (geometryTecho, materialTecho);
+    var techo = new THREE.Mesh (geometryTecho, techoMat);
     
     techo.position.y = 100.1;
 
@@ -76,11 +72,6 @@ class Room extends THREE.Object3D {
     suelo.position.y = -0.1;
     
     return suelo;
-  }
-  
-  createGUI (gui,titleGui) {
-    // Controles para el tamaño, la orientación y la posición de la caja
-    
   }
   
   update () {

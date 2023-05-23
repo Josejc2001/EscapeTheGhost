@@ -32,10 +32,10 @@ import { RemoteControl } from './RemoteControl.js';
 import { CajoneraOBJ } from './CajoneraOBJ.js';
 import { Soga } from './Soga.js';
 import { Chair } from './Chair.js';
-import { Carpet } from './Carpet.js';
 import { EstructuraSoga } from './EstructuraSoga.js'
 import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
 import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
+import { CajaTexturizada } from './CajaTexturizada.js'
 
 /// La clase fachada del modelo
 /**
@@ -54,11 +54,6 @@ class MyScene extends THREE.Scene {
 
     this.camaraBefore = null;
     this.controlBloqueado = false;
-
-    // Se añade a la gui los controles para manipular los elementos de esta clase
-    this.gui = this.createGUI ();
-    
-    this.initStats();
     
     // Construimos los distinos elementos que tendremos en la escena
     
@@ -116,6 +111,7 @@ class MyScene extends THREE.Scene {
     this.paloRejilla = new CatchStick();
     this.paloRejilla.posicionarHabitacion();
     this.add(this.paloRejilla);
+    this.tienePalo = false;
     
 
     this.simon = new Simon();
@@ -157,6 +153,7 @@ class MyScene extends THREE.Scene {
 
     this.tv = new TV();
     this.tv.posicionarHabitacion();
+    this.tieneRemoto = false;
     this.add(this.tv);
     
 
@@ -184,27 +181,15 @@ class MyScene extends THREE.Scene {
     this.silla = new Chair();
     this.silla.posicionarHabitacion();
     this.add(this.silla);
-    
 
-    this.habitacion = new Room(this.gui, "");
+    this.cajaTexturizada = new CajaTexturizada();
+    this.cajaTexturizada.posicionarHabitacion();
+    this.add(this.cajaTexturizada);
+
+    
+    this.habitacion = new Room();
     this.add (this.habitacion);
 
-  }
-  
-  initStats() {
-  
-    var stats = new Stats();
-    
-    stats.setMode(0); // 0: fps, 1: ms
-    
-    // Align top-left
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.left = '0px';
-    stats.domElement.style.top = '0px';
-    
-    $("#Stats-output").append( stats.domElement );
-    
-    this.stats = stats;
   }
   
   createCamera () {
@@ -295,35 +280,6 @@ class MyScene extends THREE.Scene {
     this.add (ground);
   }
   
-  createGUI () {
-    // Se crea la interfaz gráfica de usuario
-    var gui = new GUI();
-    
-    // La escena le va a añadir sus propios controles. 
-    // Se definen mediante un objeto de control
-    // En este caso la intensidad de la luz y si se muestran o no los ejes
-    this.guiControls = {
-      // En el contexto de una función   this   alude a la función
-      lightIntensity : 1,
-      axisOnOff : true
-    }
-
-    // Se crea una sección para los controles de esta clase
-    var folder = gui.addFolder ('Luz y Ejes');
-    
-    // Se le añade un control para la intensidad de la luz
-    folder.add (this.guiControls, 'lightIntensity', 0, 10, 1)
-      .name('Intensidad de la Luz : ')
-      .onChange ( (value) => this.setLightIntensity (value) );
-    
-    // Y otro para mostrar u ocultar los ejes
-    folder.add (this.guiControls, 'axisOnOff')
-      .name ('Mostrar ejes : ')
-      .onChange ( (value) => this.setAxisVisible (value) );
-    
-    return gui;
-  }
-  
   createLights () {
     // Se crea una luz ambiental, evita que se vean complentamente negras las zonas donde no incide de manera directa una fuente de luz
     // La luz ambiental solo tiene un color y una intensidad
@@ -337,7 +293,7 @@ class MyScene extends THREE.Scene {
     // La luz focal, además tiene una posición, y un punto de mira
     // Si no se le da punto de mira, apuntará al (0,0,0) en coordenadas del mundo
     // En este caso se declara como   this.atributo   para que sea un atributo accesible desde otros métodos.
-    this.spotLight = new THREE.SpotLight( 0xffffff, this.guiControls.lightIntensity );
+    this.spotLight = new THREE.SpotLight( 0xffffff, 0.75 );
     this.spotLight.position.set( 0, 200, 0 );
     this.add (this.spotLight);
 
@@ -425,8 +381,6 @@ class MyScene extends THREE.Scene {
   }
 
   update () {
-    
-    if (this.stats) this.stats.update();
     
     // Se actualizan los elementos de la escena para cada frame
     
@@ -552,6 +506,26 @@ class MyScene extends THREE.Scene {
     return encontrado;
   }
 
+  pulsarInterruptor(){
+    if(this.spotLight.visible == true){
+      this.spotLight.visible = false;
+    } else {
+      this.spotLight.visible = true;
+    }
+  }
+
+  cogerPaloRejilla(){
+    this.tienePalo = true;
+    this.paloRejilla.userData.hidden = true;
+    this.paloRejilla.visible = false;
+  }
+
+  cogerRemoto(){
+    this.tieneRemoto = true;
+    this.remoteControl.userData.hidden = true;
+    this.remoteControl.visible = false;
+  }
+
 
   onMouseDown(event){
     
@@ -587,6 +561,8 @@ class MyScene extends THREE.Scene {
       if(this.secuenciaAdivinada){
         this.popUp("Has adivinado la secuencia de colores");
         this.spotLightJuego.visible = false;
+      } else{
+        this.popUp("Este secuencia de colores no es correcta. Pista: el primer color es el rojo");
       }
       return;
     }
@@ -600,8 +576,6 @@ class MyScene extends THREE.Scene {
       this.combinatorio.boton5
     ]);
     if(selectedObject != null) {
-      console.log("Pulsando miniboton");
-      console.log("Objeto pulsado: " + selectedObject.name);
       this.combinatorio.cambiarColor(selectedObject.name);
       return;
     }
@@ -657,7 +631,10 @@ class MyScene extends THREE.Scene {
 
     selectedObject= this.isClickingObject(event,[this.rejilla]);
     if(selectedObject != null){
-      this.rejilla.animarRejilla();
+      if(this.tienePalo)
+        this.rejilla.animarRejilla();
+      else
+        this.popUp("Vaya... No llego tan arriba. Debe haber algo que me permita llegar");
       return;
     }
     
@@ -686,6 +663,41 @@ class MyScene extends THREE.Scene {
       return;
     }
 
+    selectedObject= this.isClickingObject(event,[this.interruptor]);
+    if(selectedObject != null){
+      this.pulsarInterruptor();
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.paloRejilla]);
+    if(selectedObject != null){
+      this.popUp("Has conseguido: Palo alargado. Pista: Con esto llegarás a sitios inalcanzables");
+      this.cogerPaloRejilla();
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.cajaTexturizada]);
+    if(selectedObject != null){
+      this.popUp("Esta caja no sirve para nada. Pero está guapa eh!");
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.remoteControl]);
+    if(selectedObject != null){
+      this.popUp("Has conseguido: Remoto. Sabrás para que sirve?");
+      this.cogerRemoto();
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.tv]);
+    if(selectedObject != null){
+      if(this.tieneRemoto){
+        this.popUp("TV encendida");
+      } else {
+        this.popUp("No se como encender esto. Donde está el mando?");
+      }
+      return;
+    }
   }
 
   
