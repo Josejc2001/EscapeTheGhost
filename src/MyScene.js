@@ -736,9 +736,9 @@ class MyScene extends THREE.Scene {
     selectedObject= this.isClickingObject(event,[this.tv]);
     if(selectedObject != null){
       if(this.tieneRemoto){
-        this.popUp("TV encendida");
+        this.popUp("Parece que el mando no funciona");
       } else {
-        this.popUp("No se como encender esto. Donde está el mando?");
+        this.popUp("No se cómo encender esto. Donde está el mando?");
       }
       return;
     }
