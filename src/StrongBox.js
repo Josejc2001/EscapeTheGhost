@@ -12,15 +12,24 @@ class StrongBox extends THREE.Object3D {
     this.puerta = this.crearPuerta();
     this.puerta.position.z = 9.8;
     this.puerta.position.x = -9;
+    this.puerta.name = "Puerta";
+
+    this.teclado = this.crearTeclado();
+    this.teclado.name = "Teclado";
+    this.teclado.position.z = 0.75;
+    this.teclado.position.x = 13;
+    this.teclado.position.y = 4;
 
     // this.add(estructuraCajaFuerte);
 
     // this.add(puerta);
 
+    this.puerta.add(this.teclado)
+
     this.cajaFuerte = new THREE.Object3D();
     this.cajaFuerte.add(this.estructuraCajaFuerte);
     this.cajaFuerte.add(this.puerta);
-    this.cajaFuerte.userData = this;
+    //this.cajaFuerte.userData = this;
 
     this.animar = false;
     this.puertaAbierta = false;
@@ -93,17 +102,12 @@ class StrongBox extends THREE.Object3D {
     volante.position.x = 7;
     volante.position.z = 1.5;
 
-    var teclado = this.crearTeclado();
-    teclado.position.z = 0.75;
-    teclado.position.x = 13;
-    teclado.position.y = 4;
-
     //this.add(teclado);
 
     //this.add(volante);
 
     var csgPuerta = new CSG();
-    csgPuerta.union([puertaMesh, bisagra1, bisagra2, volante,teclado]);
+    csgPuerta.union([puertaMesh, bisagra1, bisagra2, volante]);
     var puertaCompleta = csgPuerta.toMesh();
 
     //puertaCompleta.position.z = 9.8;

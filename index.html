@@ -13,25 +13,80 @@
             margin: 0;
             overflow: hidden; 
         }
-    .box {
-      position: absolute;
-      z-index: 100;
-      border: 2px solid black;
-      background: #FCF0CC;
-      font-family: Arial;
-      font-weight: bold;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
 
-    #popup{
-        visibility: hidden;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
+        .box {
+            position: absolute;
+            z-index: 100;
+            border: 2px solid black;
+            background: #FCF0CC;
+            font-family: Arial;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #popup{
+            visibility: hidden;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #numeric-keypad {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 170px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        #numeric-keypad button {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            padding: 0;
+            font-size: 16px;
+            text-align: center;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cancel-button {
+            position: absolute;
+            top: 0px;
+            right: -25px;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            font-size: 14px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cancel-button:hover {
+            color: red;
+        }
+
+        #numeric-keypad button:hover {
+            background-color: #ccc;
+        }
+
+        #numeric-keypad button:active {
+            background-color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -39,6 +94,19 @@
         <class> 
             <h1 id="popup-text"></h1>
         </class>
+    </div>
+
+    <div id="numeric-keypad">
+        <button class="cancel-button">X</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
     </div>
     <!-- Div which will show statistical information -->
     <div id="Stats-output">
