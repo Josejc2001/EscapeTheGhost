@@ -36,6 +36,7 @@ import { EstructuraSoga } from './EstructuraSoga.js'
 import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
 import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
 import { CajaTexturizada } from './CajaTexturizada.js'
+import { Manivela } from './Caja1/Manivela.js'
 
 /// La clase fachada del modelo
 /**
@@ -184,6 +185,10 @@ class MyScene extends THREE.Scene {
     this.cajaTexturizada = new CajaTexturizada();
     this.cajaTexturizada.posicionarHabitacion();
     this.add(this.cajaTexturizada);
+
+    this.manivela = new Manivela();
+    this.manivela.posicionarHabitacion();
+    this.add(this.manivela);
 
     
     this.habitacion = new Room();
