@@ -37,11 +37,17 @@ class StrongBox extends THREE.Object3D {
     this.reloj = new THREE.Clock();
 
     this.rotacion = 0;
+    this.enteredNumbers = [];
+    this.correctPassword = "123";
+
+
 
     this.velocidadPuerta = 0.5;
+    this.cajaFuerte.adivinadaPassword = false;
+    this.cajaFuerte.clickada = false;
 
-    this.add(this.cajaFuerte); 
     
+    this.add(this.cajaFuerte); 
     
   }
 
