@@ -81,7 +81,6 @@ class MyScene extends THREE.Scene {
     this.add(this.cajaFuerte);
     
 
-    this.adivinadaPassword = false;
 
     this.mesa9 = new Mesa9();
     this.mesa9.posicionarHabitacion();
@@ -428,51 +427,51 @@ class MyScene extends THREE.Scene {
   }
 
   abrirCajaFuerte(){
-    if(this.adivinadaContraseña){
+    if(this.cajaFuerte.adivinadaPassword){
       console.log("Abriendo caja fuerte...");
       this.cajaFuerte.animate();
     }
   }
 
+  closeTecladoCajaFuerte(cajaFuerte){
+    let numericKeypad = document.getElementById("numeric-keypad");
+    numericKeypad.style.display = "none"; 
+    cajaFuerte.enteredNumbers = [];
+  }
+
   introducirCodigoCaja(){
-    if(!this.adivinadaPassword){
-      var numericKeypad = document.getElementById("numeric-keypad");
-      numericKeypad.style.display = "block";
-      var enteredNumbers = [];
-      var correctPassword = "123";
-  
-      var cancelButton = numericKeypad.querySelector(".cancel-button");
-      cancelButton.addEventListener("click", function() {
+    if(this.cajaFuerte.adivinadaPassword) return;
+    
+    let numericKeypad = document.getElementById("numeric-keypad");
+    numericKeypad.style.display = "block";
+    
+
+    var cancelButton = numericKeypad.querySelector(".cancel-button");
+    cancelButton.addEventListener("click", ()=>this.closeTecladoCajaFuerte(this.cajaFuerte));
+
+    var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
+    for (var i = 0; i < numericButtons.length; i++) {
+        numericButtons[i].addEventListener("click",(event)=> this.checkerButtonsListenerCajaFuerte(event,this.cajaFuerte));
+    }
+    
+  }
+
+  checkerButtonsListenerCajaFuerte(event,cajaFuerte){
+    if(cajaFuerte.adivinadaPassword) return;
+    var number = event.target.innerText;
+    cajaFuerte.enteredNumbers.push(number);
+    if (cajaFuerte.enteredNumbers.length === cajaFuerte.correctPassword.length) {
+      var enteredPassword = this.cajaFuerte.enteredNumbers.join("");
+      if (enteredPassword === cajaFuerte.correctPassword) {
+        cajaFuerte.adivinadaPassword = true;
+        cajaFuerte.enteredNumbers = [];
+        this.popUp("Ya puedes abrir la caja fuerte");
+        let numericKeypad = document.getElementById("numeric-keypad");
         numericKeypad.style.display = "none"; 
-        enteredNumbers = [];
-        console.log("teclado cerrado");
-      });
-  
-      var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
-      for (var i = 0; i < numericButtons.length; i++) {
-          numericButtons[i].addEventListener("click", function() {
-            var number = this.textContent;
-            console.log(number);
-            enteredNumbers.push(number);
-            console.log(enteredNumbers);
-            if (enteredNumbers.length === correctPassword.length) {
-              var enteredPassword = enteredNumbers.join("");
-              if (enteredPassword === correctPassword) {
-                this.adivinadaPassword = true;
-                console.log("Contraseña correcta " + this.adivinadaPassword);
-                enteredNumbers = [];
-                numericKeypad.style.display = "none"; 
-              } else {
-                console.log("Contraseña incorrecta");
-                enteredNumbers = [];
-              }
-              
-            }
-          });
+      } else {
+        cajaFuerte.enteredNumbers = [];
       }
-      console.log("Fuera " + this.adivinadaPassword);
-    } else{
-      this.popUp("Ya puedes abrir la caja fuerte");
+      
     }
   }
 
@@ -526,17 +525,17 @@ class MyScene extends THREE.Scene {
   onMouseDown(event){
     
     let selectedObject = this.isClickingObject(event,[this.cajaFuerte.teclado]);
-    console.log("On mouse down " + this.adivinadaPassword);
-    if(selectedObject != null && !this.adivinadaPassword) {
+    if(selectedObject != null && !this.cajaFuerte.adivinadaPassword && this.cajaFuerte.clickada) {
         this.introducirCodigoCaja();
-        this.bloquearCamaraCajaFuerte();
-      return;
+        return;
     }
 
     selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
-    
-    if(selectedObject != null) {
+    var numericKeypad = document.getElementById("numeric-keypad");
+    let disCaja = numericKeypad.style.display;
+    if(selectedObject != null && (disCaja == 'none' || disCaja == '')) {
       this.abrirCajaFuerte();
+      this.cajaFuerte.clickada = !this.cajaFuerte.clickada;
       this.bloquearCamaraObjeto(this.cajaFuerte,50);
       return;
     }
