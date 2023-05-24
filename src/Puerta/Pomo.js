@@ -25,9 +25,7 @@ class Pomo extends THREE.Object3D{
         
         this.pomo = new MyCylinder(0xE1B424);
         this.pomo.scale.set(0.1,0.35,0.1);
-        this.pomo.translateY(1.8);
-        this.pomo.translateZ(0.2);
-        this.pomo.translateX(0.5);
+        
         this.pomo.rotateX(THREE.MathUtils.degToRad(90));
 
 
@@ -53,13 +51,19 @@ class Pomo extends THREE.Object3D{
 
         this.abridor = new THREE.Mesh(abridorGeom,abridorMat);
         this.abridor.scale.set(0.5,0.3,0.4);
-        this.abridor.translateX(-0.1);
-        this.abridor.translateZ(0.2);
-        this.abridor.translateY(0.68);
+        this.abridor.translateX(-0.6);
+        this.abridor.translateY(-1.1);
+
 
         this.pomoFinal = new THREE.Object3D();
+
         this.pomoFinal.add(this.abridor);
         this.pomoFinal.add(this.pomo);
+        this.pomoFinal.translateY(1.68);
+        this.pomoFinal.translateX(0.5);
+        this.pomoFinal.translateZ(0.2);
+
+        
 
         this.objFinal = new THREE.Object3D();
 
@@ -86,13 +90,13 @@ class Pomo extends THREE.Object3D{
         csg1.subtract([this.cerradura,this.llave]);
         this.cerraduraFinal = csg1.toMesh();
         
-        
 
         this.objFinal.add(this.marco);
         this.objFinal.add(this.cerraduraFinal);
         this.objFinal.add(this.pomoFinal);
 
-        
+        // Bajar pomo
+        //this.pomoFinal.rotateZ(-Math.PI/2);
 
         this.add(this.objFinal);
     }
