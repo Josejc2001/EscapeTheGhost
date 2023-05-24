@@ -4,7 +4,7 @@ import * as THREE from '../../libs/three.module.js'
 import {MyBox} from '../Basicos/MyBox.js';
 import { CSG } from '../../libs/CSG-v2.js'
 import { Pomo } from './Pomo.js';
-
+import * as TWEEN from '../../libs/tween.esm.js'
 class Puerta extends THREE.Object3D{
     constructor(){
         super();
@@ -82,6 +82,19 @@ class Puerta extends THREE.Object3D{
         this.position.x = 70;
         this.position.z = 97;
     }
+
+    animar(){
+
+        let tweeAnimation = new TWEEN.Tween(this.puertaPadre.rotation)
+        .to({ y: Math.PI/2 }, 2000) // Decrementar la posición z para cerrar el cajón
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+        })
+       
+        this.pomo.animar().chain(tweeAnimation);
+
+    }
+
 }
 
 export { Puerta }

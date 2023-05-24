@@ -583,6 +583,12 @@ class MyScene extends THREE.Scene {
         return;
     }
 
+    selectedObject = this.isClickingObject(event,[this.puerta.pomo]);
+    if(selectedObject != null) {
+        this.puerta.animar();
+        return;
+    }
+
     selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
     var numericKeypad = document.getElementById("numeric-keypad");
     let disCaja = numericKeypad.style.display;

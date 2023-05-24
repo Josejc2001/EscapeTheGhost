@@ -1,6 +1,6 @@
 
 import * as THREE from '../../libs/three.module.js'
-
+import * as TWEEN from '../../libs/tween.esm.js'
 import {MyCylinder} from '../Basicos/MyCylinder.js';
 import { CSG } from '../../libs/CSG-v2.js'
 
@@ -99,6 +99,15 @@ class Pomo extends THREE.Object3D{
         //this.pomoFinal.rotateZ(-Math.PI/2);
 
         this.add(this.objFinal);
+    }
+
+    animar(){
+        return new TWEEN.Tween(this.pomoFinal.rotation)
+        .to({ z: -Math.PI/4 }, 1000) // Decrementar la posición z para cerrar el cajón
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+        })
+        .start();
     }
 }
 
