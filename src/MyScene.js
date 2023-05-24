@@ -66,13 +66,6 @@ class MyScene extends THREE.Scene {
     // Tendremos una cámara con un control de movimiento con el ratón
     this.createCamera ();
     
-    // Un suelo 
-    //this.createGround ();
-    
-    // Y unos ejes. Imprescindibles para orientarnos sobre dónde están las cosas
-    this.axis = new THREE.AxesHelper (5);
-    this.add (this.axis);
-    
     this.rejilla = new Rejilla();
     this.rejilla.posicionarHabitacion();
     this.add(this.rejilla);
@@ -203,9 +196,6 @@ class MyScene extends THREE.Scene {
 
     this.showHelp = false;
 
-    this.digito1_visible = document.getElementById('digito1');
-    this.digito2_visible = document.getElementById('digito2');
-    this.digito3_visible = document.getElementById('digito3');
     this.mono = new Mono();
     this.mono.posicionarHabitacion();
     this.add(this.mono);
@@ -462,6 +452,15 @@ class MyScene extends THREE.Scene {
           if(this.simon.gano()){
             document.getElementById('digito2').style.visibility = "hidden";
           }
+          if(this.tienePalo){
+            document.getElementById('objeto1').style.visibility = "hidden";
+          }
+          if(this.mesa7.isCapturado()){
+            document.getElementById('objeto2').style.visibility = "hidden";
+          }
+          if(this.tieneRemoto){
+            document.getElementById('objeto3').style.visibility = "hidden";
+          }
         } else{
           this.showHelp = true;
           if(this.secuenciaAdivinada){
@@ -469,6 +468,15 @@ class MyScene extends THREE.Scene {
           }
           if(this.simon.gano()){
             document.getElementById('digito2').style.visibility = "visible";
+          }
+          if(this.tienePalo){
+            document.getElementById('objeto1').style.visibility = "visible";
+          }
+          if(this.mesa7.isCapturado()){
+            document.getElementById('objeto2').style.visibility = "visible";
+          }
+          if(this.tieneRemoto){
+            document.getElementById('objeto3').style.visibility = "visible";
           }
         }
         break;
@@ -679,9 +687,10 @@ class MyScene extends THREE.Scene {
 
     selectedObject= this.isClickingObject(event,[this.rejilla]);
     if(selectedObject != null){
-      if(this.tienePalo)
+      if(this.tienePalo){
         this.rejilla.animarRejilla();
-      else
+        this.popUp("Parece que esto no ventila nada...");
+      }else
         this.popUp("Vaya... No llego tan arriba. Debe haber algo que me permita llegar");
       return;
     }
@@ -792,6 +801,12 @@ class MyScene extends THREE.Scene {
       } else {
         this.popUp("No se cómo encender esto. Donde está el mando?");
       }
+      return;
+    }
+
+    selectedObject= this.isClickingObject(event,[this.mono]);
+    if(selectedObject != null){
+        this.popUp("Mono: 'Se te acaba el tiempo JAJAJA'");
       return;
     }
   }
