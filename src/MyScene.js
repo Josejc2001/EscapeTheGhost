@@ -188,15 +188,9 @@ class MyScene extends THREE.Scene {
     this.habitacion = new Room();
     this.add (this.habitacion);
 
-    var botonAceptar = document.getElementById('accept-button');
-      
+    
     this.inicio = false;
 
-    botonAceptar.onclick= function () {
-      document.getElementById('new-game-dialog').style.display = "none";
-      document.getElementById('help').style.visibility = "visible";
-      this.inicio = true;
-    }
 
     this.showHelp = false;
 
@@ -205,6 +199,12 @@ class MyScene extends THREE.Scene {
     this.add(this.mono);
 
     document.getElementById('new-game-dialog').style.visibility = "visible";
+  }
+
+  ocultarBotonAceptar(){
+    document.getElementById('new-game-dialog').style.display = "none";
+    document.getElementById('help').style.visibility = "visible";
+    this.inicio = true;
   }
   
   createCamera () {
@@ -909,6 +909,9 @@ class MyScene extends THREE.Scene {
   }
 
   cajaListener(){
+    var botonAceptar = document.getElementById('accept-button');
+    botonAceptar.addEventListener("click",(event)=>this.ocultarBotonAceptar());
+
     let numericKeypad = document.getElementById("numeric-keypad");
 
     var cancelButton = numericKeypad.querySelector(".cancel-button");
