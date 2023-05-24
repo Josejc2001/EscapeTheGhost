@@ -504,21 +504,13 @@ class MyScene extends THREE.Scene {
     let numericKeypad = document.getElementById("numeric-keypad");
     numericKeypad.style.display = "block";
     
-
-    var cancelButton = numericKeypad.querySelector(".cancel-button");
-    cancelButton.addEventListener("click", ()=>this.closeTecladoCajaFuerte(this.cajaFuerte));
-
-    var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
-    for (var i = 0; i < numericButtons.length; i++) {
-        numericButtons[i].addEventListener("click",(event)=> this.checkerButtonsListenerCajaFuerte(event,this.cajaFuerte));
-    }
-    
   }
 
   checkerButtonsListenerCajaFuerte(event,cajaFuerte){
     if(cajaFuerte.adivinadaPassword) return;
 
     var number = event.target.innerText;
+    console.log(number);
     cajaFuerte.enteredNumbers.push(number);
     if (cajaFuerte.enteredNumbers.length === cajaFuerte.correctPassword.length) {
       var enteredPassword = this.cajaFuerte.enteredNumbers.join("");
@@ -909,6 +901,18 @@ class MyScene extends THREE.Scene {
     return false;
   }
 
+  cajaListener(){
+    let numericKeypad = document.getElementById("numeric-keypad");
+
+    var cancelButton = numericKeypad.querySelector(".cancel-button");
+    cancelButton.addEventListener("click", ()=>this.closeTecladoCajaFuerte(this.cajaFuerte));
+
+    var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
+    for (var i = 0; i < numericButtons.length; i++) {
+        numericButtons[i].addEventListener("click",(event)=> this.checkerButtonsListenerCajaFuerte(event,this.cajaFuerte));
+    }
+  }
+
 }
 
 
@@ -927,6 +931,7 @@ $(function () {
   window.addEventListener("mousemove",scene.cameraControl.onMouseMove);
   window.addEventListener('keydown',(event)=>scene.onKeyDown(event,scene.cameraControl));
   window.addEventListener('mousedown',(event)=>scene.onMouseDown(event));
+  scene.cajaListener();
   // Que no se nos olvide, la primera visualización.
   scene.update();
 });

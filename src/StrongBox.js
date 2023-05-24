@@ -43,8 +43,8 @@ class StrongBox extends THREE.Object3D {
 
 
     this.velocidadPuerta = 0.5;
-    this.cajaFuerte.adivinadaPassword = false;
-    this.cajaFuerte.clickada = false;
+    this.adivinadaPassword = false;
+    this.clickada = false;
 
     
     this.add(this.cajaFuerte); 
