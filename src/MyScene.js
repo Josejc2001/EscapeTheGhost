@@ -195,7 +195,6 @@ class MyScene extends THREE.Scene {
     this.habitacion = new Room();
     this.add (this.habitacion);
 
-<<<<<<< HEAD
     var botonAceptar = document.getElementById('accept-button');
       
     botonAceptar.onclick= function () {
@@ -207,11 +206,9 @@ class MyScene extends THREE.Scene {
     this.digito1_visible = document.getElementById('digito1');
     this.digito2_visible = document.getElementById('digito2');
     this.digito3_visible = document.getElementById('digito3');
-=======
     this.mono = new Mono();
     this.mono.posicionarHabitacion();
     this.add(this.mono);
->>>>>>> 800d2acbcd0b4ac2c1cc6b625ed25cd570a0911e
   }
   
   createCamera () {
