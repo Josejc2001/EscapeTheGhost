@@ -190,8 +190,12 @@ class MyScene extends THREE.Scene {
 
     var botonAceptar = document.getElementById('accept-button');
       
+    this.inicio = false;
+
     botonAceptar.onclick= function () {
       document.getElementById('new-game-dialog').style.display = "none";
+      document.getElementById('help').style.visibility = "visible";
+      this.inicio = true;
     }
 
     this.showHelp = false;
@@ -199,6 +203,8 @@ class MyScene extends THREE.Scene {
     this.mono = new Mono();
     this.mono.posicionarHabitacion();
     this.add(this.mono);
+
+    document.getElementById('new-game-dialog').style.visibility = "visible";
   }
   
   createCamera () {
@@ -420,6 +426,7 @@ class MyScene extends THREE.Scene {
   onKeyDown(event,cameraControl){
     let velocidad = 10;
     if(this.controlBloqueado) return;
+    if(!this.inicio) return;
     switch (event.code) {
       case 'KeyW':
         this.avanzar(cameraControl,velocidad,true,1);
