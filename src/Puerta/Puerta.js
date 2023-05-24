@@ -4,7 +4,7 @@ import * as THREE from '../../libs/three.module.js'
 import {MyBox} from '../Basicos/MyBox.js';
 import { CSG } from '../../libs/CSG-v2.js'
 import { Pomo } from './Pomo.js';
-
+import * as TWEEN from '../../libs/tween.esm.js'
 class Puerta extends THREE.Object3D{
     constructor(){
         super();
@@ -52,26 +52,49 @@ class Puerta extends THREE.Object3D{
         csg1 = new CSG();
         csg1.subtract([this.puerta,this.agujero1,this.agujero2,this.agujero3,this.agujero4,this.agujero5,this.agujero6]);
         this.puertaAgujero = csg1.toMesh();
-        this.puertaFinal.add(this.puertaAgujero);
+
+        this.puertaPadre = new THREE.Object3D();
+        this.puertaAgujero.translateX(-4.5);
+        this.puertaPadre.add(this.puertaAgujero);
+        this.puertaPadre.translateX(4.5)
+        this.puertaFinal.add(this.puertaPadre);
+
+        
         
         this.pomo = new Pomo();
-        this.pomo.translateX(-4.25);
+        this.pomo.translateX(-8.75);
         this.pomo.translateZ(0.15);
         
-
-        this.add(this.pomo);
+        
+        this.puertaPadre.add(this.pomo);
         this.add(this.puertaFinal);
 
-     
+        this.scale.set(4,5,4);
+        this.position.y = 46;
+
+        // Abrir Puerta
+        //this.puertaPadre.rotateY(Math.PI/2); 
     }
 
     posicionarHabitacion(){
         this.rotateY(Math.PI);
-        this.scale.set(4,5,4);
+        
         this.position.x = 70;
-        this.position.y = 46;
         this.position.z = 97;
     }
+
+    animar(){
+
+        let tweeAnimation = new TWEEN.Tween(this.puertaPadre.rotation)
+        .to({ y: Math.PI/2 }, 2000) // Decrementar la posición z para cerrar el cajón
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+        })
+       
+        this.pomo.animar().chain(tweeAnimation);
+
+    }
+
 }
 
 export { Puerta }
