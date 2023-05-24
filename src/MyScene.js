@@ -195,6 +195,17 @@ class MyScene extends THREE.Scene {
     this.habitacion = new Room();
     this.add (this.habitacion);
 
+    var botonAceptar = document.getElementById('accept-button');
+      
+    botonAceptar.onclick= function () {
+      document.getElementById('new-game-dialog').style.display = "none";
+    }
+
+    this.showHelp = false;
+
+    this.digito1_visible = document.getElementById('digito1');
+    this.digito2_visible = document.getElementById('digito2');
+    this.digito3_visible = document.getElementById('digito3');
     this.mono = new Mono();
     this.mono.posicionarHabitacion();
     this.add(this.mono);
@@ -219,6 +230,7 @@ class MyScene extends THREE.Scene {
    
     
   }
+
 
   bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null){
     
@@ -403,6 +415,12 @@ class MyScene extends THREE.Scene {
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
 
+    if (this.showHelp) {
+      document.getElementById('controles').style.visibility = "visible";
+    } else {
+      document.getElementById('controles').style.visibility = "hidden";
+    }
+
     // Este método debe ser llamado cada vez que queramos visualizar la escena de nuevo.
     // Literalmente le decimos al navegador: "La próxima vez que haya que refrescar la pantalla, llama al método que te indico".
     // Si no existiera esta línea,  update()  se ejecutaría solo la primera vez.
@@ -431,6 +449,27 @@ class MyScene extends THREE.Scene {
           cameraControl.unlock();
         }else{
           cameraControl.lock();
+        }
+        break;
+
+      case 'KeyH':
+        console.log("Mostrando/Quitando ayuda");
+        if(this.showHelp){
+          this.showHelp = false;
+          if(this.secuenciaAdivinada){
+            document.getElementById('digito1').style.visibility = "hidden";
+          }
+          if(this.simon.gano()){
+            document.getElementById('digito2').style.visibility = "hidden";
+          }
+        } else{
+          this.showHelp = true;
+          if(this.secuenciaAdivinada){
+            document.getElementById('digito1').style.visibility = "visible";
+          }
+          if(this.simon.gano()){
+            document.getElementById('digito2').style.visibility = "visible";
+          }
         }
         break;
     }
@@ -568,7 +607,7 @@ class MyScene extends THREE.Scene {
     if(selectedObject != null && !this.secuenciaAdivinada) {
       this.secuenciaAdivinada = this.comprobarSecuenciaColores();
       if(this.secuenciaAdivinada){
-        this.popUp("Has adivinado la secuencia de colores");
+        this.popUp("Has adivinado la secuencia de colores. Has desvelado un nuevo dígito del código de la caja fuerte");
         this.spotLightJuego.visible = false;
       } else{
         this.popUp("Este secuencia de colores no es correcta. Pista: el primer color es el rojo");
@@ -696,7 +735,7 @@ class MyScene extends THREE.Scene {
                   return;
                 }
               }
-              if(this.simon.gano()){this.popUp("Has ganado"); this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);return;}
+              if(this.simon.gano()){this.popUp("Has ganado. Has desvelado un nuevo dígito del código de la caja fuerte"); this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);return;}
               if(this.simon.mostrarSecuenciaHastaNivelActual(this))this.popUp("Siguiente Nivel",2);
             }else{
               if( this.simon.mostrarSecuenciaHastaNivelActual(this))this.popUp("¡EMPIEZA!",2);
