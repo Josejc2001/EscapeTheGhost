@@ -644,6 +644,10 @@ class MyScene extends THREE.Scene {
         
     if(selectedObject != null && !gano){
       if(selectedObject.parent.name == "simon"){
+        if(!this.tienePalo){
+          this.popUp("No lo alcanzo... necesito algo para cogerlo.");
+          return;
+        }
         if(this.simon.puedoJugar()){
           let empieza = this.simon.FirstTime();
           if(empieza)this.popUp("Pulsa en los colores que se iran alumbrando");
