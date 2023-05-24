@@ -37,6 +37,7 @@ import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
 import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
 import { CajaTexturizada } from './CajaTexturizada.js'
 import { Manivela } from './Caja1/Manivela.js'
+import { Mono } from './Mono/Mono.js'
 
 /// La clase fachada del modelo
 /**
@@ -194,6 +195,7 @@ class MyScene extends THREE.Scene {
     this.habitacion = new Room();
     this.add (this.habitacion);
 
+<<<<<<< HEAD
     var botonAceptar = document.getElementById('accept-button');
       
     botonAceptar.onclick= function () {
@@ -205,6 +207,11 @@ class MyScene extends THREE.Scene {
     this.digito1_visible = document.getElementById('digito1');
     this.digito2_visible = document.getElementById('digito2');
     this.digito3_visible = document.getElementById('digito3');
+=======
+    this.mono = new Mono();
+    this.mono.posicionarHabitacion();
+    this.add(this.mono);
+>>>>>>> 800d2acbcd0b4ac2c1cc6b625ed25cd570a0911e
   }
   
   createCamera () {
@@ -406,6 +413,7 @@ class MyScene extends THREE.Scene {
     // Se actualiza el resto del modelo
     this.habitacion.update();
     this.cajaFuerte.update();
+    this.mono.update();
     TWEEN.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
@@ -480,7 +488,9 @@ class MyScene extends THREE.Scene {
   closeTecladoCajaFuerte(cajaFuerte){
     let numericKeypad = document.getElementById("numeric-keypad");
     numericKeypad.style.display = "none"; 
+   
     cajaFuerte.enteredNumbers = [];
+    console.log(cajaFuerte.enteredNumbers);
   }
 
   introducirCodigoCaja(){
@@ -502,6 +512,7 @@ class MyScene extends THREE.Scene {
 
   checkerButtonsListenerCajaFuerte(event,cajaFuerte){
     if(cajaFuerte.adivinadaPassword) return;
+
     var number = event.target.innerText;
     cajaFuerte.enteredNumbers.push(number);
     if (cajaFuerte.enteredNumbers.length === cajaFuerte.correctPassword.length) {
@@ -513,6 +524,7 @@ class MyScene extends THREE.Scene {
         let numericKeypad = document.getElementById("numeric-keypad");
         numericKeypad.style.display = "none"; 
       } else {
+        this.popUp("Codigo incorrecto!");
         cajaFuerte.enteredNumbers = [];
       }
       
@@ -683,6 +695,10 @@ class MyScene extends THREE.Scene {
         
     if(selectedObject != null && !gano){
       if(selectedObject.parent.name == "simon"){
+        if(!this.tienePalo){
+          this.popUp("No lo alcanzo... necesito algo para cogerlo.");
+          return;
+        }
         if(this.simon.puedoJugar()){
           let empieza = this.simon.FirstTime();
           if(empieza)this.popUp("Pulsa en los colores que se iran alumbrando");

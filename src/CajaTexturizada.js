@@ -16,7 +16,7 @@ class CajaTexturizada extends THREE.Object3D {
 	var crateBumpMap = textureLoader.load("../../imgs/crate0_bump.png");
 	var crateNormalMap = textureLoader.load("../../imgs/crate0_normal.png");
 
-    var crateGeometry = new THREE.BoxGeometry(15,15,15);
+    var crateGeometry = new THREE.BoxGeometry(30,30,30);
     crateGeometry.translate(0,7.5,0);
     var crateMaterial = new THREE.MeshPhongMaterial({color:0xffffff, 
         map:crateTexture,
@@ -25,15 +25,15 @@ class CajaTexturizada extends THREE.Object3D {
     });
 
     // Create mesh with these textures
-	var crate = new THREE.Mesh(crateGeometry, crateMaterial);
+	  var crate = new THREE.Mesh(crateGeometry, crateMaterial);
 
     return crate;
   }
 
   posicionarHabitacion(){
     this.rotateY(-Math.PI/2);
-    this.position.x = -85;
-    this.position.z = -50;
+    this.position.y = 5;
+    this.position.z = -75;
   }
   
   update () {
