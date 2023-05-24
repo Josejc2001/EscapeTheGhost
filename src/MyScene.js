@@ -37,6 +37,7 @@ import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
 import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
 import { CajaTexturizada } from './CajaTexturizada.js'
 import { Manivela } from './Caja1/Manivela.js'
+import { Mono } from './Mono/Mono.js'
 
 /// La clase fachada del modelo
 /**
@@ -194,6 +195,9 @@ class MyScene extends THREE.Scene {
     this.habitacion = new Room();
     this.add (this.habitacion);
 
+    this.mono = new Mono();
+    this.mono.posicionarHabitacion();
+    this.add(this.mono);
   }
   
   createCamera () {
@@ -394,6 +398,7 @@ class MyScene extends THREE.Scene {
     // Se actualiza el resto del modelo
     this.habitacion.update();
     this.cajaFuerte.update();
+    this.mono.update();
     TWEEN.update();
     // Le decimos al renderizador "visualiza la escena que te indico usando la cámara que te estoy pasando"
     this.renderer.render (this, this.getCamera());
@@ -441,7 +446,9 @@ class MyScene extends THREE.Scene {
   closeTecladoCajaFuerte(cajaFuerte){
     let numericKeypad = document.getElementById("numeric-keypad");
     numericKeypad.style.display = "none"; 
+   
     cajaFuerte.enteredNumbers = [];
+    console.log(cajaFuerte.enteredNumbers);
   }
 
   introducirCodigoCaja(){
@@ -463,6 +470,7 @@ class MyScene extends THREE.Scene {
 
   checkerButtonsListenerCajaFuerte(event,cajaFuerte){
     if(cajaFuerte.adivinadaPassword) return;
+
     var number = event.target.innerText;
     cajaFuerte.enteredNumbers.push(number);
     if (cajaFuerte.enteredNumbers.length === cajaFuerte.correctPassword.length) {
@@ -474,6 +482,7 @@ class MyScene extends THREE.Scene {
         let numericKeypad = document.getElementById("numeric-keypad");
         numericKeypad.style.display = "none"; 
       } else {
+        this.popUp("Codigo incorrecto!");
         cajaFuerte.enteredNumbers = [];
       }
       

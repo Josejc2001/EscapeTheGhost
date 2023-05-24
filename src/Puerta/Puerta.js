@@ -58,6 +58,7 @@ class Puerta extends THREE.Object3D{
         this.pomo.translateX(-4.25);
         this.pomo.translateZ(0.15);
         
+
         this.add(this.pomo);
         this.add(this.puertaFinal);
 
