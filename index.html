@@ -163,6 +163,25 @@
             border-radius: 15px;
             border: 2px solid black;
         }
+        
+        #sogaText{
+            
+            width: 90%;
+        }
+        .transparent-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #999999;
+            padding: 10px;
+            font-size: 16px;
+            color: #333333;
+            outline: none;
+            width: 200px;
+        }
+
+        .transparent-input::placeholder {
+            color: #f5efef;
+        }
 
         .titulo-controles{
             font-size: 0.9vw;
@@ -235,6 +254,22 @@
             background-color: #eaeaea;
             border-radius: 10px;
         }
+        .sogaLabel{
+            font-size: 14px;
+            color: #006b00;
+            margin: 2%;
+        }
+        #soga{
+            visibility: hidden;
+            width: 40%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(98, 135, 247, 0.652);
+            border-radius: 15px;
+            border: 2px solid black;
+        }
     </style>
 </head>
 <body>
@@ -275,7 +310,11 @@
         <p style="padding: 1px;"> Time [ 5:00 min ] </p>
     </div>
 
-    
+    <div id="soga">
+        <label id="sogaAdivinar" class="sogaLabel" for="sogaText"></label>
+        <input type="text" class="transparent-input" name="sogaText" id="sogaText" placeholder="Escribe la letra o palabra">
+    </div>
+
     <div id="controles">
         <h2 class="titulo-controles">
             CONTROLES PERSONAJE

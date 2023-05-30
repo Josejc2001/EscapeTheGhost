@@ -224,7 +224,7 @@ class MyScene extends THREE.Scene {
   }
 
 
-  bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null){
+  bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null,rotacionY=null,z=null){
     
     if (this.controlBloqueado) {
       this.controlBloqueado = false;
@@ -263,7 +263,17 @@ class MyScene extends THREE.Scene {
         this.camera.position.y += y;
         this.cameraControl.getObject().position.y += y;
       }
+      
 
+      if(rotacionY != null){
+        this.camera.rotation.y = rotacionY;
+        this.cameraControl.getObject().rotation.y = rotacionY;
+      }
+
+      if(z != null){
+        this.camera.position.x += z;
+        this.cameraControl.getObject().position.x += z;
+      }
       
     }
    
@@ -610,6 +620,28 @@ class MyScene extends THREE.Scene {
         return;
     }
 
+    if(!this.soga.gano){
+      selectedObject = this.isClickingObject(event,[this.soga,this.estructuraSoga,this.taburete]);
+      if(selectedObject != null){
+        if(!this.soga.start){
+          this.soga.startGame();
+          this.popUp("Has empezado el mini juego: Ahorcadito, deberas adivinar la palabra, tienes 5 vidas");
+          document.getElementById('soga').style.visibility = 'visible';
+          this.bloquearCamaraObjeto(this.soga,10,-2,null,Math.PI/2,10);
+        }else{
+          this.popUp("Te quedan "+this.soga.vidas+" vidas",5*60);
+        }
+      }
+    }else if(!this.soga.cogioManivela){
+      selectedObject = this.isClickingObject(event,[this.soga.manivela]);
+      if(selectedObject != null){
+        this.soga.cogerManivela();
+        
+        this.popUp("Has cogido la manivela.");
+        return;
+      }
+    }
+
     selectedObject = this.isClickingObject(event,[this.cajaFuerte]);
     var numericKeypad = document.getElementById("numeric-keypad");
     let disCaja = numericKeypad.style.display;
@@ -698,11 +730,16 @@ class MyScene extends THREE.Scene {
         if(this.mesa7.isCapturado()){
          
           if(!this.caja1.animando){
-            if(!this.caja1.activarEngranaje() || !this.caja1.hasManivela()){
-              this.popUp("Encuentra la palanca para poder activarlo");
-            }else if(!this.caja1.ponerManivela()){
-              this.caja1.animar();
+            if(!this.caja1.activarEngranaje()){
+              if(this.soga.cogioManivela){
+                if(!this.caja1.ponerManivela()){
+                  this.caja1.animar();
+                }
+              }else{
+                this.popUp("Encuentra la manivela para poder activarlo");
+              }
             }
+            return;
           }else{
             selectedObject = this.isClickingObject(event,[this.caja1.codigoCaja]);
             if(selectedObject != null){
@@ -713,7 +750,7 @@ class MyScene extends THREE.Scene {
           }
           
         }else{
-          this.popUp("Parece que le falta una pieza...");
+          this.popUp("Parece que le falta un engranaje...");
         }
         return;
       }
@@ -956,7 +993,31 @@ class MyScene extends THREE.Scene {
     return false;
   }
 
+  sogaMiniGame(event){
+    if (event.key != "Enter") return;
+    if (this.soga.gano) return;
+
+    let text = document.getElementById('sogaText').value;
+    this.soga.letraEscrita(text);
+    document.getElementById('sogaText').value = '';
+    if(this.soga.gano){
+      this.popUp("Has ganado, coge la manivela");
+      this.soga.activarManivel();
+      this.bloquearCamaraObjeto(this.soga,0);
+      this.soga.activarManivel();
+      document.getElementById('soga').style.visibility = 'hidden';
+    }else if(this.soga.vidas <= 0){
+      this.popUp("Has perdido... Empieza otra vez.");
+      this.soga.startGame();
+    }else{
+      this.popUp("Te quedan "+this.soga.vidas+" vidas",5*60);
+    }
+  }
+
   cajaListener(){
+    var inputSoga = document.getElementById('sogaText');
+    inputSoga.addEventListener("keydown",(event)=>this.sogaMiniGame(event));
+
     var botonAceptar = document.getElementById('accept-button');
     botonAceptar.addEventListener("click",(event)=>this.ocultarBotonAceptar());
 

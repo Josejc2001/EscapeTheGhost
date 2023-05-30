@@ -15,7 +15,6 @@ class Manivela extends THREE.Object3D{
 
     }
 
-
 }
 
 export { Manivela };

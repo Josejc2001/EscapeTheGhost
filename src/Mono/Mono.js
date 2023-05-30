@@ -147,8 +147,8 @@ export class Mono extends THREE.Object3D {
 
 update(){
     var segundosTranscurridos = this.reloj.getDelta();
-    if(segundosTranscurridos >= 1){
-        segundosTranscurridos = 0.01;
+    if(segundosTranscurridos >= 0.1){
+        segundosTranscurridos = 0.0001;
     }
     this.modificaGiroTuerca(segundosTranscurridos);
     this.modificarGiroBoca(segundosTranscurridos);
