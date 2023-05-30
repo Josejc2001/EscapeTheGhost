@@ -8,6 +8,8 @@ import { Engranaje } from './Engranaje.js';
 import { TypeCaja1 } from './TypeCaja1.js';
 import { Puerta1 } from './Puerta1.js';
 import { Tornillo } from './Tornillo.js';
+import { Manivela } from './Manivela.js';
+import * as TWEEN from '../../libs/tween.esm.js'
 
 class Caja1 extends THREE.Object3D{
     constructor(){
@@ -15,6 +17,10 @@ class Caja1 extends THREE.Object3D{
         
         let textura = new THREE.TextureLoader().load('../../imgs/caja1.jpg');
         this.cubo = new MyBox(0x804000,textura);
+
+
+
+
 
         let restarCubo = new MyBox(0x804000);
         restarCubo.scale.set(3,4,3);
@@ -57,14 +63,17 @@ class Caja1 extends THREE.Object3D{
         
         this.completoTEIz = null;
 
-
-
-        // Efecto de rotacion Izquierda
-        //this.completoTEIz.children[1].rotateZ(Math.PI/2);
-
-        // Efecto de rotacion Derecha
-        //this.engranaje.rotateZ(Math.PI/2);
-
+        this.manivela = null;
+        
+        this.animando = false;
+        
+        this.name ='caja1';
+        this.codigoCaja = new MyBox(0x804000);
+        this.codigoCaja.name = 'codigoCaja';
+        this.add(this.codigoCaja);
+        this.codigoCaja.translateY(0.5);
+        
+        this.cogioManivela = false;
         this.add(this.puerta);
         this.add(this.cuboFinal);
         this.add(this.completoTE);
@@ -72,7 +81,7 @@ class Caja1 extends THREE.Object3D{
         this.translateY(-0.5);
         this.rotateY(Math.PI);
 
-        
+        this.hasCode = false;
     }
     posicionarHabitacion(){
         this.scale.set(2,2,2);
@@ -89,7 +98,66 @@ class Caja1 extends THREE.Object3D{
         this.add(this.completoTEIz);
         return true;
     }
+
+    tengoCodigo(){
+        return this.hasCode;
+    }
+
+    hasManivela(){
+        return this.cogioManivela;
+    }
+
+    ponerManivela(){
+        if(this.manivela != null) return false;
+        this.manivela = new Manivela();
+        this.manivela.scale.set(0.1,0.1,0.1);
+        this.manivela.translateX(-2.5);
+        this.manivela.translateY(2.7);
+        this.manivela.rotateY(Math.PI);
+        this.manivela.rotateZ(Math.PI/2);
+
+        this.add(this.manivela);
+        return true;
+    }
+
+    animar(){
+        if(this.animando) return;
+        if(this.completoTEIz == null || this.manivela == null) return;
+
+        this.animando = true;
+        let tweenEngranjeIZ = new TWEEN.Tween(this.completoTEIz.children[1].rotation)
+        .to({ z: -2*Math.PI }, 5000) 
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+            
+        })
+        
+        let tweenEngranjeDer = new TWEEN.Tween(this.engranaje.rotation)
+        .to({ z: 2*Math.PI }, 5000) 
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+
+        })
+
+        let palanca = new TWEEN.Tween(this.manivela.rotation)
+        .to({ x: -Math.PI/4 }, 5000) 
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+        })
+
+
+        
+        this.puerta.animar();
+        tweenEngranjeDer.start();
+        palanca.start();
+        tweenEngranjeIZ.start();
+
+    }
+
 }
+
+    
+
 
 export { Caja1 }
 

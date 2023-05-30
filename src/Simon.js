@@ -93,7 +93,7 @@ class Simon extends THREE.Object3D {
     this.perdio = false;
     this.mostrarNiveles = false;
 
-    this.cantidadNivel = 5;
+    this.cantidadNivel = 3;
 
     this.coloresNiveles = this.generarArrayPorNiveles(this.cantidadNivel);
     this.coloresClicked = [];

@@ -8,13 +8,14 @@ export class Soga extends THREE.Object3D{
         super();
         var objectLoader = new OBJLoader();
 
-        objectLoader.load('../../models/soga/objeto.obj',
-        (object) => {
-            this.modelo = object;
-            this.add(this.modelo);
-        },null,null);
-
-      
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x8B4513, // Color marrón similar al de una soga
+            specular: 0x000000, // Sin brillo especular
+            shininess: 0, // Sin brillo especular
+            wireframe: true, // Mostrar el objeto como alambres
+          });
+          
+        this.crearObjeto(objectLoader,this,material,'../../models/soga/objeto.obj');
     }
 
     posicionarHabitacion(){
@@ -24,4 +25,18 @@ export class Soga extends THREE.Object3D{
         this.translateZ(-81);
         this.rotateZ(Math.PI/2);
     }
+
+
+    crearObjeto(objectLoader,parentObj3D,material,path){
+        objectLoader.load(path,
+        (object) => {
+            object.traverse((child) => {
+                if (child instanceof THREE.Mesh) {
+                  child.material = material;
+                }
+              });
+    
+            parentObj3D.add(object);
+        },null,null);
+      }
 }

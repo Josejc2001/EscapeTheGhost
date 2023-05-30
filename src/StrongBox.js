@@ -1,5 +1,6 @@
 import * as THREE from '../libs/three.module.js'
 import { CSG } from '../libs/CSG-v2.js'
+import { LlavePuerta } from './Llave/llavePuerta.js';
  
 class StrongBox extends THREE.Object3D {
   constructor() {
@@ -28,7 +29,11 @@ class StrongBox extends THREE.Object3D {
 
     this.cajaFuerte = new THREE.Object3D();
     this.cajaFuerte.add(this.estructuraCajaFuerte);
+   
+    
     this.cajaFuerte.add(this.puerta);
+   
+   
     //this.cajaFuerte.userData = this;
 
     this.animar = false;
@@ -40,7 +45,9 @@ class StrongBox extends THREE.Object3D {
     this.enteredNumbers = [];
     this.correctPassword = "123";
 
-
+    this.llave = new LlavePuerta();
+    this.llave.translateY(-9);
+    this.add(this.llave);
 
     this.velocidadPuerta = 0.5;
     this.adivinadaPassword = false;
@@ -49,7 +56,16 @@ class StrongBox extends THREE.Object3D {
     
     this.add(this.cajaFuerte); 
     
+
+    
   }
+
+
+  hideKeys(){
+    this.llave.userData.hidden = true;
+    this.llave.visible = false;
+  }
+
 
   posicionarHabitacion(){
     this.rotateY(-Math.PI/4);

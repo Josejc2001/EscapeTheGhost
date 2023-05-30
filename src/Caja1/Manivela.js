@@ -15,15 +15,6 @@ class Manivela extends THREE.Object3D{
 
     }
 
-    posicionarHabitacion(){
-        //this.rotateZ(Math.PI/2);
-        this.rotateY(Math.PI/2);
-        this.rotateZ(Math.PI/2);
-        this.scale.set(0.2,0.2,0.2);
-        this.position.x = -85;
-        this.position.y = 35;
-        this.position.z = -5;
-    }
 
 }
 

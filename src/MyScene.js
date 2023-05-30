@@ -36,7 +36,6 @@ import { EstructuraSoga } from './EstructuraSoga.js'
 import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
 import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
 import { CajaTexturizada } from './CajaTexturizada.js'
-import { Manivela } from './Caja1/Manivela.js'
 import { Mono } from './Mono/Mono.js'
 
 /// La clase fachada del modelo
@@ -180,10 +179,7 @@ class MyScene extends THREE.Scene {
     this.cajaTexturizada.posicionarHabitacion();
     this.add(this.cajaTexturizada);
 
-    this.manivela = new Manivela();
-    this.manivela.posicionarHabitacion();
-    this.add(this.manivela);
-
+   
     
     this.habitacion = new Room();
     this.add (this.habitacion);
@@ -450,7 +446,6 @@ class MyScene extends THREE.Scene {
         break;
 
       case 'KeyH':
-        console.log("Mostrando/Quitando ayuda");
         if(this.showHelp){
           this.showHelp = false;
           if(this.secuenciaAdivinada){
@@ -458,6 +453,9 @@ class MyScene extends THREE.Scene {
           }
           if(this.simon.gano()){
             document.getElementById('digito2').style.visibility = "hidden";
+          }
+          if(this.caja1.tengoCodigo()){
+            document.getElementById('digito3').style.visibility = "hidden";
           }
           if(this.tienePalo){
             document.getElementById('objeto1').style.visibility = "hidden";
@@ -472,6 +470,9 @@ class MyScene extends THREE.Scene {
           this.showHelp = true;
           if(this.secuenciaAdivinada){
             document.getElementById('digito1').style.visibility = "visible";
+          }
+          if(this.caja1.tengoCodigo()){
+            document.getElementById('digito3').style.visibility = "visible";
           }
           if(this.simon.gano()){
             document.getElementById('digito2').style.visibility = "visible";
@@ -494,7 +495,9 @@ class MyScene extends THREE.Scene {
     if(this.cajaFuerte.adivinadaPassword){
       console.log("Abriendo caja fuerte...");
       this.cajaFuerte.animate();
+      return true;
     }
+    return false;
   }
 
   closeTecladoCajaFuerte(cajaFuerte){
@@ -508,6 +511,11 @@ class MyScene extends THREE.Scene {
   introducirCodigoCaja(){
     if(this.cajaFuerte.adivinadaPassword) return;
     
+    if(!this.simon.gano() || !this.caja1.tengoCodigo() || !this.secuenciaAdivinada){
+      this.popUp("Aun no he conseguido todos los codigos...");
+      return;
+    }
+
     let numericKeypad = document.getElementById("numeric-keypad");
     numericKeypad.style.display = "block";
     
@@ -592,15 +600,40 @@ class MyScene extends THREE.Scene {
 
     selectedObject = this.isClickingObject(event,[this.puerta.pomo]);
     if(selectedObject != null) {
+
+      if(!this.puerta.hasKey()){
+        this.popUp("Oh no... Parece que esta cerrada con llave");
+        return;
+      }
+
         this.puerta.animar();
         return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
+    selectedObject = this.isClickingObject(event,[this.cajaFuerte]);
     var numericKeypad = document.getElementById("numeric-keypad");
     let disCaja = numericKeypad.style.display;
+    
     if(selectedObject != null && (disCaja == 'none' || disCaja == '')) {
-      this.abrirCajaFuerte();
+      
+      if(!this.cajaFuerte.puertaAbierta){
+        selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
+        if(selectedObject != null && this.abrirCajaFuerte()){
+          return;
+        }
+      }
+      
+
+      if(!this.puerta.hasKey()){
+        selectedObject = this.isClickingObject(event,[this.cajaFuerte.llave]);
+        if(selectedObject != null){
+          this.puerta.tengoLlaves = true;
+          this.cajaFuerte.hideKeys();
+          this.popUp("Has cogido las llave de la puerta");
+          return;
+        }
+      }
+
       this.cajaFuerte.clickada = !this.cajaFuerte.clickada;
       this.bloquearCamaraObjeto(this.cajaFuerte,50);
       return;
@@ -659,16 +692,31 @@ class MyScene extends THREE.Scene {
       return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.caja1]);
-    if(selectedObject != null){
-      if(this.mesa7.isCapturado()){
-        if(!this.caja1.activarEngranaje()){
-          this.popUp("Encuentra la palanca para poder activarlo");
+    if(!this.caja1.tengoCodigo()){
+      selectedObject = this.isClickingObject(event,[this.caja1]);
+      if(selectedObject != null){
+        if(this.mesa7.isCapturado()){
+         
+          if(!this.caja1.animando){
+            if(!this.caja1.activarEngranaje() || !this.caja1.hasManivela()){
+              this.popUp("Encuentra la palanca para poder activarlo");
+            }else if(!this.caja1.ponerManivela()){
+              this.caja1.animar();
+            }
+          }else{
+            selectedObject = this.isClickingObject(event,[this.caja1.codigoCaja]);
+            if(selectedObject != null){
+              this.caja1.hasCode = true;
+              this.popUp("Nuevo codigo de la caja conseguido");
+              return;
+            }
+          }
+          
+        }else{
+          this.popUp("Parece que le falta una pieza...");
         }
-      }else{
-        this.popUp("Parece que le falta una pieza...");
+        return;
       }
-      return;
     }
     selectedObject = this.isClickingObject(event,
       [

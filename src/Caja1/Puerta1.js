@@ -5,6 +5,7 @@ import * as THREE from '../../libs/three.module.js'
 import { CSG } from '../../libs/CSG-v2.js'
 import { MyCylinder } from '../Basicos/MyCylinder.js';
 import { MyBox } from '../Basicos/MyBox.js';
+import * as TWEEN from '../../libs/tween.esm.js'
 
 class Puerta1 extends THREE.Object3D{
     constructor(){
@@ -49,7 +50,31 @@ class Puerta1 extends THREE.Object3D{
         
         this.translateX(-2);
         
+
+        
     }
+
+
+    animar(){
+        let pIZ = new TWEEN.Tween(this.puertaIz.rotation)
+        .to({ y: Math.PI/2 }, 5000) 
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+        })
+
+        let pDer = new TWEEN.Tween(this.puertaDer.rotation)
+        .to({ y: Math.PI/2 }, 5000) 
+        .easing(TWEEN.Easing.Quadratic.InOut)
+        .onComplete(() => {
+        })
+
+        pIZ.start();
+        pDer.start();
+    }
+
+    
+
+
 }
 
 export { Puerta1 }
