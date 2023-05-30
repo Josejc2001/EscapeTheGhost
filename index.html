@@ -212,6 +212,29 @@
             visibility: hidden;
             display: inline-block;
         }
+
+        .container {
+            visibility: hidden;
+            text-align: center;
+            background-color: rgba(247, 98, 98, 0.652);
+            position: absolute;
+            
+            z-index: 1;
+            padding: 1%;
+            left: 82%;
+            top: 1%;
+            width: 15%;
+
+            cursor: default;
+            border: solid;
+        }
+
+        .message-timer {
+            font-size: 32px;
+            padding: 20px;
+            background-color: #eaeaea;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -248,6 +271,11 @@
         <p style="padding: 1px;"> Pulsa H para mostrar/ocultar la ayuda </p>
     </div>
 
+    <div class="container" id="timer">
+        <p style="padding: 1px;"> Time [ 5:00 min ] </p>
+    </div>
+
+    
     <div id="controles">
         <h2 class="titulo-controles">
             CONTROLES PERSONAJE
@@ -295,7 +323,7 @@
     <div id="WebGL-output">
     </div>
 
-
+    
 
 </body>
 

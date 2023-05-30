@@ -836,7 +836,7 @@ class MyScene extends THREE.Scene {
 
     selectedObject= this.isClickingObject(event,[this.cajaTexturizada]);
     if(selectedObject != null){
-      this.popUp("Esta caja no sirve para nada. Pero está guapa eh!");
+      this.popUp("¿Como podra soportar el peso del mono esta caja?...");
       return;
     }
 
