@@ -25,7 +25,7 @@
             overflow: hidden; 
         }
 
-        .box {
+        .boxPopUp {
             position: absolute;
             z-index: 100;
             border: 2px solid black;
@@ -47,7 +47,7 @@
             left: 28%;
             top: 20%;
             width: 40%;
-            z-index: 1;
+            z-index: 9999;
             padding: 2em;
 
             cursor: auto;
@@ -233,7 +233,6 @@
         }
 
         .container {
-            visibility: hidden;
             text-align: center;
             background-color: rgba(247, 98, 98, 0.652);
             position: absolute;
@@ -246,6 +245,9 @@
 
             cursor: default;
             border: solid;
+        }
+        #timer{
+            visibility: hidden;
         }
 
         .message-timer {
@@ -270,9 +272,43 @@
             border-radius: 15px;
             border: 2px solid black;
         }
+
+
+        .containerBox {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .box {
+            position: absolute;
+            width: 100%;
+            background-color: black;
+            transition: transform 2.5s;
+        }
+
+        .top {
+            top: 0;
+            height: 50%;
+        }
+
+        .bottom {
+            bottom: 0;
+            height: 50%;
+            top: 50%;
+        }
+                
     </style>
 </head>
 <body>
+
+    <div class="containerBox">
+        <div class="box top" id="top-box"></div>
+        <div class="box bottom" id="bottom-box"></div>
+    </div>
 
     <div class="dialog" id="new-game-dialog">
         <p>BIENVENIDO ESCAPE THE MONKEY!!</p>
@@ -283,7 +319,7 @@
         <button class="accept-button" id="accept-button">Estoy preparado!</button>
     </div>
 
-    <div id="popup" class="box">
+    <div id="popup" class="boxPopUp">
         <class> 
             <h1 id="popup-text"></h1>
         </class>
@@ -307,7 +343,7 @@
     </div>
 
     <div class="container" id="timer">
-        <p style="padding: 1px;"> Time [ 5:00 min ] </p>
+        <p style="padding: 1px;">Time [10:00 min]</p>
     </div>
 
     <div id="soga">
