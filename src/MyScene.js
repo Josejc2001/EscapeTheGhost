@@ -357,7 +357,7 @@ class MyScene extends THREE.Scene {
           setTimeout(()=>{
             this.popUp("Para ello deberas de solucionar los puzzles de la habitacion",5,'red');
             setTimeout(()=>{
-              this.popUp("Pero tienes 5 minutos para poder escapar, BUENAS SUERTE AJAJAJAJJAJ",5,'red');
+              this.popUp("Pero tienes "+this.tiempoDeJuego/60+" minutos para poder escapar, BUENAS SUERTE AJAJAJAJJAJ",5,'red');
               this.activarJuego();
             },5000)
           },5000)
