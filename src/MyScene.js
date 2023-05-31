@@ -187,8 +187,6 @@ class MyScene extends THREE.Scene {
     
     
     this.inicio = false;
-
-
     this.showHelp = false;
 
     this.mono = new Mono();
@@ -199,6 +197,8 @@ class MyScene extends THREE.Scene {
     this.bloquearCamaraObjeto(this.cama,-3,-5,Math.PI/2,null,null,Math.PI/2);
 
     this.animacionFirstDesp = true;
+
+    this.createAudio();
 
   }
 
@@ -284,6 +284,7 @@ class MyScene extends THREE.Scene {
   ocultarBotonAceptar(){
     document.getElementById('new-game-dialog').style.display = "none";
     document.getElementById('help').style.visibility = "visible";
+    document.getElementById('play-btn').style.visibility = "visible";
     this.inicio = true;
 
     this.activarAnimacionDespertarse();
@@ -357,7 +358,7 @@ class MyScene extends THREE.Scene {
           setTimeout(()=>{
             this.popUp("Para ello deberas de solucionar los puzzles de la habitacion",5,'red');
             setTimeout(()=>{
-              this.popUp("Pero tienes "+this.tiempoDeJuego/60+" minutos para poder escapar, BUENAS SUERTE AJAJAJAJJAJ",5,'red');
+              this.popUp("Pero tienes "+this.tiempoDeJuego/60+" minutos para poder escapar, BUENA SUERTE AJAJAJAJJAJ",5,'red');
               this.activarJuego();
             },5000)
           },5000)
@@ -508,6 +509,25 @@ class MyScene extends THREE.Scene {
     
     return renderer;  
   }
+
+    // Creación de la música ambiente
+    createAudio(){
+      // create an AudioListener and add it to the camera
+      const listener = new THREE.AudioListener();
+      this.camera.add( listener );
+  
+      // create a global audio source
+      this.sound = new THREE.Audio( listener );
+      var that = this;
+  
+      // load a sound and set it as the Audio object's buffer
+      const audioLoader = new THREE.AudioLoader();
+      audioLoader.load( './audio/ambiente.mp3', function( buffer ) {
+        that.sound.setBuffer( buffer );
+        that.sound.setLoop( true );
+        that.sound.setVolume( 0.1 );
+      });
+    }
   
   getCamera () {
     // En principio se devuelve la única cámara que tenemos
@@ -604,6 +624,9 @@ class MyScene extends THREE.Scene {
       case 'KeyA':
         this.avanzar(cameraControl,velocidad,false,-1);
         break;
+      case 'KeyM':
+        this.sound.play();
+        break;
       case 'ControlLeft':
         
         if(cameraControl.isLocked){
@@ -634,6 +657,12 @@ class MyScene extends THREE.Scene {
           if(this.tieneRemoto){
             document.getElementById('objeto3').style.visibility = "hidden";
           }
+          if(this.soga.cogioManivela){
+            document.getElementById('objeto4').style.visibility = "hidden";
+          }
+          if(this.puerta.tengoLlaves){
+            document.getElementById('objeto5').style.visibility = "hidden";
+          }
         } else{
           this.showHelp = true;
           if(this.secuenciaAdivinada){
@@ -653,6 +682,12 @@ class MyScene extends THREE.Scene {
           }
           if(this.tieneRemoto){
             document.getElementById('objeto3').style.visibility = "visible";
+          }
+          if(this.soga.cogioManivela){
+            document.getElementById('objeto4').style.visibility = "visible";
+          }
+          if(this.puerta.tengoLlaves){
+            document.getElementById('objeto5').style.visibility = "visible";
           }
         }
         break;
@@ -1192,6 +1227,19 @@ class MyScene extends THREE.Scene {
     }
   }
 
+  toggleMusic() {
+    var playBtn = document.getElementById('play-btn');
+    if (!this.sound.isPlaying) {
+      this.sound.play();
+      playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      playBtn.classList.add('playing');
+    } else {
+      this.sound.stop();
+      playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      playBtn.classList.remove('playing');
+    }
+  }
+
   cajaListener(){
     var inputSoga = document.getElementById('sogaText');
     inputSoga.addEventListener("keydown",(event)=>this.sogaMiniGame(event));
@@ -1204,17 +1252,15 @@ class MyScene extends THREE.Scene {
     var cancelButton = numericKeypad.querySelector(".cancel-button");
     cancelButton.addEventListener("click", ()=>this.closeTecladoCajaFuerte(this.cajaFuerte));
 
+    var botonMusica = document.getElementById('play-btn');
+    console.log(botonMusica);
+    botonMusica.addEventListener("click",(event)=>this.toggleMusic());
+
     var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
     for (var i = 0; i < numericButtons.length; i++) {
         numericButtons[i].addEventListener("click",(event)=> this.checkerButtonsListenerCajaFuerte(event,this.cajaFuerte));
     }
-
-    let ahorcadoKeypad = document.getElementById("ahorcado");
-
-    var cancelButtonAhorcado = ahorcadoKeypad.querySelector(".cancel-button");
-    cancelButtonAhorcado.addEventListener("click", ()=>this.closePalabraAhorcado());
   }
-
 }
 
 

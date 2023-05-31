@@ -75,7 +75,10 @@ class Puerta extends THREE.Object3D{
 
         this.tengoLlaves = false;
         // Abrir Puerta
-        //this.puertaPadre.rotateY(Math.PI/2); 
+        //this.puertaPadre.rotateY(Math.PI/2);
+        
+        this.ilusion = this.crearIlusion();
+        this.add(this.ilusion);
     }
 
     posicionarHabitacion(){
@@ -100,6 +103,15 @@ class Puerta extends THREE.Object3D{
 
     hasKey(){
         return this.tengoLlaves;
+    }
+
+    crearIlusion(){
+        var planeGeometry = new THREE.PlaneGeometry(10,20,20,20);
+        planeGeometry.translate(0,0,-0.1);
+        var texture = new THREE.TextureLoader().load('../imgs/girasoles.jpg');
+        var planeMaterial = new THREE.MeshPhongMaterial ({map: texture});
+        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        return plane;
     }
 
 }

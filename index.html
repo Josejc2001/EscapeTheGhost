@@ -12,7 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+
     <style>
         *{
             padding:0;
@@ -260,6 +261,12 @@
             display: inline-block;
         }
 
+        
+        #objeto5{
+            visibility: hidden;
+            display: inline-block;
+        }
+
         .container {
             text-align: center;
             background-color: rgba(247, 98, 98, 0.652);
@@ -328,6 +335,25 @@
             height: 50%;
             top: 50%;
         }
+
+        #play-btn {
+            visibility: hidden;
+            position: fixed;
+            left: 20%;
+            top: 1%;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: 3px solid black;
+        }
+
+        #play-btn.playing {
+            background-color: #FF5722;
+        }
                 
     </style>
 </head>
@@ -366,39 +392,11 @@
         <button>9</button>
     </div>
 
-    <div id="ahorcado">
-        <button class="cancel-button">X</button>
-        <button>a</button>
-        <button>b</button>
-        <button>c</button>
-        <button>d</button>
-        <button>e</button>
-        <button>f</button>
-        <button>g</button>
-        <button>h</button>
-        <button>i</button>
-        <button>j</button>
-        <button>k</button>
-        <button>l</button>
-        <button>m</button>
-        <button>n</button>
-        <button>o</button>
-        <button>p</button>
-        <button>q</button>
-        <button>r</button>
-        <button>s</button>
-        <button>t</button>
-        <button>u</button>
-        <button>v</button>
-        <button>w</button>
-        <button>x</button>
-        <button>y</button>
-        <button>z</button>
-    </div>
-
     <div class="ayuda" id ="help" >
         <p style="padding: 1px;"> Pulsa H para mostrar/ocultar la ayuda </p>
     </div>
+
+    <button id="play-btn"><i class="fas fa-play"></i></button>
 
     <div class="container" id="timer">
         <p style="padding: 1px;">Time [10:00 min]</p>
@@ -431,6 +429,9 @@
             </h3>
             <h3 class="control"> 
                 <div id="objeto4">1x Manivela</div>
+            </h3>
+            <h3 class="control"> 
+                <div id="objeto5">1x Llave puerta</div>
             </h3>
         </h2>
 
