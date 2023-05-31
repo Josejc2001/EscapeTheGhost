@@ -825,7 +825,7 @@ class MyScene extends THREE.Scene {
         return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.puerta.pomo]);
+    selectedObject = this.isClickingObject(event,[this.puerta.pomo.abridor]);
     if(selectedObject != null) {
 
       if(!this.puerta.hasKey()){
