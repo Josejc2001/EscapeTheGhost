@@ -242,13 +242,13 @@ class MyScene extends THREE.Scene {
       this.camera = this.camera.clone();
       this.cameraControl = new PointerLockControls(this.camera, this.renderer.domElement);
       
-      this.popUp("...",5,'green');
+      this.popUp("Yo: ...",5,'green');
       setTimeout(()=>{
       let cs = new TWEEN.Tween(this.camera.rotation)
       .to({ y: Math.PI/60 }, duration)
       .easing(TWEEN.Easing.Quadratic.InOut)
       .onComplete(() => {
-        this.popUp("¿Que es eso?...",5,'green');
+        this.popUp("Yo: ¿Que es eso?...",5,'green');
       })
 
       let cs2 = new TWEEN.Tween(this.camera.position)
