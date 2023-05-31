@@ -72,6 +72,8 @@ class Puerta extends THREE.Object3D{
         this.scale.set(4,5,4);
         this.position.y = 46;
 
+
+        this.tengoLlaves = false;
         // Abrir Puerta
         //this.puertaPadre.rotateY(Math.PI/2); 
     }
@@ -93,6 +95,11 @@ class Puerta extends THREE.Object3D{
        
         this.pomo.animar().chain(tweeAnimation);
 
+    }
+
+
+    hasKey(){
+        return this.tengoLlaves;
     }
 
 }

@@ -1,5 +1,6 @@
 import { OBJLoader } from '../../libs/OBJLoader.js';
 import * as THREE from '../../libs/three.module.js'
+
  
 export class Mono extends THREE.Object3D {
   constructor() {
@@ -119,8 +120,10 @@ export class Mono extends THREE.Object3D {
     this.add(this.cuerpo);
     this.reloj = new THREE.Clock();
     this.positionInicialCabeza = this.cabeza.position.z;
-   
+    
   }
+
+
 
   posicionarHabitacion(){
     this.translateZ(-76);
@@ -144,8 +147,8 @@ export class Mono extends THREE.Object3D {
 
 update(){
     var segundosTranscurridos = this.reloj.getDelta();
-    if(segundosTranscurridos >= 1){
-        segundosTranscurridos = 0.01;
+    if(segundosTranscurridos >= 0.1){
+        segundosTranscurridos = 0.0001;
     }
     this.modificaGiroTuerca(segundosTranscurridos);
     this.modificarGiroBoca(segundosTranscurridos);

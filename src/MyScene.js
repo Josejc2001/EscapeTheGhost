@@ -36,7 +36,6 @@ import { EstructuraSoga } from './EstructuraSoga.js'
 import { BotonCombinatorio1 } from './BotonCombinatorio1.js'
 import { BotonCombinatorio2 } from './BotonCombinatorio2.js'
 import { CajaTexturizada } from './CajaTexturizada.js'
-import { Manivela } from './Caja1/Manivela.js'
 import { Mono } from './Mono/Mono.js'
 
 /// La clase fachada del modelo
@@ -50,6 +49,7 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
     
+    this.tiempoDeJuego = 600;
     this.popUpTimeout = null;
     // Lo primero, crear el visualizador, pasándole el lienzo sobre el que realizar los renderizados.
     this.renderer = this.createRenderer(myCanvas);
@@ -180,14 +180,11 @@ class MyScene extends THREE.Scene {
     this.cajaTexturizada.posicionarHabitacion();
     this.add(this.cajaTexturizada);
 
-    this.manivela = new Manivela();
-    this.manivela.posicionarHabitacion();
-    this.add(this.manivela);
-
+   
     
     this.habitacion = new Room();
     this.add (this.habitacion);
-
+    
     
     this.inicio = false;
 
@@ -199,12 +196,97 @@ class MyScene extends THREE.Scene {
     this.add(this.mono);
 
     this.desocultarMenuInicio();
+    this.bloquearCamaraObjeto(this.cama,-3,-5,Math.PI/2,null,null,Math.PI/2);
+
+    this.animacionFirstDesp = true;
+
   }
 
+  activarAnimacionDespertarse(){
+    const topBox = document.querySelector('.top');
+    const bottomBox = document.querySelector('.bottom');
+    topBox.style.transform = 'translateY(-100%)';
+    bottomBox.style.transform = 'translateY(100%)';
+    setTimeout(()=>this.animacionCamara(),2500);
+  }
+
+  animacionCamara(){
+
+    const topBox = document.getElementById('top-box');
+    const bottomBox = document.getElementById('bottom-box');
+
+    topBox.style.display = 'none';
+    bottomBox.style.display = 'none';
+    // Definir la posición final de la cámara
+    let finalPosition = new THREE.Vector3(-68, 45, 80);
+
+    // Duración de la animación en milisegundos
+    let duration = 2000;
+
+    // Crear el objeto tween para animar la posición de la cámara
+    let cameraTween = new TWEEN.Tween(this.camera.position)
+      .to({ x: finalPosition.x, y: finalPosition.y, z: finalPosition.z }, duration)
+      .easing(TWEEN.Easing.Quadratic.InOut)
+      .onComplete(() => {
+        
+      })
+
+      
+    
+
+    let cameraTween2 = new TWEEN.Tween(this.camera.rotation)
+    .to({ y: -Math.PI/2 }, duration)
+    .easing(TWEEN.Easing.Quadratic.InOut)
+    .onComplete(() => {
+      this.camera = this.camera.clone();
+      this.cameraControl = new PointerLockControls(this.camera, this.renderer.domElement);
+      
+      this.popUp("...",5,'green');
+      setTimeout(()=>{
+      let cs = new TWEEN.Tween(this.camera.rotation)
+      .to({ y: Math.PI/60 }, duration)
+      .easing(TWEEN.Easing.Quadratic.InOut)
+      .onComplete(() => {
+        this.popUp("¿Que es eso?...",5,'green');
+      })
+
+      let cs2 = new TWEEN.Tween(this.camera.position)
+      .to({ y: 65, z:70  }, duration)
+      .easing(TWEEN.Easing.Quadratic.InOut)
+      .onComplete(() => {
+        
+        this.desbloquearAnimacionFirst();
+      })
+      
+
+      cs.chain(cs2);
+      cs.start();
+
+      },2000);
+
+    })
+
+    
+
+    
+
+      
+    cameraTween.start();
+    cameraTween2.start()
+  }
+
+  gameOver(){
+
+    //TODO hacer mensaje de gameOver 
+
+  }
+  
   ocultarBotonAceptar(){
     document.getElementById('new-game-dialog').style.display = "none";
     document.getElementById('help').style.visibility = "visible";
     this.inicio = true;
+
+    this.activarAnimacionDespertarse();
   }
   
   createCamera () {
@@ -225,10 +307,70 @@ class MyScene extends THREE.Scene {
     this.cameraControl = new PointerLockControls (this.camera, this.renderer.domElement);
    
     
+   
+  }
+
+  activarJuego(){
+    this.animacionFirstDesp = false;
+    document.getElementById("timer").style.visibility = 'visible';
+
+    let tiempoInicial = this.tiempoDeJuego;
+
+    // Obtener el elemento HTML donde se mostrará la cuenta regresiva
+    let contadorElemento = document.getElementById('timer');
+
+    // Función para actualizar la cuenta regresiva y mostrarla en el elemento HTML
+    function actualizarCuentaRegresiva() {
+      // Verificar si el tiempo ha llegado a cero
+      if (tiempoInicial <= 0) {
+        clearInterval(intervalo); // Detener la cuenta regresiva
+        contadorElemento.innerHTML = "¡Tiempo terminado!";
+      } else {
+        let minutos = Math.floor(tiempoInicial / 60); // Calcular los minutos restantes
+        let segundos = tiempoInicial % 60; // Calcular los segundos restantes
+        
+        // Formatear los minutos y segundos para mostrarlos en el elemento HTML
+        let formatoTiempo = minutos + ":" + segundos.toString().padStart(2, '0');
+        contadorElemento.innerHTML = "Time ["+formatoTiempo+" min]";
+        
+        tiempoInicial--; // Reducir el tiempo en 1 segundo
+      }
+    }
+
+    // Ejecutar la función actualizarCuentaRegresiva cada segundo
+    let intervalo = setInterval(actualizarCuentaRegresiva, 1000);
+
   }
 
 
-  bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null){
+  desbloquearAnimacionFirst(){
+    this.camaraBefore = this.camera.clone();
+    this.bloquearCamaraObjeto(this.cama,0);
+
+
+    setTimeout(()=>{
+      this.popUp("Parece que te has despertado",5,'red');
+      setTimeout(()=>{
+        this.popUp("Vamos a jugar un juego :)",5,'red');
+        setTimeout(()=>{
+          this.popUp("Si quieres salir con vida, deberas conseguir la llave de la puerta",5,'red');
+          setTimeout(()=>{
+            this.popUp("Para ello deberas de solucionar los puzzles de la habitacion",5,'red');
+            setTimeout(()=>{
+              this.popUp("Pero tienes "+this.tiempoDeJuego/60+" minutos para poder escapar, BUENAS SUERTE AJAJAJAJJAJ",5,'red');
+              this.activarJuego();
+            },5000)
+          },5000)
+  
+        },5000)
+      },5000)
+    },3000)
+
+    
+  }
+  
+
+  bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null,rotacionY=null,z=null,rotacionZ=null){
     
     if (this.controlBloqueado) {
       this.controlBloqueado = false;
@@ -267,7 +409,22 @@ class MyScene extends THREE.Scene {
         this.camera.position.y += y;
         this.cameraControl.getObject().position.y += y;
       }
+      
+      if(rotacionZ != null){
+        this.camera.rotation.z = rotacionZ;
+        this.cameraControl.getObject().rotation.z = rotacionZ;
+      }
+      if(rotacionY != null){
+        this.camera.rotation.y = rotacionY;
+        this.cameraControl.getObject().rotation.y = rotacionY;
+      }
 
+      if(z != null){
+        this.camera.position.x += z;
+        this.cameraControl.getObject().position.x += z;
+      }
+
+      
       
     }
    
@@ -377,7 +534,7 @@ class MyScene extends THREE.Scene {
 
   }
 
-  sh_popUp(show,mensaje){
+  sh_popUp(show,mensaje,color='black'){
     let text =`visible`
     if(!show)text = `hidden`;
     let popupDIV = document.getElementById('popup');
@@ -385,14 +542,18 @@ class MyScene extends THREE.Scene {
 
     let popuptext = document.getElementById('popup-text');
     popuptext.innerHTML = mensaje;
+
+    
+    popuptext.style.color = color;
+    
   }
 
-  popUp(mensaje,seconds=5){
+  popUp(mensaje,seconds=5,color='black'){
     if(this.popUpTimeout  != null){
       clearTimeout(this.popUpTimeout);
     }
 
-    this.sh_popUp(true,mensaje);
+    this.sh_popUp(true,mensaje,color);
     this.popUpTimeout = setTimeout(this.sh_popUp, seconds*1000,false,"");
   }
 
@@ -453,7 +614,6 @@ class MyScene extends THREE.Scene {
         break;
 
       case 'KeyH':
-        console.log("Mostrando/Quitando ayuda");
         if(this.showHelp){
           this.showHelp = false;
           if(this.secuenciaAdivinada){
@@ -461,6 +621,9 @@ class MyScene extends THREE.Scene {
           }
           if(this.simon.gano()){
             document.getElementById('digito2').style.visibility = "hidden";
+          }
+          if(this.caja1.tengoCodigo()){
+            document.getElementById('digito3').style.visibility = "hidden";
           }
           if(this.tienePalo){
             document.getElementById('objeto1').style.visibility = "hidden";
@@ -475,6 +638,9 @@ class MyScene extends THREE.Scene {
           this.showHelp = true;
           if(this.secuenciaAdivinada){
             document.getElementById('digito1').style.visibility = "visible";
+          }
+          if(this.caja1.tengoCodigo()){
+            document.getElementById('digito3').style.visibility = "visible";
           }
           if(this.simon.gano()){
             document.getElementById('digito2').style.visibility = "visible";
@@ -497,7 +663,9 @@ class MyScene extends THREE.Scene {
     if(this.cajaFuerte.adivinadaPassword){
       console.log("Abriendo caja fuerte...");
       this.cajaFuerte.animate();
+      return true;
     }
+    return false;
   }
 
   closeTecladoCajaFuerte(cajaFuerte){
@@ -511,6 +679,11 @@ class MyScene extends THREE.Scene {
   introducirCodigoCaja(){
     if(this.cajaFuerte.adivinadaPassword) return;
     
+    if(!this.simon.gano() || !this.caja1.tengoCodigo() || !this.secuenciaAdivinada){
+      this.popUp("Aun no he conseguido todos los codigos...");
+      return;
+    }
+
     let numericKeypad = document.getElementById("numeric-keypad");
     numericKeypad.style.display = "block";
     
@@ -597,6 +770,9 @@ class MyScene extends THREE.Scene {
 
   onMouseDown(event){
     
+    if(this.animacionFirstDesp) return;
+
+
     let selectedObject = this.isClickingObject(event,[this.cajaFuerte.teclado]);
     if(selectedObject != null && !this.cajaFuerte.adivinadaPassword && this.cajaFuerte.clickada) {
         this.introducirCodigoCaja();
@@ -605,15 +781,62 @@ class MyScene extends THREE.Scene {
 
     selectedObject = this.isClickingObject(event,[this.puerta.pomo]);
     if(selectedObject != null) {
+
+      if(!this.puerta.hasKey()){
+        this.popUp("Oh no... Parece que esta cerrada con llave");
+        return;
+      }
+
         this.puerta.animar();
         return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
+    if(!this.soga.gano){
+      selectedObject = this.isClickingObject(event,[this.soga,this.estructuraSoga,this.taburete]);
+      if(selectedObject != null){
+        if(!this.soga.start){
+          this.soga.startGame();
+          this.popUp("Has empezado el mini juego: Ahorcadito, deberas adivinar la palabra, tienes 5 vidas");
+          document.getElementById('soga').style.visibility = 'visible';
+          this.bloquearCamaraObjeto(this.soga,10,-2,null,Math.PI/2,10);
+        }else{
+          this.popUp("Te quedan "+this.soga.vidas+" vidas",5*60);
+        }
+      }
+    }else if(!this.soga.cogioManivela){
+      selectedObject = this.isClickingObject(event,[this.soga.manivela]);
+      if(selectedObject != null){
+        this.soga.cogerManivela();
+        
+        this.popUp("Has cogido la manivela.");
+        return;
+      }
+    }
+
+    selectedObject = this.isClickingObject(event,[this.cajaFuerte]);
     var numericKeypad = document.getElementById("numeric-keypad");
     let disCaja = numericKeypad.style.display;
+    
     if(selectedObject != null && (disCaja == 'none' || disCaja == '')) {
-      this.abrirCajaFuerte();
+      
+      if(!this.cajaFuerte.puertaAbierta){
+        selectedObject = this.isClickingObject(event,[this.cajaFuerte.puerta]);
+        if(selectedObject != null && this.abrirCajaFuerte()){
+          return;
+        }
+      }
+      
+
+      if(!this.puerta.hasKey()){
+        selectedObject = this.isClickingObject(event,[this.cajaFuerte.llave]);
+        if(selectedObject != null){
+          this.puerta.tengoLlaves = true;
+          this.cajaFuerte.hideKeys();
+          this.popUp("Has cogido las llave de la puerta");
+          return;
+        }
+      }
+
       this.cajaFuerte.clickada = !this.cajaFuerte.clickada;
       this.bloquearCamaraObjeto(this.cajaFuerte,50);
       return;
@@ -672,16 +895,36 @@ class MyScene extends THREE.Scene {
       return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.caja1]);
-    if(selectedObject != null){
-      if(this.mesa7.isCapturado()){
-        if(!this.caja1.activarEngranaje()){
-          this.popUp("Encuentra la palanca para poder activarlo");
+    if(!this.caja1.tengoCodigo()){
+      selectedObject = this.isClickingObject(event,[this.caja1]);
+      if(selectedObject != null){
+        if(this.mesa7.isCapturado()){
+         
+          if(!this.caja1.animando){
+            if(!this.caja1.activarEngranaje()){
+              if(this.soga.cogioManivela){
+                if(!this.caja1.ponerManivela()){
+                  this.caja1.animar();
+                }
+              }else{
+                this.popUp("Encuentra la manivela para poder activarlo");
+              }
+            }
+            return;
+          }else{
+            selectedObject = this.isClickingObject(event,[this.caja1.codigoCaja]);
+            if(selectedObject != null){
+              this.caja1.hasCode = true;
+              this.popUp("Nuevo codigo de la caja conseguido");
+              return;
+            }
+          }
+          
+        }else{
+          this.popUp("Parece que le falta un engranaje...");
         }
-      }else{
-        this.popUp("Parece que le falta una pieza...");
+        return;
       }
-      return;
     }
     selectedObject = this.isClickingObject(event,
       [
@@ -801,7 +1044,7 @@ class MyScene extends THREE.Scene {
 
     selectedObject= this.isClickingObject(event,[this.cajaTexturizada]);
     if(selectedObject != null){
-      this.popUp("Esta caja no sirve para nada. Pero está guapa eh!");
+      this.popUp("¿Como podra soportar el peso del mono esta caja?...");
       return;
     }
 
@@ -928,7 +1171,31 @@ class MyScene extends THREE.Scene {
     return false;
   }
 
+  sogaMiniGame(event){
+    if (event.key != "Enter") return;
+    if (this.soga.gano) return;
+
+    let text = document.getElementById('sogaText').value;
+    this.soga.letraEscrita(text);
+    document.getElementById('sogaText').value = '';
+    if(this.soga.gano){
+      this.popUp("Has ganado, coge la manivela");
+      this.soga.activarManivel();
+      this.bloquearCamaraObjeto(this.soga,0);
+      this.soga.activarManivel();
+      document.getElementById('soga').style.visibility = 'hidden';
+    }else if(this.soga.vidas <= 0){
+      this.popUp("Has perdido... Empieza otra vez.");
+      this.soga.startGame();
+    }else{
+      this.popUp("Te quedan "+this.soga.vidas+" vidas",5*60);
+    }
+  }
+
   cajaListener(){
+    var inputSoga = document.getElementById('sogaText');
+    inputSoga.addEventListener("keydown",(event)=>this.sogaMiniGame(event));
+
     var botonAceptar = document.getElementById('accept-button');
     botonAceptar.addEventListener("click",(event)=>this.ocultarBotonAceptar());
 
