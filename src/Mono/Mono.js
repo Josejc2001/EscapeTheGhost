@@ -70,26 +70,36 @@ export class Mono extends THREE.Object3D {
     //la y es la z
 
     this.cabeza.translateZ(56);
-    this.boca.translateZ(-4);
+    this.boca.translateZ(52);
     this.boca.translateX(-2);
     this.boca.translateY(-2);
 
     this.tuerca.translateZ(14);
     this.tuerca.translateY(60);
 
-    this.platilloDerecho.translateX(1);
-    this.platilloDerecho.translateY(-77);
-    this.platilloDerecho.translateZ(-8);
+    this.platilloDerecho.translateX(41);
+    this.platilloDerecho.translateY(-60);
+    this.platilloDerecho.translateZ(27);
     this.brazoDerecho.translateX(41);
-    this.brazoDerecho.translateY(11);
+    this.brazoDerecho.translateY(18);
     this.brazoDerecho.translateZ(34);
 
     this.brazo.translateX(-41);
-    this.brazo.translateY(11);
+    this.brazo.translateY(18);
     this.brazo.translateZ(34);
+    this.platillo.translateX(-41);
+    this.platillo.translateY(-60);
+    this.platillo.translateZ(27);
 
-    this.platillo.translateY(-78);
-    this.platillo.translateZ(-6);
+    this.brazoI = new THREE.Object3D();
+    this.brazoI.add(this.brazo);
+    this.brazoI.add(this.platillo);
+
+    this.brazoD = new THREE.Object3D();
+    this.brazoD.add(this.brazoDerecho);
+    this.brazoD.add(this.platilloDerecho);
+
+    
 
     this.pieDerecho.translateX(40);
     this.pieDerecho.translateY(10);
@@ -98,17 +108,15 @@ export class Mono extends THREE.Object3D {
     this.pie.translateY(10);
     this.pie.translateZ(-7);
 
+
+    this.cabezaFinal = new THREE.Object3D();
+    this.cabezaFinal.add(this.cabeza);
+    this.cabezaFinal.add(this.boca);
    
-    this.cabeza.add(this.boca);
-    this.cuerpo.add(this.cabeza);
-
+    this.cuerpo.add(this.cabezaFinal);
     this.cuerpo.add(this.tuerca);
-    
-    this.brazo.add(this.platillo);
-    this.cuerpo.add(this.brazo);
-
-    this.brazoDerecho.add(this.platilloDerecho);
-    this.cuerpo.add(this.brazoDerecho);
+    this.cuerpo.add(this.brazoI);
+    this.cuerpo.add(this.brazoD);
 
     this.cuerpo.add(this.pie);
     this.cuerpo.add(this.pieDerecho);

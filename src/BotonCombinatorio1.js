@@ -41,7 +41,7 @@ class BotonCombinatorio1 extends THREE.Object3D {
   crearPulsador(){
     var pulsadorGeom = new THREE.SphereGeometry(4,15,4,15);
     //pulsadorGeom.translate(0,10,0);
-    var pulsadorMat = new THREE.MeshPhongMaterial({color: 0xFF0000});
+    var pulsadorMat = new THREE.MeshPhongMaterial({color: 0xF00FF});
 
     var corteGeom = new THREE.BoxGeometry(10,10,10);
     corteGeom.translate(0,-5,0);
