@@ -802,15 +802,7 @@ class MyScene extends THREE.Scene {
     this.remoteControl.visible = false;
   }
 
-  introducirPalabraAhorcado(){
-    let ahorcadoKeypad = document.getElementById("ahorcado");
-    ahorcadoKeypad.style.display = "block";
-  }
 
-  closePalabraAhorcado(){
-    let ahorcadoKeypad = document.getElementById("ahorcado");
-    ahorcadoKeypad.style.display = "none"; 
-  }
 
 
   onMouseDown(event){
@@ -1110,11 +1102,6 @@ class MyScene extends THREE.Scene {
       return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.estructuraSoga, this.soga]);
-    if(selectedObject != null) {
-        this.introducirPalabraAhorcado();
-        return;
-    }
   }
 
   
