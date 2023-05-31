@@ -49,7 +49,7 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
     
-    this.tiempoDeJuego = 600;
+    this.tiempoDeJuego = 5;
     this.popUpTimeout = null;
     // Lo primero, crear el visualizador, pasándole el lienzo sobre el que realizar los renderizados.
     this.renderer = this.createRenderer(myCanvas);
@@ -280,12 +280,13 @@ class MyScene extends THREE.Scene {
 
     this.endGame = true;
     this.bloquearCamaraObjeto(this.mono,60,10);
-    
+    document.getElementById('game-over').style.visibility = "visible";
   }
 
   winGame(){
     this.endGame = true;
     this.bloquearCamaraObjeto(this.mono,20,10,null,THREE.MathUtils.degToRad(190),-10);
+    document.getElementById('win').style.visibility = "visible";
   }
   
   ocultarBotonAceptar(){
