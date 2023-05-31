@@ -31,7 +31,7 @@ class StrongBox extends THREE.Object3D {
     this.cajaFuerte.add(this.estructuraCajaFuerte);
    
     
-    //this.cajaFuerte.add(this.puerta);
+    this.cajaFuerte.add(this.puerta);
    
    
     this.animar = false;
