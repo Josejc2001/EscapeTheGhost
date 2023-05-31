@@ -56,6 +56,7 @@ class MyScene extends THREE.Scene {
 
     this.camaraBefore = null;
     this.controlBloqueado = false;
+    this.endGame = false;
     
     // Construimos los distinos elementos que tendremos en la escena
     
@@ -241,13 +242,13 @@ class MyScene extends THREE.Scene {
       this.camera = this.camera.clone();
       this.cameraControl = new PointerLockControls(this.camera, this.renderer.domElement);
       
-      this.popUp("...",5,'green');
+      this.popUp("Yo: ...",5,'green');
       setTimeout(()=>{
       let cs = new TWEEN.Tween(this.camera.rotation)
       .to({ y: Math.PI/60 }, duration)
       .easing(TWEEN.Easing.Quadratic.InOut)
       .onComplete(() => {
-        this.popUp("¿Que es eso?...",5,'green');
+        this.popUp("Yo: ¿Que es eso?...",5,'green');
       })
 
       let cs2 = new TWEEN.Tween(this.camera.position)
@@ -277,8 +278,14 @@ class MyScene extends THREE.Scene {
 
   gameOver(){
 
-    //TODO hacer mensaje de gameOver 
+    this.endGame = true;
+    this.bloquearCamaraObjeto(this.mono,60,10);
+    
+  }
 
+  winGame(){
+    this.endGame = true;
+    this.bloquearCamaraObjeto(this.mono,20,10,null,THREE.MathUtils.degToRad(190),-10);
   }
   
   ocultarBotonAceptar(){
@@ -321,11 +328,12 @@ class MyScene extends THREE.Scene {
     let contadorElemento = document.getElementById('timer');
 
     // Función para actualizar la cuenta regresiva y mostrarla en el elemento HTML
-    function actualizarCuentaRegresiva() {
+    function actualizarCuentaRegresiva(obj) {
       // Verificar si el tiempo ha llegado a cero
       if (tiempoInicial <= 0) {
         clearInterval(intervalo); // Detener la cuenta regresiva
         contadorElemento.innerHTML = "¡Tiempo terminado!";
+        obj.gameOver();
       } else {
         let minutos = Math.floor(tiempoInicial / 60); // Calcular los minutos restantes
         let segundos = tiempoInicial % 60; // Calcular los segundos restantes
@@ -339,7 +347,7 @@ class MyScene extends THREE.Scene {
     }
 
     // Ejecutar la función actualizarCuentaRegresiva cada segundo
-    let intervalo = setInterval(actualizarCuentaRegresiva, 1000);
+    let intervalo = setInterval(actualizarCuentaRegresiva, 1000,this);
 
   }
 
@@ -350,15 +358,15 @@ class MyScene extends THREE.Scene {
 
 
     setTimeout(()=>{
-      this.popUp("Parece que te has despertado",5,'red');
+      this.popUp("Mono: Parece que te has despertado",5,'red');
       setTimeout(()=>{
-        this.popUp("Vamos a jugar un juego :)",5,'red');
+        this.popUp("Mono: Vamos a jugar un juego :)",5,'red');
         setTimeout(()=>{
-          this.popUp("Si quieres salir con vida, deberas conseguir la llave de la puerta",5,'red');
+          this.popUp("Mono: Si quieres salir con vida, deberas conseguir la llave de la puerta",5,'red');
           setTimeout(()=>{
-            this.popUp("Para ello deberas de solucionar los puzzles de la habitacion",5,'red');
+            this.popUp("Mono: Para ello deberas de solucionar los puzzles de la habitacion",5,'red');
             setTimeout(()=>{
-              this.popUp("Pero tienes "+this.tiempoDeJuego/60+" minutos para poder escapar, BUENA SUERTE AJAJAJAJJAJ",5,'red');
+              this.popUp("Mono: Pero tienes "+this.tiempoDeJuego/60+" minutos para poder escapar, BUENA SUERTE AJAJAJAJJAJ",5,'red');
               this.activarJuego();
             },5000)
           },5000)
@@ -373,14 +381,16 @@ class MyScene extends THREE.Scene {
 
   bloquearCamaraObjeto(objeto,x,y=null,rotacionX=null,rotacionY=null,z=null,rotacionZ=null){
     
-    if (this.controlBloqueado) {
+    if (this.controlBloqueado && !this.endGame) {
       this.controlBloqueado = false;
       this.camera = this.camaraBefore.clone();
       this.cameraControl = new PointerLockControls(this.camera, this.renderer.domElement);
     } else {
       this.controlBloqueado = true;
       this.camaraBefore = this.camera.clone();
-  
+      if(this.cameraControl.isLocked){
+        this.cameraControl.unlock();
+      }
       // Obtener la posición mundial del objeto objetivo
       let vectorAux = new THREE.Vector3();
       objeto.getWorldPosition(vectorAux);
@@ -627,6 +637,9 @@ class MyScene extends THREE.Scene {
       case 'KeyM':
         this.sound.play();
         break;
+      case 'KeyV':
+        console.log(this.camera.position);
+        break;
       case 'ControlLeft':
         
         if(cameraControl.isLocked){
@@ -696,7 +709,6 @@ class MyScene extends THREE.Scene {
 
   abrirCajaFuerte(){
     if(this.cajaFuerte.adivinadaPassword){
-      console.log("Abriendo caja fuerte...");
       this.cajaFuerte.animate();
       return true;
     }
@@ -708,7 +720,6 @@ class MyScene extends THREE.Scene {
     numericKeypad.style.display = "none"; 
    
     cajaFuerte.enteredNumbers = [];
-    console.log(cajaFuerte.enteredNumbers);
   }
 
   introducirCodigoCaja(){
@@ -728,7 +739,6 @@ class MyScene extends THREE.Scene {
     if(cajaFuerte.adivinadaPassword) return;
 
     var number = event.target.innerText;
-    console.log(number);
     cajaFuerte.enteredNumbers.push(number);
     if (cajaFuerte.enteredNumbers.length === cajaFuerte.correctPassword.length) {
       var enteredPassword = this.cajaFuerte.enteredNumbers.join("");
@@ -747,7 +757,6 @@ class MyScene extends THREE.Scene {
   }
 
   iniciarJuegoLuces(){
-    console.log("Juego de las luces");
     this.spotLightJuego.visible = true;
     this.animarLuces();
   }
@@ -758,7 +767,6 @@ class MyScene extends THREE.Scene {
   }
 
   comprobarSecuenciaColores(){
-    console.log("Comprobando secuencia luces");
 
     var coloresCambiados = [];
     coloresCambiados.push(this.combinatorio.color1.material.name);
@@ -806,7 +814,8 @@ class MyScene extends THREE.Scene {
   onMouseDown(event){
     
     if(this.animacionFirstDesp) return;
-
+    if(this.cameraControl.isLocked) return;
+    if(this.endGame) return;
 
     let selectedObject = this.isClickingObject(event,[this.cajaFuerte.teclado]);
     if(selectedObject != null && !this.cajaFuerte.adivinadaPassword && this.cajaFuerte.clickada) {
@@ -821,7 +830,7 @@ class MyScene extends THREE.Scene {
         this.popUp("Oh no... Parece que esta cerrada con llave");
         return;
       }
-
+        this.winGame();
         this.puerta.animar();
         return;
     }
@@ -975,16 +984,9 @@ class MyScene extends THREE.Scene {
       return;
     }
 
-    selectedObject = this.isClickingObject(event,[this.cajoneraob]);
-    if(selectedObject != null){
-      this.popUp("Ahora no es tiempo de cambiarse de ropa");
-      return;
-    }
-
     selectedObject= this.isClickingObject(event,[this.rejilla]);
     if(selectedObject != null){
       if(this.tienePalo){
-        this.rejilla.animarRejilla();
         this.popUp("Parece que esto no ventila nada...");
       }else
         this.popUp("Vaya... No llego tan arriba. Debe haber algo que me permita llegar");
@@ -1003,7 +1005,7 @@ class MyScene extends THREE.Scene {
         }
         if(this.simon.puedoJugar()){
           let empieza = this.simon.FirstTime();
-          if(empieza)this.popUp("Pulsa en los colores que se iran alumbrando");
+          if(empieza)this.popUp("Pulsa en los colores que se iran alumbrando, Clicka para empezar");
           if(empieza && !this.simon.perdioUsuario()){
             this.bloquearCamaraObjeto(this.simon,0,20,-Math.PI/2);
           }else{
@@ -1108,7 +1110,6 @@ class MyScene extends THREE.Scene {
 
     selectedObject = this.isClickingObject(event,[this.estructuraSoga, this.soga]);
     if(selectedObject != null) {
-        console.log("Empieza ahorcado");
         this.introducirPalabraAhorcado();
         return;
     }
@@ -1253,7 +1254,6 @@ class MyScene extends THREE.Scene {
     cancelButton.addEventListener("click", ()=>this.closeTecladoCajaFuerte(this.cajaFuerte));
 
     var botonMusica = document.getElementById('play-btn');
-    console.log(botonMusica);
     botonMusica.addEventListener("click",(event)=>this.toggleMusic());
 
     var numericButtons = numericKeypad.querySelectorAll("button:not(.cancel-button)");
