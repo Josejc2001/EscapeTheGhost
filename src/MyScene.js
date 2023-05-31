@@ -1106,7 +1106,7 @@ class MyScene extends THREE.Scene {
 
     selectedObject= this.isClickingObject(event,[this.mono]);
     if(selectedObject != null){
-        this.popUp("Mono: Se te acaba el tiempo JAJAJA");
+        this.popUp("Mono: Se te acaba el tiempo JAJAJA",5,'red');
       return;
     }
 
