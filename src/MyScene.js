@@ -286,6 +286,7 @@ class MyScene extends THREE.Scene {
   winGame(){
     this.endGame = true;
     this.bloquearCamaraObjeto(this.mono,20,10,null,THREE.MathUtils.degToRad(190),-10);
+    clearInterval(this.intervalo);
   }
   
   ocultarBotonAceptar(){
@@ -331,7 +332,7 @@ class MyScene extends THREE.Scene {
     function actualizarCuentaRegresiva(obj) {
       // Verificar si el tiempo ha llegado a cero
       if (tiempoInicial <= 0) {
-        clearInterval(intervalo); // Detener la cuenta regresiva
+        clearInterval(obj.intervalo); // Detener la cuenta regresiva
         contadorElemento.innerHTML = "¡Tiempo terminado!";
         obj.gameOver();
       } else {
@@ -347,7 +348,7 @@ class MyScene extends THREE.Scene {
     }
 
     // Ejecutar la función actualizarCuentaRegresiva cada segundo
-    let intervalo = setInterval(actualizarCuentaRegresiva, 1000,this);
+    this.intervalo = setInterval(actualizarCuentaRegresiva, 1000,this);
 
   }
 
@@ -726,7 +727,7 @@ class MyScene extends THREE.Scene {
     if(this.cajaFuerte.adivinadaPassword) return;
     
     if(!this.simon.gano() || !this.caja1.tengoCodigo() || !this.secuenciaAdivinada){
-      this.popUp("Aun no he conseguido todos los codigos...");
+      this.popUp("Yo: Aun no he conseguido todos los codigos...",5,'green');
       return;
     }
 
@@ -827,7 +828,7 @@ class MyScene extends THREE.Scene {
     if(selectedObject != null) {
 
       if(!this.puerta.hasKey()){
-        this.popUp("Oh no... Parece que esta cerrada con llave");
+        this.popUp("Yo: Oh no... Parece que esta cerrada con llave",5,'green');
         return;
       }
         this.winGame();
@@ -965,7 +966,7 @@ class MyScene extends THREE.Scene {
           }
           
         }else{
-          this.popUp("Parece que le falta un engranaje...");
+          this.popUp("Yo: Parece que le falta un engranaje...",5,'green');
         }
         return;
       }
@@ -987,9 +988,9 @@ class MyScene extends THREE.Scene {
     selectedObject= this.isClickingObject(event,[this.rejilla]);
     if(selectedObject != null){
       if(this.tienePalo){
-        this.popUp("Parece que esto no ventila nada...");
+        this.popUp("Yo: Parece que esto no ventila nada...",5,'green');
       }else
-        this.popUp("Vaya... No llego tan arriba. Debe haber algo que me permita llegar");
+        this.popUp("Yo: Vaya... No llego tan arriba. Debe haber algo que me permita llegar",5,'green');
       return;
     }
     
@@ -1000,7 +1001,7 @@ class MyScene extends THREE.Scene {
     if(selectedObject != null && !gano){
       if(selectedObject.parent.name == "simon"){
         if(!this.tienePalo){
-          this.popUp("No lo alcanzo... necesito algo para cogerlo.");
+          this.popUp("Yo: No lo alcanzo... necesito algo para cogerlo.",5,'green');
           return;
         }
         if(this.simon.puedoJugar()){
@@ -1081,7 +1082,7 @@ class MyScene extends THREE.Scene {
 
     selectedObject= this.isClickingObject(event,[this.cajaTexturizada]);
     if(selectedObject != null){
-      this.popUp("¿Como podra soportar el peso del mono esta caja?...");
+      this.popUp("Yo: ¿Como podra soportar el peso del mono esta caja?...",5,'green');
       return;
     }
 
@@ -1095,16 +1096,16 @@ class MyScene extends THREE.Scene {
     selectedObject= this.isClickingObject(event,[this.tv]);
     if(selectedObject != null){
       if(this.tieneRemoto){
-        this.popUp("Parece que el mando no funciona");
+        this.popUp("Yo: Parece que el mando no funciona",5,'green');
       } else {
-        this.popUp("No se cómo encender esto. Donde está el mando?");
+        this.popUp("Yo: No se cómo encender esto. Donde está el mando?",5,'green');
       }
       return;
     }
 
     selectedObject= this.isClickingObject(event,[this.mono]);
     if(selectedObject != null){
-        this.popUp("Mono: 'Se te acaba el tiempo JAJAJA'");
+        this.popUp("Mono: Se te acaba el tiempo JAJAJA");
       return;
     }
 
