@@ -49,7 +49,7 @@ class MyScene extends THREE.Scene {
   constructor (myCanvas) {
     super();
     
-    this.tiempoDeJuego = 5;
+    this.tiempoDeJuego = 600;
     this.popUpTimeout = null;
     // Lo primero, crear el visualizador, pasándole el lienzo sobre el que realizar los renderizados.
     this.renderer = this.createRenderer(myCanvas);
