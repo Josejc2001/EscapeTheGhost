@@ -198,7 +198,7 @@ class MyScene extends THREE.Scene {
     this.mono.posicionarHabitacion();
     this.add(this.mono);
 
-    document.getElementById('new-game-dialog').style.visibility = "visible";
+    this.desocultarMenuInicio();
   }
 
   ocultarBotonAceptar(){
@@ -396,6 +396,9 @@ class MyScene extends THREE.Scene {
     this.popUpTimeout = setTimeout(this.sh_popUp, seconds*1000,false,"");
   }
 
+  desocultarMenuInicio(){
+    document.getElementById('new-game-dialog').style.visibility = "visible"
+  }
   update () {
     
     // Se actualizan los elementos de la escena para cada frame
@@ -579,6 +582,16 @@ class MyScene extends THREE.Scene {
     this.tieneRemoto = true;
     this.remoteControl.userData.hidden = true;
     this.remoteControl.visible = false;
+  }
+
+  introducirPalabraAhorcado(){
+    let ahorcadoKeypad = document.getElementById("ahorcado");
+    ahorcadoKeypad.style.display = "block";
+  }
+
+  closePalabraAhorcado(){
+    let ahorcadoKeypad = document.getElementById("ahorcado");
+    ahorcadoKeypad.style.display = "none"; 
   }
 
 
@@ -814,6 +827,13 @@ class MyScene extends THREE.Scene {
         this.popUp("Mono: 'Se te acaba el tiempo JAJAJA'");
       return;
     }
+
+    selectedObject = this.isClickingObject(event,[this.estructuraSoga, this.soga]);
+    if(selectedObject != null) {
+        console.log("Empieza ahorcado");
+        this.introducirPalabraAhorcado();
+        return;
+    }
   }
 
   
@@ -921,6 +941,11 @@ class MyScene extends THREE.Scene {
     for (var i = 0; i < numericButtons.length; i++) {
         numericButtons[i].addEventListener("click",(event)=> this.checkerButtonsListenerCajaFuerte(event,this.cajaFuerte));
     }
+
+    let ahorcadoKeypad = document.getElementById("ahorcado");
+
+    var cancelButtonAhorcado = ahorcadoKeypad.querySelector(".cancel-button");
+    cancelButtonAhorcado.addEventListener("click", ()=>this.closePalabraAhorcado());
   }
 
 }
